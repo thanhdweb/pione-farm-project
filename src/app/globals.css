@@ -29,3 +29,17 @@
   --background: #121212;
   --foreground: #ffffff;
 }
+
+/* Nếu dùng file CSS thuần (global.css hoặc styles.css) */
+.custom-footer {
+  background-image: url("/images/Vectorft2.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom right;
+}
+
+.vector-left {
+  background-image: url("/images/Vectorft.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+}
