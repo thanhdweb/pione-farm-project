@@ -47,10 +47,10 @@ const StatisticsChart = () => {
 
   return (
     <div className="w-full h-auto bg-white rounded-xl p-6 shadow-lg">
-      <div className="flex items-center justify-between mb-6">
+      <div className="grid grid-cols-1 gap-4 md:flex md:items-center md:justify-between mb-6">
         <h2 className="text-xl font-semibold text-gray-800">Thống kê</h2>
 
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center gap-4 md:gap-6 lg:gap-8">
           {/* Dropdown Tỉnh 1 */}
           <Select value={province1} onValueChange={setProvince1}>
             <SelectTrigger className="relative rounded-full px-4 pr-6 py-1 w-[130px] bg-white text-sm border-gray-200 shadow-sm focus:ring-2 focus:ring-blue-300 [&>svg]:hidden">
@@ -113,6 +113,7 @@ const StatisticsChart = () => {
             </SelectContent>
           </Select>
         </div>
+
         {/* Dropdown Tuần */}
         <Select value={selectedWeek} onValueChange={setSelectedWeek}>
           <SelectTrigger className="relative rounded-lg px-2 pr-5 py-1 w-[80px] bg-white text-sm border-none shadow-md [&>svg]:hidden">

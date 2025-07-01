@@ -4,13 +4,14 @@ import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { Menu } from "lucide-react";
 import MobileNavbar from "@/components/mobile-navbar/MobileNavbar";
+import Link from "next/link";
 
 const HeaderTop = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
-  // Đóng dropdown khi click ra ngoài
+  // Bắt sự kiện click ngoài dropdown
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -30,17 +31,19 @@ const HeaderTop = () => {
   return (
     <div className="w-full">
       {/* logo left */}
-      <div className="flex items-center gap-2 py-5 pl-4 md:pl-12 float-left">
-        <Image
-          src="/icons/Icon.svg"
-          alt="Logo"
-          width={30}
-          height={30}
-          className="rounded-full"
-        />
-        <span className="font-bold text-xl md:text-2xl text-gray-900">
-          BlockchainFarm
-        </span>
+      <div className="py-5 pl-4 md:pl-12 float-left">
+        <Link href="/" className="flex items-center gap-2">
+          <Image
+            src="/icons/Icon.svg"
+            alt="Logo"
+            width={30}
+            height={30}
+            className="rounded-full"
+          />
+          <span className="font-bold text-xl md:text-2xl text-gray-900">
+            BlockchainFarm
+          </span>
+        </Link>
       </div>
 
       {/* khi desktop show right */}
@@ -110,28 +113,28 @@ const HeaderTop = () => {
           {showDropdown && (
             <ul className="absolute right-0 mt-2 w-38 bg-white border border-gray-200 rounded-lg shadow-md z-50">
               <li>
-                <a
+                <Link
                   href="#"
                   className="block p-2 text-sm text-gray-700 hover:bg-gray-100"
                 >
                   Thông tin cá nhân
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="#"
                   className="block p-2 text-sm text-gray-700 hover:bg-gray-100"
                 >
                   Cài đặt
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/logout"
                   className="block p-2 text-sm text-red-600 hover:bg-red-100"
                 >
                   Đăng xuất
-                </a>
+                </Link>
               </li>
             </ul>
           )}

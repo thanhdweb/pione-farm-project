@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -6,9 +7,12 @@ const Footer = () => {
     <footer className="relative overflow-hidden custom-footer">
       {/* Vector bên trái nếu muốn */}
       {/* <div className="absolute left-0 -bottom-12 w-[500px] h-[500px] bg-contain z-0 vector-left" /> */}
+      <div className="absolute left-0 bottom-0 w-[500px]">
+        <Image src={"/images/Vectorft.png"} alt="" width={800} height={400} className="w-full h-auto object-contain" />
+      </div>
 
       {/* Nội dung chính của footer */}
-      <div className="pt-16 md:pt-28 px-6 md:px-28 grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-40">
+      <div className="pt-20 md:pt-28 px-12 sm:px-24 md:px-28 grid grid-cols-1 lg:grid-cols-4 gap-6 md:gap-16 xl:gap-40">
         {/* Cột 1: Địa chỉ và thông tin */}
         <div className="relative">
           <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 z-10 flex flex-col items-center">
@@ -48,7 +52,7 @@ const Footer = () => {
             Email:{" "}
             <a
               href="mailto:banbientap.snn@vinhlong.gov.vn"
-              className="underline"
+              className="underline lg:max-w-[200px]"
             >
               banbientap.snn@vinhlong.gov.vn
             </a>
@@ -81,11 +85,11 @@ const Footer = () => {
         <div className="lg:w-[200px]">
           <h3 className="text-[#00165F] font-medium text-xl pb-6">Thông tin</h3>
           <ul className="text-base font-medium">
-            <li>Tin tức - Sự kiện</li>
-            <li>Thị trường</li>
-            <li>Giá cả nông sản qua SMS</li>
-            <li>Nông nghiệp</li>
-            <li>Giá cả thị trường</li>
+            <li><Link href={"#"}>Tin tức - Sự kiện</Link></li>
+            <li><Link href={"#"}>Thị trường</Link></li>
+            <li><Link href={"#"}>Giá cả nông sản qua SMS</Link></li>
+            <li><Link href={"#"}>Nông nghiệp</Link></li>
+            <li><Link href={"#"}>Giá cả thị trường</Link></li>
           </ul>
         </div>
 

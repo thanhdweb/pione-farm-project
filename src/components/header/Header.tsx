@@ -20,7 +20,8 @@ const Header = ({ backgroundUrl, children }: BannerProps) => {
                 </div>
 
                 {/* Nội dung giữa banner */}
-                <div className="container w-full h-full flex flex-col justify-center">
+                {/* <div className="container mx-auto w-full h-full flex flex-col justify-center items-center"> */}
+                <div className="w-full h-full flex flex-col justify-center">
                     {children}
                 </div>
             </section>

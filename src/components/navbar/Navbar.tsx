@@ -3,6 +3,7 @@
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
+import { DropdownIconNav } from "@/components/ui/icon";
 
 const Navbar = () => {
   const [isClient, setIsClient] = useState(false);
@@ -47,30 +48,27 @@ const Navbar = () => {
       <div className="flex items-center justify-between">
         <ul className="flex items-center gap-4 xl:gap-10 text-white lg:text-sm lg:whitespace-nowrap 2xl:text-base font-medium">
           <li>
-            <Link href="/home">Trang chủ</Link>
+            <Link href="/" className="relative inline-flex items-center group">Trang chủ
+              <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full group-hover:animate-pulse"></span>
+            </Link>
+
           </li>
 
           {/* Giá nông sản */}
           <li className="relative" ref={giaNongSanRef}>
             <button
               onClick={() => toggleDropdown("giaNongSan")}
-              className="flex items-center gap-1 cursor-pointer"
+              className="flex items-center gap-2 cursor-pointer relative group"
             >
               Giá nông sản
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path
-                  fill="white"
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M6.399 9.399a.85.85 0 0 1 1.202 0L12 13.798l4.399-4.399a.85.85 0 0 1 1.202 1.202l-5 5a.85.85 0 0 1-1.202 0l-5-5a.85.85 0 0 1 0-1.202"
-                />
-              </svg>
+              <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full group-hover:animate-pulse"></span>
+              <DropdownIconNav />
             </button>
             {isClient && openDropdown === "giaNongSan" && (
-              <ul className="absolute left-0 top-full w-38 mt-2 bg-white text-black rounded-md shadow-lg z-50">
+              <ul className="absolute left-0 top-full w-44 mt-2 bg-white text-black rounded-md shadow-lg z-50">
                 <li>
                   <Link
-                    href="#"
+                    href="/general-lookup"
                     className="block rounded-md px-3 py-2 hover:bg-gray-100"
                   >
                     Tra cứu tổng hợp
@@ -78,7 +76,7 @@ const Navbar = () => {
                 </li>
                 <li>
                   <Link
-                    href="#"
+                    href="/advanced-lookup"
                     className="block rounded-md px-3 py-2 hover:bg-gray-100"
                   >
                     Tra cứu nâng cao
@@ -97,27 +95,22 @@ const Navbar = () => {
           </li>
 
           <li>
-            <Link href="#">Giới Thiệu</Link>
+            <Link href="/introduction" className="relative inline-flex items-center group">Giới Thiệu
+              <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full group-hover:animate-pulse"></span></Link>
           </li>
 
           {/* Thị trường */}
           <li className="relative" ref={thiTruongRef}>
             <button
               onClick={() => toggleDropdown("thiTruong")}
-              className="flex items-center gap-1 cursor-pointer"
+              className="flex items-center gap-2 cursor-pointer relative group"
             >
               Thị trường
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path
-                  fill="white"
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M6.399 9.399a.85.85 0 0 1 1.202 0L12 13.798l4.399-4.399a.85.85 0 0 1 1.202 1.202l-5 5a.85.85 0 0 1-1.202 0l-5-5a.85.85 0 0 1 0-1.202"
-                />
-              </svg>
+              <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full group-hover:animate-pulse"></span>
+              <DropdownIconNav />
             </button>
             {isClient && openDropdown === "thiTruong" && (
-              <ul className="absolute left-0 top-full mt-2 w-38 bg-white text-black rounded-md shadow-lg z-50">
+              <ul className="absolute left-0 top-full mt-2 w-44 bg-white text-black rounded-md shadow-lg z-50">
                 <li>
                   <Link
                     href="#"
@@ -128,7 +121,7 @@ const Navbar = () => {
                 </li>
                 <li>
                   <Link
-                    href="#"
+                    href="/market-inland"
                     className="block rounded-md px-3 py-2 hover:bg-gray-100"
                   >
                     Trong nước
@@ -147,27 +140,22 @@ const Navbar = () => {
           </li>
 
           <li>
-            <Link href="#">Giá cả nông sản</Link>
+            <Link href="#" className="relative inline-flex items-center group">Giá cả nông sản
+              <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full group-hover:animate-pulse"></span></Link>
           </li>
 
           {/* Giá cả thị trường */}
           <li className="relative" ref={giaCaRef}>
             <button
               onClick={() => toggleDropdown("giaCa")}
-              className="flex items-center gap-1 cursor-pointer"
+              className="flex items-center gap-2 cursor-pointer relative group"
             >
               Giá cả thị trường
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path
-                  fill="white"
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M6.399 9.399a.85.85 0 0 1 1.202 0L12 13.798l4.399-4.399a.85.85 0 0 1 1.202 1.202l-5 5a.85.85 0 0 1-1.202 0l-5-5a.85.85 0 0 1 0-1.202"
-                />
-              </svg>
+              <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full group-hover:animate-pulse"></span>
+              <DropdownIconNav />
             </button>
             {isClient && openDropdown === "giaCa" && (
-              <ul className="absolute left-0 top-full mt-2 w-38 bg-white text-black rounded-md shadow-lg z-50">
+              <ul className="absolute left-0 top-full mt-2 w-44 bg-white text-black rounded-md shadow-lg z-50">
                 <li>
                   <Link
                     href="#"
@@ -197,7 +185,8 @@ const Navbar = () => {
           </li>
 
           <li>
-            <Link href="#">Bảng giá</Link>
+            <Link href="#" className="relative inline-flex items-center group">Bảng giá
+              <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full group-hover:animate-pulse"></span></Link>
           </li>
         </ul>
 

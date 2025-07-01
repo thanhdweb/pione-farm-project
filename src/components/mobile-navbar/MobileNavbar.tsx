@@ -62,7 +62,7 @@ const MobileNavbar: React.FC<MobileNavbarProps> = ({ onClose, isOpen }) => {
         {/* Danh sách menu */}
         <ul className="flex flex-col gap-3 px-6 text-base font-medium">
           <li>
-            <Link href="/home" className="block py-2 hover:text-black/80">
+            <Link href="/" className="block py-2 hover:text-black/80">
               Trang chủ
             </Link>
           </li>
@@ -75,20 +75,19 @@ const MobileNavbar: React.FC<MobileNavbarProps> = ({ onClose, isOpen }) => {
             >
               Giá nông sản
               <ChevronDown
-                className={`w-5 h-5 transform transition-transform ${
-                  openMobileDropdown === "giaNongSan" ? "rotate-180" : ""
-                }`}
+                className={`w-5 h-5 transform transition-transform ${openMobileDropdown === "giaNongSan" ? "rotate-180" : ""
+                  }`}
               />
             </button>
             {openMobileDropdown === "giaNongSan" && (
               <ul className="ml-4 mt-2 space-y-1 text-sm text-white/90">
                 <li>
-                  <Link href="#" className="block py-1 hover:text-black">
+                  <Link href="/general-lookup" className="block py-1 hover:text-black">
                     Tra cứu tổng hợp
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="block py-1 hover:text-black">
+                  <Link href="/advanced-lookup" className="block py-1 hover:text-black">
                     Tra cứu nâng cao
                   </Link>
                 </li>
@@ -101,6 +100,13 @@ const MobileNavbar: React.FC<MobileNavbarProps> = ({ onClose, isOpen }) => {
             )}
           </li>
 
+          {/* Item không dropdown */}
+          <li>
+            <Link href="/introduction" className="block py-2 hover:text-black/80">
+              Giới thiệu
+            </Link>
+          </li>
+
           {/* Dropdown item: Thị trường */}
           <li>
             <button
@@ -109,9 +115,8 @@ const MobileNavbar: React.FC<MobileNavbarProps> = ({ onClose, isOpen }) => {
             >
               Thị trường
               <ChevronDown
-                className={`w-5 h-5 transform transition-transform ${
-                  openMobileDropdown === "thiTruong" ? "rotate-180" : ""
-                }`}
+                className={`w-5 h-5 transform transition-transform ${openMobileDropdown === "thiTruong" ? "rotate-180" : ""
+                  }`}
               />
             </button>
             {openMobileDropdown === "thiTruong" && (
@@ -122,7 +127,7 @@ const MobileNavbar: React.FC<MobileNavbarProps> = ({ onClose, isOpen }) => {
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="block py-1 hover:text-black">
+                  <Link href="/market-inland" className="block py-1 hover:text-black">
                     Trong nước
                   </Link>
                 </li>
@@ -135,13 +140,6 @@ const MobileNavbar: React.FC<MobileNavbarProps> = ({ onClose, isOpen }) => {
             )}
           </li>
 
-          {/* Item không dropdown */}
-          <li>
-            <Link href="#" className="block py-2 hover:text-black/80">
-              Giới thiệu
-            </Link>
-          </li>
-
           {/* Dropdown item: Giá cả thị trường */}
           <li>
             <button
@@ -150,9 +148,8 @@ const MobileNavbar: React.FC<MobileNavbarProps> = ({ onClose, isOpen }) => {
             >
               Giá cả thị trường
               <ChevronDown
-                className={`w-5 h-5 transform transition-transform ${
-                  openMobileDropdown === "giaCa" ? "rotate-180" : ""
-                }`}
+                className={`w-5 h-5 transform transition-transform ${openMobileDropdown === "giaCa" ? "rotate-180" : ""
+                  }`}
               />
             </button>
             {openMobileDropdown === "giaCa" && (
