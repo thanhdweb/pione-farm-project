@@ -8,10 +8,10 @@ const MarketInlandPage = () => {
     return (
         <div>
             <Header backgroundUrl="/images/BgMarketInland.png">
-                <p className="text-center text-sm sm:text-base text-[#00B032] font-bold mb-2">
+                <p className="text-center text-sm sm:text-base text-[#00B032] font-bold mb-4 ms:mb-2">
                     Blockchain Và AI
                 </p>
-                <h1 className="text-center text-3xl sm:text-4xl md:text-5xl font-bold text-[#1C8000] leading-normal mb-4">
+                <h1 className="text-center text-3xl sm:text-4xl md:text-5xl font-bold text-[#1C8000] leading-normal mb-6 ms:mb-4">
                     Công nghệ đồng hành, <br />
                     nông sản vững mạnh.
                 </h1>

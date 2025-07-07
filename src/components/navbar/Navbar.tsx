@@ -44,7 +44,10 @@ const Navbar = () => {
   };
 
   return (
-    <div className="hidden lg:block bg-gradient-to-r from-[#008909] to-[#62f77d] px-4 md:px-12 py-4">
+    <div
+      className="hidden lg:block px-4 md:px-12 py-4"
+      style={{ background: 'linear-gradient(90deg, #00A10B 40%, #00A10B 50%, #B7EDF0 100%)' }}
+    >
       <div className="flex items-center justify-between">
         <ul className="flex items-center gap-4 xl:gap-10 text-white lg:text-sm lg:whitespace-nowrap 2xl:text-base font-medium">
           <li>
@@ -195,7 +198,7 @@ const Navbar = () => {
           <Input
             type="text"
             placeholder="Tìm kiếm..."
-            className="lg:w-[210px] xl:w-[290px] rounded-full  border-white px-4 pr-10 py-2 text-sm text-white  focus:ring-2 focus-visible:ring-0"
+            className="lg:w-[210px] xl:w-[290px] h-10 rounded-full border-white px-4 pr-10 py-2 text-sm text-white  focus:ring-2 focus-visible:ring-0"
           />
           <svg
             className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-white"

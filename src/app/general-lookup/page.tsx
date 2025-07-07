@@ -40,10 +40,10 @@ const GeneralLookup = () => {
     return (
         <div>
             <Header backgroundUrl="/images/bggenerallookup.png">
-                <p className="text-sm sm:text-base text-[#00B032] font-bold mb-2">
+                <p className="text-sm sm:text-base text-[#00B032] font-bold mb-4 ms:mb-2">
                     Blockchain Và AI
                 </p>
-                <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#1C8000] leading-normal mb-4">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#1C8000] leading-normal mb-6 ms:mb-4">
                     Dữ liệu minh bạch &ndash; <br />
                     Nông sản thông minh.
                 </h1>
@@ -73,7 +73,7 @@ const GeneralLookup = () => {
                 <div className="relative flex justify-center mt-10 z-20">
                     <button
                         onClick={handleExport}
-                        className="bg-[#00A10B] hover:bg-green-400 w-[302px] text-white font-semibold py-3 px-8 rounded-full shadow-md transition"
+                        className="w-[302px] h-[54px] text-white font-semibold py-3 px-8 rounded-full shadow-md btn-hover-effect"
                     >
                         Xuất Excel
                     </button>

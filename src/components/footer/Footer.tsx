@@ -4,18 +4,28 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="relative overflow-hidden custom-footer">
-      {/* Vector bên trái nếu muốn */}
-      {/* <div className="absolute left-0 -bottom-12 w-[500px] h-[500px] bg-contain z-0 vector-left" /> */}
-      <div className="absolute left-0 bottom-0 w-[500px]">
-        <Image src={"/images/Vectorft.png"} alt="" width={800} height={400} className="w-full h-auto object-contain" />
+    <footer className="relative overflow-hidden">
+
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/images/BgFooter2.png"
+          alt=""
+          fill
+          className="object-cover object-bottom-right"
+          priority
+        />
       </div>
 
+      <div className="absolute left-0 bottom-0 w-[500px]">
+        <Image src={"/images/BgFooter.png"} alt="" width={800} height={400} className="w-full h-auto object-contain" />
+      </div>
+
+
       {/* Nội dung chính của footer */}
-      <div className="pt-20 md:pt-28 px-12 sm:px-24 md:px-28 grid grid-cols-1 lg:grid-cols-4 gap-6 md:gap-16 xl:gap-40">
+      <div className="relative z-10 pt-24 md:pt-28 px-12 sm:px-18 md:px-24 grid grid-cols-1 lg:grid-cols-4 gap-6 md:gap-16 xl:gap-40">
         {/* Cột 1: Địa chỉ và thông tin */}
         <div className="relative">
-          <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 z-10 flex flex-col items-center">
+          <div className="absolute -top-16 left-5 lg:left-1/2 transform -translate-x-1/2 z-10 flex flex-col items-center">
             <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
               <path
                 d="M22.5333 16.4666C22.5333 20.511 21.8593 22.5332 16.4667 22.5332C11.0741 22.5332 10.4 20.511 10.4 16.4666C10.4 12.4221 11.1583 10.3999 16.4667 10.3999C21.775 10.3999 22.5333 12.4221 22.5333 16.4666Z"
@@ -43,7 +53,7 @@ const Footer = () => {
               />
             </svg>
           </div>
-          <h2 className="text-xl text-center font-medium pb-7">
+          <h2 className="text-xl lg:text-center font-medium pb-7">
             BlockchainFarm
           </h2>
           <p className="text-sm font-medium">
@@ -63,20 +73,20 @@ const Footer = () => {
         <div className="lg:w-[200px]">
           <h3 className="text-[#00165F] font-medium text-xl pb-6">Liên kết</h3>
           <ul className="leading-normal text-base font-medium">
-            <li>
-              <Link href={"#"}>Trang chủ</Link>
+            <li className="group">
+              <Link href={"#"} className="block transition-transform duration-200 ease-in-out group-hover:translate-x-3">Trang chủ</Link>
             </li>
-            <li>
-              <Link href={"#"}>Giới thiệu</Link>
+            <li className="group">
+              <Link href={"#"} className="block transition-transform duration-200 ease-in-out group-hover:translate-x-3">Giới thiệu</Link>
             </li>
-            <li>
-              <Link href={"#"}>Tải bảng giá</Link>
+            <li className="group">
+              <Link href={"#"} className="block transition-transform duration-200 ease-in-out group-hover:translate-x-3">Tải bảng giá</Link>
             </li>
-            <li>
-              <Link href={"#"}>Hỏi đáp</Link>
+            <li className="group">
+              <Link href={"#"} className="block transition-transform duration-200 ease-in-out group-hover:translate-x-3">Hỏi đáp</Link>
             </li>
-            <li>
-              <Link href={"#"}>Liên hệ</Link>
+            <li className="group">
+              <Link href={"#"} className="block transition-transform duration-200 ease-in-out group-hover:translate-x-3">Liên hệ</Link>
             </li>
           </ul>
         </div>
@@ -85,11 +95,11 @@ const Footer = () => {
         <div className="lg:w-[200px]">
           <h3 className="text-[#00165F] font-medium text-xl pb-6">Thông tin</h3>
           <ul className="text-base font-medium">
-            <li><Link href={"#"}>Tin tức - Sự kiện</Link></li>
-            <li><Link href={"#"}>Thị trường</Link></li>
-            <li><Link href={"#"}>Giá cả nông sản qua SMS</Link></li>
-            <li><Link href={"#"}>Nông nghiệp</Link></li>
-            <li><Link href={"#"}>Giá cả thị trường</Link></li>
+            <li className="group"><Link href={"#"} className="block transition-transform duration-200 ease-in-out group-hover:translate-x-3">Tin tức - Sự kiện</Link></li>
+            <li className="group"><Link href={"#"} className="block transition-transform duration-200 ease-in-out group-hover:translate-x-3">Thị trường</Link></li>
+            <li className="group"><Link href={"#"} className="block transition-transform duration-200 ease-in-out group-hover:translate-x-3">Giá cả nông sản qua SMS</Link></li>
+            <li className="group"><Link href={"#"} className="block transition-transform duration-200 ease-in-out group-hover:translate-x-3">Nông nghiệp</Link></li>
+            <li className="group"><Link href={"#"} className="block transition-transform duration-200 ease-in-out group-hover:translate-x-3">Giá cả thị trường</Link></li>
           </ul>
         </div>
 
@@ -177,7 +187,7 @@ const Footer = () => {
       </div>
 
       {/* Copyright */}
-      <div className="text-xl font-medium pt-8 pb-8 md:pb-20 px-6 md:px-14">
+      <div className="relative z-10 text-xl font-medium pt-8 pb-8 md:pb-20 px-6 md:px-14">
         &copy; Bản quyền thuộc về Blockchain Farm
       </div>
     </footer>

@@ -81,18 +81,18 @@ const MobileNavbar: React.FC<MobileNavbarProps> = ({ onClose, isOpen }) => {
             </button>
             {openMobileDropdown === "giaNongSan" && (
               <ul className="ml-4 mt-2 space-y-1 text-sm text-white/90">
-                <li>
-                  <Link href="/general-lookup" className="block py-1 hover:text-black">
+                <li className="group">
+                  <Link href="/general-lookup" className="block py-1 hover:text-black transition-transform duration-200 ease-in-out group-hover:translate-x-3 active:translate-x-3">
                     Tra cứu tổng hợp
                   </Link>
                 </li>
-                <li>
-                  <Link href="/advanced-lookup" className="block py-1 hover:text-black">
+                <li className="group">
+                  <Link href="/advanced-lookup" className="block py-1 hover:text-black transition-transform duration-200 ease-in-out group-hover:translate-x-3 active:translate-x-3">
                     Tra cứu nâng cao
                   </Link>
                 </li>
-                <li>
-                  <Link href="#" className="block py-1 hover:text-black">
+                <li className="group">
+                  <Link href="#" className="block py-1 hover:text-black transition-transform duration-200 ease-in-out group-hover:translate-x-3 active:translate-x-3">
                     Biểu đồ giá
                   </Link>
                 </li>
@@ -121,18 +121,18 @@ const MobileNavbar: React.FC<MobileNavbarProps> = ({ onClose, isOpen }) => {
             </button>
             {openMobileDropdown === "thiTruong" && (
               <ul className="ml-4 mt-2 space-y-1 text-sm text-white/90">
-                <li>
-                  <Link href="#" className="block py-1 hover:text-black">
+                <li className="group">
+                  <Link href="#" className="block py-1 hover:text-black transition-transform duration-200 ease-in-out group-hover:translate-x-3 active:translate-x-3">
                     Thông tin thị trường
                   </Link>
                 </li>
-                <li>
-                  <Link href="/market-inland" className="block py-1 hover:text-black">
+                <li className="group">
+                  <Link href="/market-inland" className="block py-1 hover:text-black transition-transform duration-200 ease-in-out group-hover:translate-x-3 active:translate-x-3">
                     Trong nước
                   </Link>
                 </li>
-                <li>
-                  <Link href="#" className="block py-1 hover:text-black">
+                <li className="group">
+                  <Link href="#" className="block py-1 hover:text-black transition-transform duration-200 ease-in-out group-hover:translate-x-3 active:translate-x-3">
                     Ngoài nước
                   </Link>
                 </li>
@@ -154,18 +154,18 @@ const MobileNavbar: React.FC<MobileNavbarProps> = ({ onClose, isOpen }) => {
             </button>
             {openMobileDropdown === "giaCa" && (
               <ul className="ml-4 mt-2 space-y-1 text-sm text-white/90">
-                <li>
-                  <Link href="#" className="block py-1 hover:text-black">
+                <li className="group">
+                  <Link href="#" className="block py-1 hover:text-black transition-transform duration-200 ease-in-out group-hover:translate-x-3 active:translate-x-3">
                     Thông tin thị trường
                   </Link>
                 </li>
-                <li>
-                  <Link href="#" className="block py-1 hover:text-black">
+                <li className="group">
+                  <Link href="#" className="block py-1 hover:text-black transition-transform duration-200 ease-in-out group-hover:translate-x-3 active:translate-x-3">
                     Trong nước
                   </Link>
                 </li>
-                <li>
-                  <Link href="#" className="block py-1 hover:text-black">
+                <li className="group">
+                  <Link href="#" className="block py-1 hover:text-black transition-transform duration-200 ease-in-out group-hover:translate-x-3 active:translate-x-3">
                     Ngoài nước
                   </Link>
                 </li>
@@ -179,6 +179,25 @@ const MobileNavbar: React.FC<MobileNavbarProps> = ({ onClose, isOpen }) => {
             </Link>
           </li>
         </ul>
+        <hr className="mx-12 mt-12" />
+        <div>
+          <p className="px-6 mt-6 group text-base font-medium">
+            <Link
+              href="#"
+              className="block text-sm text-gray-700 transition-transform duration-200 ease-in-out group-hover:translate-x-3 active:translate-x-3"
+            >
+              Thông tin cá nhân
+            </Link>
+          </p>
+          <p className="px-6 mt-3 group text-base font-medium">
+            <Link
+              href="/logout"
+              className="block text-sm text-red-600 transition-transform duration-200 ease-in-out group-hover:translate-x-3 active:translate-x-3"
+            >
+              Đăng xuất
+            </Link>
+          </p>
+        </div>
       </div>
     </>
   );

@@ -53,7 +53,8 @@ export default function PriceFilterForm() {
       className="bg-white/76 rounded-3xl px-6 pt-8 pb-10"
       style={{ boxShadow: "0 0 12px 0 rgba(4, 255, 0, 0.3)" }}
     >
-      <h2 className="font-bold">GIÁ NÔNG SẢN</h2>
+      <h2 className="font-medium text-xl">GIÁ NÔNG SẢN</h2>
+
       <div className="flex flex-wrap gap-4 mt-4 items-center justify-between">
         {/* Ô tìm kiếm */}
         <div className="relative">
@@ -61,7 +62,7 @@ export default function PriceFilterForm() {
             placeholder="..."
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
-            className="w-[297px] px-4 pr-10 py-2 text-sm rounded-full bg-[rgba(255,255,255,0.35)] font-semibold text-black 
+            className="w-full sm:w-[297px] px-4 pr-10 py-2 text-sm rounded-full bg-[rgba(255,255,255,0.35)] font-medium text-black 
       border border-transparent shadow-xs custom-border-gradient 
       focus:outline-none focus-visible:outline-none focus:ring-0 focus-visible:ring-0 focus:ring-offset-0 focus:border-transparent"
           />
@@ -72,15 +73,16 @@ export default function PriceFilterForm() {
 
         {/* Dropdown Giá */}
         <Select value={selectedPrice} onValueChange={setSelectedPrice}>
-          <SelectTrigger className="relative rounded-full px-2 pr-5 py-2 w-[120px] 
-              bg-[rgba(255,255,255,0.35)] text-sm font-semibold text-black 
-              border shadow-xs custom-border-gradient 
-              focus:outline-none focus:ring-0 focus:ring-offset-0 [&>svg]:hidden">
+          <SelectTrigger className="relative rounded-full px-2 pr-6 py-2 w-[135px] h-9 bg-[rgba(255,255,255,0.35)] text-sm font-medium text-black 
+              border border-transparent shadow-xs custom-border-gradient flex justify-center items-center text-center [&>svg]:hidden
+              focus:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 
+              data-[state=open]:ring-0 data-[state=open]:outline-none">
             <SelectValue placeholder="GIÁ" />
             <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
               <DropdownIcon />
             </div>
           </SelectTrigger>
+          {/* Nội dung dropdown */}
           <SelectContent className="bg-white border border-gray-300 rounded-lg shadow-xs">
             <SelectGroup>
               {priceOptions.map((opt) => (
@@ -98,16 +100,16 @@ export default function PriceFilterForm() {
 
         {/* Dropdown Tỉnh */}
         <Select value={selectedProvince} onValueChange={setSelectedProvince}>
-          <SelectTrigger className="relative rounded-full px-2 pr-5 py-2 w-[120px]  bg-[rgba(255,255,255,0.35)] text-sm font-semibold text-black 
-              border border-transparent shadow-xs custom-border-gradient 
-              focus:outline-none focus:ring-0 focus:ring-offset-0 [&>svg]:hidden">
+          <SelectTrigger className="relative rounded-full px-2 pr-6 py-2 w-[135px] h-9 bg-[rgba(255,255,255,0.35)] text-sm font-medium text-black 
+              border border-transparent shadow-xs custom-border-gradient flex justify-center items-center text-center [&>svg]:hidden
+              focus:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 
+              data-[state=open]:ring-0 data-[state=open]:outline-none">
             <SelectValue placeholder="Tỉnh" className="text-center" />
             {/* Custom SVG arrow thay thế arrow mặc định */}
             <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
               <DropdownIcon />
             </div>
           </SelectTrigger>
-
           {/* Nội dung dropdown */}
           <SelectContent className="bg-white border border-gray-300 rounded-lg shadow-xs">
             <SelectGroup>
@@ -126,9 +128,10 @@ export default function PriceFilterForm() {
 
         {/* Dropdown Số lượng */}
         <Select value={selectedQuantity} onValueChange={setSelectedQuantity}>
-          <SelectTrigger className="relative rounded-full px-2 py-2 w-[120px]  bg-[rgba(255,255,255,0.35)] text-sm font-semibold text-black 
-              border border-transparent shadow-xs custom-border-gradient 
-              focus:outline-none focus:ring-0 focus:ring-offset-0 [&>svg]:hidden">
+          <SelectTrigger className="relative rounded-full px-2 pr-6 py-2 w-[135px] h-9 bg-[rgba(255,255,255,0.35)] text-sm font-medium text-black 
+              border border-transparent shadow-xs custom-border-gradient flex justify-center items-center text-center [&>svg]:hidden
+              focus:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 
+              data-[state=open]:ring-0 data-[state=open]:outline-none">
             <SelectValue placeholder="Số lượng" />
             <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
               <DropdownIcon />
@@ -158,7 +161,7 @@ export default function PriceFilterForm() {
             {recommendedProvinces.map((prov) => (
               <button
                 key={prov.id}
-                className="bg-gradient-to-r from-[#35EBB3] to-[#D7FFF3] text-center text-green-900 font-medium px-6 py-2 rounded-full transition hover:brightness-110"
+                className="h-[50px] bg-gradient-to-r from-[#35EBB3] to-[#D7FFF3] text-center text-green-900 font-medium px-6 py-2 rounded-full transition hover:brightness-110"
               >
                 {prov.name}
               </button>

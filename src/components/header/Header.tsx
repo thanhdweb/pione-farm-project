@@ -11,7 +11,7 @@ const Header = ({ backgroundUrl, children }: BannerProps) => {
     return (
         <div>
             <section
-                className="relative w-full h-[620px] bg-cover bg-center bg-no-repeat text-white px-4 md:px-12"
+                className="relative w-full h-screen md:h-[620px] bg-cover bg-center bg-no-repeat text-white px-4 md:px-12"
                 style={{ backgroundImage: `url('${backgroundUrl}')` }}
             >
                 {/* Header top (menu, logo, login...) */}

@@ -30,19 +30,6 @@
   --foreground: #ffffff;
 }
 
-/* Nếu dùng file CSS thuần (global.css hoặc styles.css) */
-.custom-footer {
-  background-image: url("/images/Vectorft2.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: bottom right;
-}
-
-.vector-left {
-  background-image: url("/images/Vectorft.png");
-  background-repeat: no-repeat;
-  background-size: contain;
-}
 
 /* border select */
 .custom-border-gradient {
@@ -51,4 +38,33 @@
     linear-gradient(to bottom, #c4c4c4, #f3f3f3);
   background-origin: border-box;
   background-clip: padding-box, border-box;
+}
+
+/* Hiệu ứng hover + màu gradient tái sử dụng */
+.btn-hover-effect {
+  background-image: linear-gradient(to right, #00a10b, #00c90d);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-in-out;
+  transform: scale(1);
+  cursor: pointer;
+}
+
+.btn-hover-effect:hover {
+  background-image: linear-gradient(to right, #00c90d, #00a10b);
+  transform: scale(1.05);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.25);
+}
+
+.btn-hover-effect:active {
+  transform: scale(0.95);
+}
+
+/* hidden scrollbar */
+.hide-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
 }

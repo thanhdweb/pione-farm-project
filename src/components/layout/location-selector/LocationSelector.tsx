@@ -31,12 +31,12 @@ const LocationSelector = () => {
 
     return (
         <Select value={selected} onValueChange={setSelected}>
-            <SelectTrigger className="relative w-full px-6 py-6 md:min-h-[89px] flex items-center pr-20 rounded-3xl border-none bg-white text-gray-800 text-2xl font-medium [&>svg]:hidden"
+            <SelectTrigger className="relative w-full px-6 py-6 md:min-h-[89px] flex items-center pr-20 rounded-3xl border-none bg-white text-gray-800 text-base md:text-xl lg:text-2xl font-medium [&>svg]:hidden"
                 style={{ boxShadow: "0 0 12px 0 rgba(4, 255, 0, 0.3)" }}>
                 <SelectValue placeholder="Danh sách điểm thu thập giá nông sản" />
-                <div className="absolute right-14 top-1/2 -translate-y-1/2 pointer-events-none">
+                <div className="absolute right-6 md:right-14 top-1/2 -translate-y-1/2 pointer-events-none">
                     <svg
-                        className="!w-6 !h-6"
+                        className="w-4 h-4 lg:!w-6 lh:!h-6"
                         viewBox="0 0 27 24"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"

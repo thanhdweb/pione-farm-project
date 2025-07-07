@@ -13,10 +13,10 @@ const HomePage = () => {
   return (
     <div>
       <Header backgroundUrl="/images/image 10.png">
-        <p className="text-sm sm:text-base text-[#00B032] font-bold mb-2">
+        <p className="text-sm sm:text-base text-[#00B032] font-bold mb-4 ms:mb-2">
           Blockchain Và AI
         </p>
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#1C8000] leading-normal mb-4">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#1C8000] leading-normal mb-6 ms:mb-4">
           Kết nối công nghệ, <br />
           nâng tầm nông nghiệp.
         </h1>
@@ -51,7 +51,7 @@ const HomePage = () => {
         </div>
 
         {/* nội dung 2 cột */}
-        <div className="relative z-20 flex flex-col lg:flex-row lg:gap-8 xl:gap-12">
+        <div className="relative z-20 flex flex-col lg:flex-row gap-12 lg:gap-8 xl:gap-12">
           {/* bên trái chiếm 65% */}
           <div className="w-full lg:w-[62%]">
             <div className="grid grid-cols-1 gap-10">

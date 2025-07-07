@@ -122,14 +122,6 @@ const HeaderTop = () => {
               </li>
               <li>
                 <Link
-                  href="#"
-                  className="block p-2 text-sm text-gray-700 hover:bg-gray-100"
-                >
-                  Cài đặt
-                </Link>
-              </li>
-              <li>
-                <Link
                   href="/logout"
                   className="block p-2 text-sm text-red-600 hover:bg-red-100"
                 >
@@ -142,7 +134,7 @@ const HeaderTop = () => {
       </div>
 
       {/*ẩn hiện icon menu và show nav  */}
-      <div className="lg:hidden float-right p-4 bg-white rounded-bl-full shadow-md">
+      <div className="lg:hidden float-right p-4 bg-white/70 rounded-bl-full shadow-md">
         <button
           className="flex items-center justify-center w-10 h-10"
           onClick={() => setIsMobileOpen(true)}

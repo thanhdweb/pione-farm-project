@@ -155,7 +155,6 @@ const GeneralSearch = ({ onExportData }: GeneralSearchProps) => {
                             Đến
                         </p>
 
-
                         <div className='w-full sm:w-[200px] lg:w-[288px] text-xl font-medium'>
                             <CustomDatePicker
                                 placeholder="00:00:00"
@@ -167,10 +166,10 @@ const GeneralSearch = ({ onExportData }: GeneralSearchProps) => {
 
                     {/* Province Select */}
                     <Select value={selectedProvince} onValueChange={setSelectedProvince}>
-                        <SelectTrigger className="relative flex items-center justify-center rounded-full px-4 pr-10 w-full sm:w-[288px] !h-[54px] bg-white text-xl font-medium text-black border border-gray-300 [&>svg]:hidden">
+                        <SelectTrigger className="relative flex items-center justify-center rounded-full px-4 pr-10 w-full sm:w-[288px] !h-[54px] bg-white text-xl font-medium text-black border border-gray-300 custom-border-gradient [&>svg]:hidden">
                             <SelectValue placeholder="Tỉnh" />
-                            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
-                                <DropdownIcon />
+                            <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none">
+                                <DropdownIcon className="w-4 h-4" />
                             </div>
                         </SelectTrigger>
                         <SelectContent className="bg-white border border-gray-300 rounded-lg shadow-sm">
@@ -192,9 +191,9 @@ const GeneralSearch = ({ onExportData }: GeneralSearchProps) => {
                 <div className='grid grid-rows-2 gap-12 md:flex md:items-center md:justify-between'>
                     {/* Item Select */}
                     <Select value={selectedItem} onValueChange={setSelectedItem}>
-                        <SelectTrigger className="relative rounded-full px-4 pr-8 py-2 w-full md:w-[710px] !h-[54px] bg-white text-base border-gray-400 text-gray-400 [&>svg]:hidden">
+                        <SelectTrigger className="relative rounded-full px-4 pr-8 py-2 w-full md:w-[710px] !h-[54px] bg-white text-base border-gray-400 text-gray-400 custom-border-gradient [&>svg]:hidden">
                             <SelectValue placeholder="Mặt hàng" />
-                            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                            <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none">
                                 <DropdownIcon />
                             </div>
                         </SelectTrigger>
@@ -212,9 +211,11 @@ const GeneralSearch = ({ onExportData }: GeneralSearchProps) => {
                             </SelectGroup>
                         </SelectContent>
                     </Select>
+
+                    {/* tra cứu kết quả */}
                     <Button
                         onClick={handleSearch}
-                        className='text-white w-full md:max-w-[160px] lg:max-w-[302px] h-[54px] text-base py-2 bg-[#00A10B] rounded-full cursor-pointer'
+                        className='text-white w-full md:max-w-[160px] lg:max-w-[302px] h-[54px] text-base py-2 rounded-full cursor-pointer btn-hover-effect'
                         style={{ boxShadow: '0 4px 6px rgba(0, 0, 0, 0.2)' }}
                     >
                         Tra cứu
@@ -225,27 +226,27 @@ const GeneralSearch = ({ onExportData }: GeneralSearchProps) => {
             {/* Kết quả */}
             <div className="grid grid-cols-1 gap-12">
                 <h3 className="text-xl font-medium text-black">Kết quả:</h3>
-                <div className="rounded-3xl border border-gray-200 shadow-sm bg-white/35 py-5 px-4 md:px-14">
+                <div className="rounded-3xl shadow-sm border border-gray-200 bg-white/35 py-5 px-4 md:px-14">
                     <div className="max-h-[456px] overflow-y-auto scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-gray-400">
                         <table className="min-w-full text-sm text-left text-black">
-                            <thead className="font-medium text-sx md:text-base">
+                            <thead className="font-medium text-sx md:text-base bg-white/70">
                                 <tr className='border-b border-[#D5D5D5]'>
-                                    <th className="py-3 px-4">Ngày tháng</th>
-                                    <th className="py-3 px-4">Tên mặt hàng</th>
-                                    <th className="py-3 px-4">ĐVT</th>
-                                    <th className="py-3 px-4">Giá tại chợ</th>
-                                    <th className="py-3 px-4">Giá tại Vườn</th>
+                                    <th className="py-3 px-4 sticky top-0 bg-white whitespace-nowrap">Ngày tháng</th>
+                                    <th className="py-3 px-4 sticky top-0 bg-white whitespace-nowrap">Tên mặt hàng</th>
+                                    <th className="py-3 px-4 sticky top-0 bg-white whitespace-nowrap">ĐVT</th>
+                                    <th className="py-3 px-4 sticky top-0 bg-white whitespace-nowrap">Giá tại chợ</th>
+                                    <th className="py-3 px-4 sticky top-0 bg-white whitespace-nowrap">Giá tại Vườn</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {filteredData.length > 0 ? (
                                     filteredData.map((item) => (
                                         <tr key={item.id} className="border-b border-[#D5D5D5] font-medium text-sx md:text-base">
-                                            <td className="py-4 px-4">{item.date}</td>
-                                            <td className="py-4 px-4">{item.item}</td>
-                                            <td className="py-4 px-4">{item.unit}</td>
-                                            <td className="py-4 px-4">{item.marketPrice}</td>
-                                            <td className="py-4 px-4">{item.gardenPrice}</td>
+                                            <td className="py-4 px-4 whitespace-nowrap">{item.date}</td>
+                                            <td className="py-4 px-4 whitespace-nowrap">{item.item}</td>
+                                            <td className="py-4 px-4 whitespace-nowrap">{item.unit}</td>
+                                            <td className="py-4 px-4 whitespace-nowrap">{item.marketPrice}</td>
+                                            <td className="py-4 px-4 whitespace-nowrap">{item.gardenPrice}</td>
                                         </tr>
                                     ))
                                 ) : (
@@ -259,7 +260,6 @@ const GeneralSearch = ({ onExportData }: GeneralSearchProps) => {
                         </table>
                     </div>
                 </div>
-
             </div>
 
         </div>

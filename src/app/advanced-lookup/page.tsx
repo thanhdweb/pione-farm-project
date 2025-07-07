@@ -51,10 +51,10 @@ const AdvancedLookup = () => {
     return (
         <div>
             <Header backgroundUrl="/images/BgAdvancedLookup.png">
-                <p className="text-center text-sm sm:text-base text-[#00B032] font-bold mb-2">
+                <p className="text-center text-sm sm:text-base text-[#00B032] font-bold mb-4 ms:mb-2">
                     Blockchain Và AI
                 </p>
-                <h1 className="text-center text-3xl sm:text-4xl md:text-5xl font-bold text-[#1C8000] leading-normal mb-4">
+                <h1 className="text-center text-3xl sm:text-4xl md:text-5xl font-bold text-[#1C8000] leading-normal mb-6 ms:mb-4">
                     Dữ liệu minh bạch &ndash; <br />
                     Nông sản thông minh.
                 </h1>
@@ -65,7 +65,7 @@ const AdvancedLookup = () => {
                 </div>
             </Header>
 
-            <section className="relative w-full h-auto text-white pt-16 pb-24 md:pb-32 px-6 md:px-12 lg:px-24 overflow-hidden">
+            <section className="relative w-full text-white pt-16 pb-24 md:pb-32 px-6 md:px-12 lg:px-24 overflow-hidden">
                 {/* Hình nền 1 lớn */}
                 <div className="absolute top-0 bottom-4 left-1/2 -translate-x-1/2 z-0 w-full pointer-events-none">
                     <Image
@@ -100,7 +100,7 @@ const AdvancedLookup = () => {
                 <div className="relative flex justify-center mt-10 z-20">
                     <button
                         onClick={handleExport}
-                        className="bg-[#00A10B] hover:bg-green-400 w-[302px] text-white font-semibold py-3 px-8 rounded-full shadow-md transition"
+                        className="w-[302px] h-[54px] text-white font-semibold py-3 px-8 rounded-full shadow-md btn-hover-effect"
                     >
                         Xuất Excel
                     </button>

@@ -29,8 +29,8 @@ export default function CustomDatePicker({ placeholder = 'Chọn ngày', value, 
         className="relative w-full bg-white rounded-full px-4 py-3 border border-gray-400 text-xl text-black text-center shadow-sm custom-border-gradient"
       >
         {selected ? format(selected, 'dd/MM/yyyy') : placeholder}
-        <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
-          <DropdownIcon />
+        <div className="absolute right-8 top-1/2 -translate-y-1/2 pointer-events-none">
+          <DropdownIcon className="w-4 h-4" />
         </div>
       </button>
 
