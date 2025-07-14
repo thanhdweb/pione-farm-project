@@ -15,6 +15,7 @@ import { Eye, EyeOff } from 'lucide-react';
 import { AppleIcon, FacebookIcon, GoogleIcon } from '@/components/ui/icon';
 import { useRouter } from 'next/navigation';
 import Spinner from '@/components/ui/spinner';
+import { registerUser } from '@/lib/api/auth';
 
 interface RegisterFormValues {
     firstName: string;
@@ -57,30 +58,31 @@ export default function RegisterForm() {
     // Hàm xử lý khi submit form đăng ký
     const onSubmit = async (data: RegisterFormValues) => {
         try {
-            // Chuẩn bị payload gửi lên server
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const isEmail = emailRegex.test(data.emailOrPhone); // thêm biến isEmail để tránh kiểm tra lại nhiều lần
+
             const payload = {
                 fullName: data.firstName,
                 userName: data.firstName,
                 password: data.password,
-                ...(emailRegex.test(data.emailOrPhone)
-                    ? { email: data.emailOrPhone }
-                    : { phone: data.emailOrPhone }),
+                ...(isEmail ? { email: data.emailOrPhone } : { phone: data.emailOrPhone }),
             };
-            // Gửi request POST đến API để đăng ký
-            const res = await axios.post(
-                `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/authentication/register`,
-                payload,
 
-            );
+            // restAPI Register
+            const res = await registerUser(payload);
 
-            toast.success(res.data.message || 'Register successfully!');
-            console.log(res.data)
-            // Lưu userId và type để chuyển qua bước verify OTP
-            const { userId, type } = res.data.data;
+            toast.success(res.message || 'Register successfully!');
+            console.log(res);
 
-            // Cách 2 (tốt hơn nếu muốn an toàn): Dùng query param
-            router.push(`/auth/verify?userId=${userId}&type=${type}`);
+            const { userId, type } = res.data;
+
+            // chỉ giữ 1 lần, xác định URL phù hợp:
+            const redirectUrl = isEmail
+                ? `/auth/verify?userId=${userId}&type=${type}`
+                : `/auth/verify?userId=${userId}&type=${type}&phone=${encodeURIComponent(data.emailOrPhone)}`;
+
+            router.push(redirectUrl); //  gọi 1 lần duy nhất
+
         } catch (error: unknown) {
             if (axios.isAxiosError(error)) {
                 toast.error(error.response?.data?.message || 'Registration failed');

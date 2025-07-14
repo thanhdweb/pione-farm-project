@@ -11,6 +11,8 @@ const VerifyPage = () => {
     const router = useRouter();
     const userId = searchParams.get('userId');
     const type = searchParams.get('type');
+    const phone = searchParams.get('phone');
+
 
     // Nếu không có userId -> redirect về /auth/register
     React.useEffect(() => {
@@ -46,10 +48,10 @@ const VerifyPage = () => {
 
             {/* OTP Verify Form */}
             <div className="relative z-20 flex flex-col items-center justify-center min-h-[calc(100vh-80px)] px-4">
-                {/* {userId && <VerifyOtpForm userId={userId} />} */}
+                {userId && (
+                    <VerifyOtpForm userId={userId} type={type} phone={phone ?? undefined} />
+                )}
 
-                {/* phân loại email và phone */}
-                {userId && <VerifyOtpForm userId={userId} type={type} />}
                 <div className="mt-10 text-xs text-center text-gray-400">
                     &copy; 2021 – 2025 All Rights Reserved. Qpay
                 </div>

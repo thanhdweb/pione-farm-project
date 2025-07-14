@@ -12,10 +12,10 @@ import { resendOtp, verifyOtp } from '@/lib/api/auth';
 interface VerifyOtpFormProps {
     userId: string;
     type?: string | null;
-    phone?: string; // Thêm prop phone nếu cần
+    // phone?: string; // Thêm prop phone nếu cần
 }
 
-const VerifyOtpForm: React.FC<VerifyOtpFormProps> = ({ userId, type, phone }) => {
+const VerifyOtpForgotForm: React.FC<VerifyOtpFormProps> = ({ userId, type }) => {
     const [otpValues, setOtpValues] = useState(Array(6).fill(''));
     const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -23,7 +23,22 @@ const VerifyOtpForm: React.FC<VerifyOtpFormProps> = ({ userId, type, phone }) =>
     const [resendTimer, setResendTimer] = useState(0);
     const [attemptCount, setAttemptCount] = useState(0);
 
+    const [email, setEmail] = useState<string | undefined>(undefined);
+    const [storedPhone, setStoredPhone] = useState<string | undefined>(undefined);
+
     const router = useRouter();
+
+    // Lấy email từ localStorage nếu có để phục vụ resend OTP
+    useEffect(() => {
+        const storedEmail = localStorage.getItem('forgotEmail');
+        if (storedEmail) {
+            setEmail(storedEmail);
+        }
+        const storedPhoneValue = localStorage.getItem('forgotPhone');
+        if (storedPhoneValue) {
+            setStoredPhone(storedPhoneValue);
+        }
+    }, []);
 
     const handleChange = (index: number, value: string) => {
         if (!/^\d?$/.test(value)) return;
@@ -57,16 +72,17 @@ const VerifyOtpForm: React.FC<VerifyOtpFormProps> = ({ userId, type, phone }) =>
         setIsSubmitting(true);
 
         try {
-            // const res = await axios.post(`${process.env.NEXT_PUBLIC_API_TEST_URL}/api/authentication/verify-otp`, {
-            //     otp,
-            //     userId,
-            // });
             const res = await verifyOtp({ userId, otp });
 
             if (res.success) {
                 toast.success(res.message || 'Xác minh thành công!');
+                // lưu thông tin vào localStorage
+                localStorage.setItem('userId', userId);
+                localStorage.setItem('type', type || '');
+
+                console.log('VerifyOtpForgotForm userId:', userId, 'type:', type);
                 setTimeout(() => {
-                    router.push('/auth/login');
+                    router.push(`/auth/new-password?userId=${userId}&type=${type}`);
                 }, 1500);
             } else {
                 toast.error(res.message || 'Xác minh thất bại');
@@ -113,19 +129,21 @@ const VerifyOtpForm: React.FC<VerifyOtpFormProps> = ({ userId, type, phone }) =>
         if (resendTimer > 0 || isResending) return;
         setIsResending(true);
 
-        // const url = `${process.env.NEXT_PUBLIC_API_TEST_URL}/api/authentication/again-otp`;
-        // const payload = { userId, type, phone };
-
-        // console.log("URL resend OTP:", url);
-        // console.log("Payload resend OTP:", payload);
-
         try {
-            // const res = await axios.post(url, payload);
-            // console.log("Response resend OTP:", res.data);
-            const res = await resendOtp({ userId, type, phone });
+            const payload = {
+                userId,
+                type,
+                ...(storedPhone ? { phone: storedPhone } : {}),
+                ...(email ? { email } : {}),
+            };
+            // Gọi API gửi lại OTP
+            const res = await resendOtp(payload);
+            console.log("Response resend OTP:", res.data);
+
 
             if (res.success) {
                 toast.success(res.message || 'OTP mới đã được gửi');
+
                 console.log('OTP mới:', res.data?.otp);
                 setResendTimer(15);
                 resetOtpFields();
@@ -205,4 +223,4 @@ const VerifyOtpForm: React.FC<VerifyOtpFormProps> = ({ userId, type, phone }) =>
     );
 };
 
-export default VerifyOtpForm;
+export default VerifyOtpForgotForm;

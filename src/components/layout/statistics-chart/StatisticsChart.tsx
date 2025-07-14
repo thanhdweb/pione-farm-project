@@ -1,5 +1,6 @@
 "use client";
 
+import { DropdownIcon } from "@/components/ui/icon";
 import {
   Select,
   SelectContent,
@@ -8,7 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   LineChart,
   Line,
@@ -19,62 +20,154 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import {
+  getProvinceProducts,
+  getProductPriceData,
+  ProvinceProduct,
+  ProductPriceResponse,
+} from "@/lib/api/statistics";
+import { toast } from "react-toastify";
 
-// Dữ liệu mẫu
-const data = [
-  { month: "Jan", xoai: 20, man: 30 },
-  { month: "Feb", xoai: 35, man: 45 },
-  { month: "Mar", xoai: 60, man: 55 },
-  { month: "Apr", xoai: 50, man: 70 },
-  { month: "May", xoai: 45, man: 65 },
-  { month: "Jun", xoai: 50, man: 60 },
-  { month: "Jul", xoai: 70, man: 55 },
-];
-
-const provinces = ["Ben Tre", "Long An", "Tien Giang", "Can Tho"];
+interface ChartData {
+  day: string; //  'day' cho rõ ràng
+  [key: string]: number | string;
+}
 
 const weekOptions = [
+  { value: "all", label: "Tất cả" },
   { value: "week1", label: "Tuần 1" },
   { value: "week2", label: "Tuần 2" },
   { value: "week3", label: "Tuần 3" },
   { value: "week4", label: "Tuần 4" },
 ];
 
+/**
+ * Mảng tên ngày trong tuần tiếng Anh để hiển thị trên biểu đồ
+ */
+const weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+
 const StatisticsChart = () => {
+  const [provinceProducts, setProvinceProducts] = useState<ProvinceProduct[]>([]);
   const [province1, setProvince1] = useState("");
   const [province2, setProvince2] = useState("");
-  const [selectedWeek, setSelectedWeek] = useState(""); // Tuần được chọn
+  const [selectedWeek, setSelectedWeek] = useState("");
+  const [chartData, setChartData] = useState<ChartData[]>([]);
+
+  /**
+   * Fetch danh sách sản phẩm theo tỉnh ngay khi component mount
+   */
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getProvinceProducts();
+        setProvinceProducts(data);
+      } catch (error) {
+        toast.error("Không thể tải danh sách tỉnh.");
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  /**
+  * Fetch dữ liệu biểu đồ khi:
+  * - province1, province2 thay đổi
+  * - provinceProducts thay đổi (lần đầu load)
+  * - selectedWeek thay đổi
+  */
+  useEffect(() => {
+    const fetchChartData = async () => {
+      try {
+        const provincesToFetch = [province1, province2].filter(Boolean);
+        if (provincesToFetch.length === 0) {
+          setChartData([]);
+          return;
+        }
+
+        const datasets: {
+          [province: string]: { data: ProductPriceResponse[]; productName: string };
+        } = {};
+
+        // Lấy dữ liệu giá sản phẩm từ API cho từng tỉnh đã chọn
+        for (const provinceName of provincesToFetch) {
+          const provinceData = provinceProducts.find(
+            (p) => p.provinceName === provinceName
+          );
+          if (!provinceData) continue;
+
+          const productIds = [provinceData.productId];
+          const data = await getProductPriceData(productIds, provinceData.provinceId);
+          datasets[provinceName] = {
+            data,
+            productName: data[0].productName, // tên sản phẩm từ API
+          };
+        }
+
+        const totalLength = datasets[provincesToFetch[0]].data[0].priceTrend.length;
+
+        let start = 0;
+        let end = totalLength;
+
+        // Xác định range hiển thị dựa theo tuần được chọn
+        if (selectedWeek && selectedWeek !== "all") {
+          const weekIndex = parseInt(selectedWeek.replace("week", ""));
+          const perWeek = 6; // 5 ngày mỗi tuần
+          start = (weekIndex - 1) * perWeek;
+          end = weekIndex * perWeek;
+        }
+
+        const newChartData: ChartData[] = [];
+
+        // Build dữ liệu hiển thị cho chart
+        for (let i = start; i < end; i++) {
+          const point: ChartData = { day: weekDays[i % 6] };
+
+          for (const provinceName of provincesToFetch) {
+            const dataset = datasets[provinceName];
+            const priceTrend = dataset.data[0].priceTrend;
+            const productName = dataset.productName;
+
+            // sử dụng productName làm key để hiển thị tên sản phẩm trên chart
+            point[productName] = priceTrend[i];
+          }
+          newChartData.push(point);
+        }
+
+        setChartData(newChartData);
+      } catch (error) {
+        toast.error("Không thể tải dữ liệu biểu đồ.");
+        console.error(error);
+      }
+    };
+
+    fetchChartData();
+  }, [province1, province2, provinceProducts, selectedWeek]);
 
   return (
     <div className="w-full h-auto bg-white rounded-xl p-6 shadow-lg">
       <div className="grid grid-cols-1 gap-4 md:flex md:items-center md:justify-between mb-6">
-        <h2 className="text-xl font-medium">Thống kê</h2>
+        <h2 className="text-xl font-medium whitespace-nowrap">Thống kê</h2>
 
+        {/* Province Select */}
         <div className="flex items-center gap-4 md:gap-6 lg:gap-8">
-          {/* Dropdown Tỉnh 1 */}
+          {/* Province 1 */}
           <Select value={province1} onValueChange={setProvince1}>
-            <SelectTrigger className="relative rounded-full px-4 pr-6 py-1 w-[130px] bg-white text-sm border-gray-200 shadow-sm focus:ring-2 focus:ring-blue-300 [&>svg]:hidden">
+            <SelectTrigger className="relative rounded-full px-4 pr-6 py-1 w-[120px] bg-white text-sm border-gray-200 shadow-sm [&>svg]:hidden">
               <SelectValue placeholder="Chọn tỉnh 1" />
               <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <path
-                    fill="gray"
-                    fillRule="evenodd"
-                    clipRule="evenodd"
-                    d="M6.399 9.399a.85.85 0 0 1 1.202 0L12 13.798l4.399-4.399a.85.85 0 0 1 1.202 1.202l-5 5a.85.85 0 0 1-1.202 0l-5-5a.85.85 0 0 1 0-1.202"
-                  />
-                </svg>
+                <DropdownIcon className="!w-2 !h-2" />
               </div>
             </SelectTrigger>
-            <SelectContent className="bg-white border border-gray-300 rounded-lg shadow-sm">
+            <SelectContent className="bg-white border border-gray-300 rounded-lg shadow-xs">
               <SelectGroup>
-                {provinces.map((p) => (
+                {provinceProducts.map((p) => (
                   <SelectItem
-                    key={p}
-                    value={p}
+                    key={p.provinceId}
+                    value={p.provinceName}
                     className="cursor-pointer px-3 py-2 text-sm hover:bg-[#F0FDF4] hover:text-green-700 rounded-md transition-colors"
                   >
-                    {p}
+                    {p.provinceName}
                   </SelectItem>
                 ))}
               </SelectGroup>
@@ -83,96 +176,99 @@ const StatisticsChart = () => {
 
           <span className="text-gray-500 font-medium text-sm">VS</span>
 
-          {/* Dropdown Tỉnh 2 */}
+          {/* Province 2 */}
           <Select value={province2} onValueChange={setProvince2}>
-            <SelectTrigger className="relative rounded-full px-4 pr-6 py-1 w-[130px] bg-white text-sm border-gray-200 shadow-sm focus:ring-2 focus:ring-blue-300 [&>svg]:hidden">
+            <SelectTrigger className="relative rounded-full px-4 pr-6 py-1 w-[120px] bg-white text-sm border-gray-200 shadow-sm [&>svg]:hidden">
               <SelectValue placeholder="Chọn tỉnh 2" />
               <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <path
-                    fill="gray"
-                    fillRule="evenodd"
-                    clipRule="evenodd"
-                    d="M6.399 9.399a.85.85 0 0 1 1.202 0L12 13.798l4.399-4.399a.85.85 0 0 1 1.202 1.202l-5 5a.85.85 0 0 1-1.202 0l-5-5a.85.85 0 0 1 0-1.202"
-                  />
-                </svg>
+                <DropdownIcon className="!w-2 !h-2" />
               </div>
             </SelectTrigger>
-            <SelectContent className="bg-white border border-gray-300 rounded-lg shadow-sm">
+            <SelectContent className="bg-white border border-gray-300 rounded-lg shadow-xs">
               <SelectGroup>
-                {provinces.map((p) => (
+                {provinceProducts.map((p) => (
                   <SelectItem
-                    key={p}
-                    value={p}
+                    key={p.provinceId}
+                    value={p.provinceName}
                     className="cursor-pointer px-3 py-2 text-sm hover:bg-[#F0FDF4] hover:text-green-700 rounded-md transition-colors"
                   >
-                    {p}
+                    {p.provinceName}
                   </SelectItem>
                 ))}
               </SelectGroup>
             </SelectContent>
           </Select>
         </div>
-
-        {/* Dropdown Tuần */}
-        <Select value={selectedWeek} onValueChange={setSelectedWeek}>
-          <SelectTrigger className="relative rounded-lg px-2 pr-5 py-1 w-[80px] bg-white text-sm border-none shadow-md [&>svg]:hidden">
-            <SelectValue placeholder="Tuần" />
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
-              <svg
-                className="!w-3 !h-3"
-                viewBox="0 0 12 7"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M0.248959 0.248959C0.580905 -0.0829864 1.1191 -0.0829864 1.45104 0.248959L5.85 4.64792L10.249 0.248959C10.5809 -0.0829864 11.1191 -0.0829864 11.451 0.248959C11.783 0.580905 11.783 1.1191 11.451 1.45104L6.45104 6.45104C6.11909 6.78299 5.5809 6.78299 5.24896 6.45104L0.248959 1.45104C-0.0829864 1.1191 -0.0829864 0.580905 0.248959 0.248959Z"
-                  fill="#7C8DB5"
-                />
-              </svg>
-            </div>
-          </SelectTrigger>
-          <SelectContent className="bg-white border border-gray-300 rounded-lg shadow-sm">
-            <SelectGroup>
-              {weekOptions.map((opt) => (
-                <SelectItem
-                  key={opt.value}
-                  value={opt.value}
-                  className="cursor-pointer px-3 py-2 text-sm hover:bg-[#F0FDF4] hover:text-green-700 rounded-md transition-colors"
-                >
-                  {opt.label}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+        <div>
+          {/* Week Select */}
+          <Select value={selectedWeek} onValueChange={setSelectedWeek}>
+            <SelectTrigger className="relative rounded-full px-4 pr-6 py-1 w-[100px] bg-white text-sm border-gray-200 shadow-sm [&>svg]:hidden">
+              <SelectValue placeholder="Tuần" />
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                <DropdownIcon className="!w-2 !h-2" />
+              </div>
+            </SelectTrigger>
+            <SelectContent className="bg-white border border-gray-300 rounded-lg shadow-xs">
+              <SelectGroup>
+                {weekOptions.map((w) => (
+                  <SelectItem
+                    key={w.value}
+                    value={w.value}
+                    className="cursor-pointer px-3 py-2 text-sm hover:bg-[#F0FDF4] hover:text-green-700 rounded-md transition-colors"
+                  >
+                    {w.label}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
-      {/* Biểu đồ */}
+      {/* Chart */}
       <div className="h-[300px]">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={data}>
-            <CartesianGrid strokeDasharray="4 4" />
-            <XAxis dataKey="month" />
+          <LineChart data={chartData}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="day" />
             <YAxis />
-            <Tooltip formatter={(value) => `$${value.toLocaleString()}`} />
+            <Tooltip formatter={(value) => `${Number(value).toLocaleString()} đ`} />
             <Legend />
-            <Line
-              type="monotone"
-              dataKey="xoai"
-              name="Xoài"
-              stroke="#3B82F6"
-              strokeWidth={3}
-            />
-            <Line
-              type="monotone"
-              dataKey="man"
-              name="Mận"
-              stroke="#F59E0B"
-              strokeWidth={3}
-            />
+            {province1 &&
+              chartData.length > 0 &&
+              (() => {
+                const productName = Object.keys(chartData[0]).find(
+                  (key) => key !== "day"
+                );
+                return (
+                  <Line
+                    type="monotone"
+                    dataKey={productName ?? ""}
+                    name={productName ?? ""}
+                    stroke="#3B82F6"
+                    strokeWidth={3}
+                  />
+                );
+              })()}
+            {province2 &&
+              chartData.length > 0 &&
+              (() => {
+                const productNames = Object.keys(chartData[0]).filter(
+                  (key) => key !== "day"
+                );
+                if (productNames.length > 1) {
+                  return (
+                    <Line
+                      type="monotone"
+                      dataKey={productNames[1]}
+                      name={productNames[1]}
+                      stroke="#F59E0B"
+                      strokeWidth={3}
+                    />
+                  );
+                }
+                return null;
+              })()}
           </LineChart>
         </ResponsiveContainer>
       </div>

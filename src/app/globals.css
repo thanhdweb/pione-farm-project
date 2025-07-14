@@ -30,7 +30,6 @@
   --foreground: #ffffff;
 }
 
-
 /* border select */
 .custom-border-gradient {
   border: 1px solid transparent;
@@ -67,4 +66,25 @@
 
 .hide-scrollbar::-webkit-scrollbar {
   display: none; /* Chrome, Safari */
+}
+
+/* style arrow left và right for select day */
+.rdp-months {
+  display: block !important;
+}
+.rdp-button_previous {
+  position: absolute !important;
+  left: -20px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  display: flex !important;
+  align-items: center !important;
+}
+.rdp-button_next {
+  position: absolute !important;
+  right: -20px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  display: flex !important;
+  align-items: center !important;
 }

@@ -28,7 +28,7 @@ export default function CustomDatePicker({ placeholder = 'Chọn ngày', value, 
         onClick={() => setOpen(!open)}
         className="relative w-full bg-white rounded-full px-4 py-3 border border-gray-400 text-xl text-black text-center shadow-sm custom-border-gradient"
       >
-        {selected ? format(selected, 'dd/MM/yyyy') : placeholder}
+        {selected ? format(selected, 'yyyy/MM/dd') : placeholder}
         <div className="absolute right-8 top-1/2 -translate-y-1/2 pointer-events-none">
           <DropdownIcon className="w-4 h-4" />
         </div>
@@ -43,8 +43,8 @@ export default function CustomDatePicker({ placeholder = 'Chọn ngày', value, 
             onSelect={handleSelect}
             showOutsideDays
             modifiersClassNames={{
-              selected: 'bg-green-500 text-white',
-              today: 'text-green-600 font-semibold',
+              selected: 'bg-green-500 text-white rounded-full',
+              today: 'text-green-600 font-semibold rounded-full',
             }}
 
             className="text-sm"
@@ -53,7 +53,7 @@ export default function CustomDatePicker({ placeholder = 'Chọn ngày', value, 
               dropdown: 'flex gap-2',
               dropdown_month: 'px-4 py-2 rounded-md border bg-white text-black text-sm shadow-sm',
               dropdown_year: 'px-4 py-2 rounded-md border bg-white text-black text-sm shadow-sm',
-              nav: 'flex items-center justify-between px-4 mb-2',
+              nav: '',
               nav_button: 'text-xl text-green-700 hover:text-green-500',
               table: 'w-full border-collapse',
               head_row: 'text-gray-400',

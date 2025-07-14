@@ -62,18 +62,18 @@ const PriceTable = () => {
             <table className="min-w-full text-sm text-left">
                 <thead className="text-gray-900 border-gray-200">
                     <tr className='text-xl'>
-                        <th className='pb-4'>Tên mặt hàng</th>
-                        <th className='pb-4'>ĐVT</th>
-                        <th className='pb-4'>Tại chợ</th>
+                        <th className='pb-4 whitespace-nowrap'>Tên mặt hàng</th>
+                        <th className='pb-4 whitespace-nowrap'>ĐVT</th>
+                        <th className='pb-4 whitespace-nowrap'>Tại chợ</th>
                     </tr>
                 </thead>
                 <tbody>
                     {filteredFruits.length > 0 ? (
                         filteredFruits.map((item) => (
                             <tr key={item.id} className="hover:bg-[#F0FDF4] transition-colors text-gray-900">
-                                <td className="py-1">{item.name}</td>
-                                <td className="py-1">{item.unit}</td>
-                                <td className="py-1">{item.price.toLocaleString()}</td>
+                                <td className="py-1 whitespace-nowrap">{item.name}</td>
+                                <td className="py-1 whitespace-nowrap">{item.unit}</td>
+                                <td className="py-1 whitespace-nowrap">{item.price.toLocaleString()}</td>
                             </tr>
                         ))
                     ) : (

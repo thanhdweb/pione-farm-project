@@ -51,7 +51,7 @@ const HomePage = () => {
         </div>
 
         {/* nội dung 2 cột */}
-        <div className="relative z-20 flex flex-col lg:flex-row gap-12 lg:gap-8 xl:gap-12">
+        <div className="relative z-20 flex flex-col lg:flex-row gap-12 lg:gap-8 xl:gap-10">
           {/* bên trái chiếm 65% */}
           <div className="w-full lg:w-[62%]">
             <div className="grid grid-cols-1 gap-10">

@@ -4,6 +4,9 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { X } from "lucide-react";
 import { ChevronDown } from "lucide-react";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 interface MobileNavbarProps {
   onClose: () => void;
@@ -31,6 +34,48 @@ const MobileNavbar: React.FC<MobileNavbarProps> = ({ onClose, isOpen }) => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [onClose]);
+
+  // api logout
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+      const refreshToken = localStorage.getItem("refreshToken");
+
+      if (!accessToken || !refreshToken) {
+        toast.error("Bạn chưa đăng nhập hoặc thiếu token.");
+        return;
+      }
+
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/authentication/log-out`,
+        { refreshToken },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      if (res.data.success) {
+        toast.success("Đăng xuất thành công!");
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+        router.push("/auth/login");
+      } else {
+        toast.error(res.data.message || "Đăng xuất thất bại.");
+      }
+    } catch (error) {
+      console.error("Logout error:", error);
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data?.message || "Có lỗi xảy ra khi đăng xuất.");
+      } else {
+        toast.error("Có lỗi xảy ra khi đăng xuất.");
+      }
+    }
+  };
+
 
   return (
     <>
@@ -190,12 +235,12 @@ const MobileNavbar: React.FC<MobileNavbarProps> = ({ onClose, isOpen }) => {
             </Link>
           </p>
           <p className="px-6 mt-3 group text-base font-medium">
-            <Link
-              href="/logout"
-              className="block text-sm text-red-600 transition-transform duration-200 ease-in-out group-hover:translate-x-3 active:translate-x-3"
+            <button
+              onClick={handleLogout}
+              className="block text-left text-sm text-red-600 transition-transform duration-200 ease-in-out group-hover:translate-x-3 active:translate-x-3 w-full"
             >
               Đăng xuất
-            </Link>
+            </button>
           </p>
         </div>
       </div>

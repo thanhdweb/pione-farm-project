@@ -15,6 +15,8 @@ import { Label } from '@/components/ui/label';
 import { Eye, EyeOff } from 'lucide-react';
 import { AppleIcon, FacebookIcon, GoogleIcon } from '@/components/ui/icon';
 import Spinner from '@/components/ui/spinner';
+import { loginUser } from '@/lib/api/auth';
+import Link from 'next/link';
 
 interface LoginFormValues {
     emailOrPhone: string;
@@ -52,6 +54,7 @@ export default function LoginForm() {
         },
     });
 
+    // Xử lý submit form login
     const onSubmit = async (data: LoginFormValues) => {
         console.log('Submitting...', data);
         try {
@@ -63,15 +66,11 @@ export default function LoginForm() {
                     : { phone: data.emailOrPhone }),
             };
 
-            console.log('Payload:', payload);
-            console.log('API BASE URL:', process.env.NEXT_PUBLIC_API_BASE_URL);
+            const res = await loginUser(payload);
 
-            const res = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/authentication/login`, payload);
-            console.log('Response:', res.data);
-
-            if (res.data.success) {
-                toast.success(res.data.message || 'Đăng nhập thành công!');
-                const { accessToken, refreshToken } = res.data.data;
+            if (res.success) {
+                toast.success(res.message || 'Đăng nhập thành công!');
+                const { accessToken, refreshToken } = res.data;
                 localStorage.setItem('accessToken', accessToken);
                 localStorage.setItem('refreshToken', refreshToken);
 
@@ -79,12 +78,11 @@ export default function LoginForm() {
                     router.push('/');
                 }, 1000);
             } else {
-                toast.error(res.data.message || 'Đăng nhập thất bại');
+                toast.error(res.message || 'Đăng nhập thất bại');
             }
         } catch (error) {
             console.error('Login error:', error);
             if (axios.isAxiosError(error)) {
-                console.error('Error response:', error.response?.data);
                 toast.error(error.response?.data?.message || 'Login failed');
             } else {
                 toast.error('An unexpected error occurred');
@@ -155,7 +153,7 @@ export default function LoginForm() {
                             <Label htmlFor="remember" className="text-gray-400 underline">Remember Me</Label>
                         </div>
 
-                        <a href="#" className="text-gray-400 hover:underline">Forgot Password?</a>
+                        <Link href="/auth/forgot-password" className="text-gray-400 hover:underline">Forgot Password?</Link>
                     </div>
 
                     <Button
