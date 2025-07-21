@@ -1,10 +1,23 @@
+import Footer from '@/components/footer/Footer'
 import Header from '@/components/header/Header'
 import MarketArticleList from '@/components/layout/market-article-list/MarketArticleList'
 import MarketPriceBoard from '@/components/layout/market-price-board/MarketPriceBoard'
+import RiceScopeBanner from '@/components/layout/rice-scope-banner/RiceScopeBanner'
 import Image from 'next/image'
+import { notFound } from 'next/navigation'
 import React from 'react'
 
-const MarketInlandPage = () => {
+interface Props {
+    params: { type: string };
+}
+
+const MarketPage = async ({ params }: Props) => {
+    const { type } = params;
+
+    if (type !== "trongnuoc" && type !== "ngoainuoc") {
+        notFound();
+    }
+
     return (
         <div>
             <Header backgroundUrl="/images/BgMarketInland.png">
@@ -46,7 +59,7 @@ const MarketInlandPage = () => {
                 </div>
 
                 <aside className="relative z-10">
-                    <MarketArticleList />
+                    <MarketArticleList type={type} />
                 </aside>
 
                 {/* tạo component và gọi 2 bảng đó */}
@@ -55,10 +68,15 @@ const MarketInlandPage = () => {
                 </article>
 
             </section>
+            <aside>
+                <RiceScopeBanner />
+            </aside>
+            {/* Footer--------- */}
+            <Footer />
 
 
         </div>
     )
 }
 
-export default MarketInlandPage
+export default MarketPage

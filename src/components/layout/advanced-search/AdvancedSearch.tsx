@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
     Select,
     SelectContent,
@@ -8,255 +8,207 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from '@/components/ui/select';
-import { DropdownIcon } from '@/components/ui/icon';
-import { Button } from '@/components/ui/button';
-import CustomDatePicker from '@/components/ui/CustomDatePicker';
+} from "@/components/ui/select";
+import { DropdownIcon } from "@/components/ui/icon";
+import { Button } from "@/components/ui/button";
+import CustomDatePicker from "@/components/ui/CustomDatePicker";
+import Spinner from "@/components/ui/spinner";
 
-const sampleData = [
-    {
-        date: '2025-10-12',
-        item: 'Xoài',
-        unit: '10K/KG',
-        marketPrice: '15K/KG',
-        gardenPrice: '10K/KG',
-    },
-    {
-        date: '2025-10-12',
-        item: 'Xoài',
-        unit: '10K/KG',
-        marketPrice: '15K/KG',
-        gardenPrice: '10K/KG',
-    },
-    {
-        date: '2025-10-12',
-        item: 'Xoài',
-        unit: '10K/KG',
-        marketPrice: '15K/KG',
-        gardenPrice: '10K/KG',
-    },
-    {
-        date: '2025-10-12',
-        item: 'Xoài',
-        unit: '10K/KG',
-        marketPrice: '15K/KG',
-        gardenPrice: '10K/KG',
-    },
-    {
-        date: '2025-10-12',
-        item: 'Xoài',
-        unit: '10K/KG',
-        marketPrice: '15K/KG',
-        gardenPrice: '10K/KG',
-    },
-    {
-        date: '2025-10-12',
-        item: 'Xoài',
-        unit: '10K/KG',
-        marketPrice: '15K/KG',
-        gardenPrice: '10K/KG',
-    },
-    {
-        date: '2025-10-12',
-        item: 'Xoài',
-        unit: '10K/KG',
-        marketPrice: '15K/KG',
-        gardenPrice: '10K/KG',
-    },
-    {
-        date: '2025-10-12',
-        item: 'Xoài',
-        unit: '10K/KG',
-        marketPrice: '15K/KG',
-        gardenPrice: '10K/KG',
-    },
-    {
-        date: '2025-10-12',
-        item: 'Xoài',
-        unit: '10K/KG',
-        marketPrice: '15K/KG',
-        gardenPrice: '10K/KG',
-    },
-    {
-        date: '2025-10-12',
-        item: 'Xoài',
-        unit: '10K/KG',
-        marketPrice: '15K/KG',
-        gardenPrice: '10K/KG',
-    },
-    {
-        date: '2025-10-12',
-        item: 'Xoài',
-        unit: '10K/KG',
-        marketPrice: '15K/KG',
-        gardenPrice: '10K/KG',
-    },
-];
+import {
+    getAllProvinces,
+    getFarmMarketPrices,
+    getTodayHarvestSummary,
+    Province,
+    Product,
+    HarvestSummary,
+} from "@/lib/api/lookup";
 
-// data mãu nó ở đây
-const sampleLocationData: LocationRow[] = [
-    { date: '2025-10-12', location: 'Bến Tre', quantity: '10T' },
-    { date: '2025-10-12', location: 'Xoài', quantity: '34T' },
-    { date: '2025-10-12', location: 'Long An', quantity: '4T' },
-    { date: '2025-10-12', location: 'Trà Vinh', quantity: '10T' },
-    { date: '2025-10-12', location: 'Phan Thiết', quantity: '43T' },
-];
-
-
-const provinceOptions = [
-    { label: 'TP.HCM', value: 'hcm' },
-    { label: 'Hà Nội', value: 'hn' },
-];
-
-const itemOptions = [
-    { label: 'Xoài', value: 'xoai' },
-    { label: 'Chuối', value: 'chuoi' },
-];
-
-// Định nghĩa cấu trúc một dòng dữ liệu giá sản phẩm
 export type PriceRow = {
     date: string;
     item: string;
     unit: string;
-    marketPrice: string;
-    gardenPrice: string;
+    marketPrice: number;
+    gardenPrice: number;
 };
 
-// Định nghĩa cấu trúc một dòng dữ liệu địa điểm và sản lượng
 export type LocationRow = {
     date: string;
     location: string;
-    quantity: string;
+    quantity: number;
 };
 
-// Props của component AdvancedSearch: hàm xuất dữ liệu ra ngoài
 type AdvancedSearchProps = {
     onExportData: (products: PriceRow[], locations: LocationRow[]) => void;
 };
 
 const AdvancedSearch = ({ onExportData }: AdvancedSearchProps) => {
-    const [selectedProvince, setSelectedProvince] = useState('');
-    const [selectedItem, setSelectedItem] = useState('');
-    const [productData] = useState(sampleData);
-    //  const [productData, setProductData] = useState<PriceRow[]>(sampleData);
-    const [locationData] = useState(sampleLocationData);
-    // const [locationData, setLocationData] = useState<LocationRow[]>(sampleLocationData);
+    const [provinces, setProvinces] = useState<Province[]>([]);
+    const [products, setProducts] = useState<Product[]>([]);
 
+    const [selectedProvince, setSelectedProvince] = useState("");
+    const [selectedProduct, setSelectedProduct] = useState("");
 
-    const [fromDate, setFromDate] = useState<Date | undefined>(undefined);
-    const [toDate, setToDate] = useState<Date | undefined>(undefined);
+    const [fromDate, setFromDate] = useState<Date>();
+    const [toDate, setToDate] = useState<Date>();
+
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+
+    const [productData, setProductData] = useState<PriceRow[]>([]);
+    const [locationData, setLocationData] = useState<LocationRow[]>([]);
 
     useEffect(() => {
-        onExportData(productData, locationData);
-    }, [productData, locationData, onExportData]);
+        const fetchProvinces = async () => {
+            try {
+                const data = await getAllProvinces();
+                setProvinces(data);
+            } catch (err) {
+                console.error(err);
+                setError("Lỗi tải danh sách tỉnh.");
+            }
+        };
+        fetchProvinces();
+    }, []);
+
+    useEffect(() => {
+        if (selectedProvince) {
+            const found = provinces.find(p => p._id === selectedProvince);
+            if (found) setProducts(found.products);
+        } else {
+            setProducts([]);
+        }
+        setSelectedProduct("");
+    }, [selectedProvince, provinces]);
+
+    const handleSearch = async () => {
+        setError("");
+        if (!selectedProvince || !fromDate || !toDate) {
+            setError("Vui lòng chọn tỉnh và khoảng ngày.");
+            return;
+        }
+
+        setLoading(true);
+        try {
+            // === Gọi API danh sách mặt hàng ===
+            const farmMarketRes = await getFarmMarketPrices({
+                provinceId: selectedProvince,
+                date: {
+                    start: fromDate.toISOString().split("T")[0],
+                    end: toDate.toISOString().split("T")[0],
+                },
+                productIds: selectedProduct
+                    ? [selectedProduct]
+                    : products.map(p => p._id),
+            });
+
+            // Nếu đã chọn mặt hàng => lọc lại kết quả (đảm bảo chỉ lấy đúng mặt hàng đã chọn)
+            const filtered = selectedProduct
+                ? farmMarketRes.filter(item => item.productId === selectedProduct)
+                : farmMarketRes;
+
+            const formattedProductData: PriceRow[] = filtered.map(item => ({
+                date: item.date.split("T")[0],
+                item: item.productName,
+                unit: item.marketUnit,
+                marketPrice: item.marketPrice,
+                gardenPrice: item.farmPrice,
+            }));
+            setProductData(formattedProductData);
+
+            // === Gọi API danh sách địa điểm ===
+            const harvestRes: HarvestSummary[] = await getTodayHarvestSummary();
+            const formattedLocationData: LocationRow[] = harvestRes.map(item => ({
+                date: item.date.split("T")[0],
+                location: item.provinceName,
+                quantity: item.quantitySum,
+            }));
+            setLocationData(formattedLocationData);
+
+            // Truyền kết quả lên component cha để export Excel
+            onExportData(formattedProductData, formattedLocationData);
+        } catch (err) {
+            console.error(err);
+            setError("Lỗi khi tra cứu dữ liệu.");
+        } finally {
+            setLoading(false);
+        }
+    };
 
 
     return (
-        <div
-            className="w-full bg-white/75 rounded-3xl grid grid-cols-1 gap-20 px-6 md:px-10 lg:px-14 py-6"
-            style={{ boxShadow: '0 0 12px 0 rgba(4, 255, 0, 0.3)' }}
-        >
+        <div className="w-full bg-white/75 rounded-3xl grid grid-cols-1 gap-20 px-6 md:px-10 lg:px-14 py-6"
+            style={{ boxShadow: '0 0 12px 0 rgba(4, 255, 0, 0.3)' }}>
 
+            {/* === Bộ lọc === */}
             <div className="grid grid-cols-1 gap-12">
                 <h3 className='text-xl font-medium text-black'>Tra cứu tổng hợp:</h3>
 
-                {/* Filters */}
                 <div className="grid grid-col gap-8 xl:flex xl:justify-between xl:items-center">
-                    {/* ----1 */}
                     <div className='grid grid-rows-2 gap-2 sm:flex sm:items-center sm:justify-between xl:gap-14'>
                         <div className='w-full sm:w-[200px] lg:w-[288px] text-xl font-medium'>
-                            <CustomDatePicker
-                                placeholder="00:00:00"
-                                value={fromDate} // Truyền giá trị từ cha xuống
-                                onChange={(date) => setFromDate(date)} // Cập nhật khi chọn ngày
-                            />
+                            <CustomDatePicker placeholder="00:00:00" value={fromDate} onChange={setFromDate} />
                         </div>
-
-                        <p className="place-self-center text-center text-sm font-medium text-black leading-none">
-                            Đến
-                        </p>
-
-
+                        <p className="place-self-center text-sm text-black">Đến</p>
                         <div className='w-full sm:w-[200px] lg:w-[288px] text-xl font-medium'>
-                            <CustomDatePicker
-                                placeholder="00:00:00"
-                                value={toDate} // Truyền giá trị từ cha xuống
-                                onChange={(date) => setToDate(date)} // Cập nhật khi chọn ngày
-                            />
+                            <CustomDatePicker placeholder="00:00:00" value={toDate} onChange={setToDate} />
                         </div>
                     </div>
 
-                    {/* Province Select */}
                     <Select value={selectedProvince} onValueChange={setSelectedProvince}>
-                        <SelectTrigger className="relative flex items-center justify-center rounded-full px-4 pr-10 w-full sm:w-[288px] !h-[54px] bg-white text-base font-medium text-black border border-gray-300 custom-border-gradient [&>svg]:hidden">
-                            <SelectValue placeholder="Tỉnh" />
+                        <SelectTrigger className="relative rounded-full px-4 pr-10 w-full sm:w-[288px] !h-[54px] bg-white text-base font-medium border border-gray-300 text-black custom-border-gradient [&>svg]:hidden">
+                            <SelectValue placeholder="Chọn tỉnh" />
                             <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none">
                                 <DropdownIcon className="w-4 h-4" />
                             </div>
-
                         </SelectTrigger>
                         <SelectContent className="bg-white border border-gray-300 rounded-lg shadow-sm">
                             <SelectGroup>
-                                {provinceOptions.map((opt) => (
-                                    <SelectItem
-                                        key={opt.value}
-                                        value={opt.value}
-                                        className="cursor-pointer px-3 py-2 text-sm hover:bg-[#F0FDF4] hover:text-green-700 rounded-md transition-colors"
-                                    >
-                                        {opt.label}
-                                    </SelectItem>
+                                {provinces.map(p => (
+                                    <SelectItem key={p._id} value={p._id} className="cursor-pointer px-3 py-2 text-sm hover:bg-[#F0FDF4] hover:text-green-700 rounded-md transition-colors">{p.name}</SelectItem>
                                 ))}
                             </SelectGroup>
                         </SelectContent>
                     </Select>
                 </div>
 
-                <div className='grid grid-rows-2 gap-12 md:flex md:items-center md:justify-between'>
-                    {/* Item Select */}
-                    <Select value={selectedItem} onValueChange={setSelectedItem}>
-                        <SelectTrigger className="relative rounded-full px-4 pr-8 py-2 w-full md:w-[710px] !h-[54px] bg-white text-base border-gray-400 text-gray-400 custom-border-gradient [&>svg]:hidden">
-                            <SelectValue placeholder="Mặt hàng" />
+                {/* Chọn mặt hàng + nút tra cứu */}
+                <div className="grid grid-rows-2 gap-12 md:flex md:items-center md:justify-between">
+                    <Select value={selectedProduct} onValueChange={setSelectedProduct} disabled={products.length === 0}>
+                        <SelectTrigger className="relative rounded-full px-4 pr-8 py-2 w-full md:w-[710px] !h-[54px] bg-white border-gray-400 text-gray-400 custom-border-gradient [&>svg]:hidden">
+                            <SelectValue placeholder={products.length === 0 ? "Chọn tỉnh trước" : "Chọn mặt hàng"} />
                             <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none">
                                 <DropdownIcon className="w-4 h-4" />
                             </div>
                         </SelectTrigger>
-                        <SelectContent className="bg-white border border-gray-300 rounded-lg shadow-sm">
+                        <SelectContent className="bg-white border border-gray-300 rounded-lg shadow-sm max-h-60 overflow-auto">
                             <SelectGroup>
-                                {itemOptions.map((opt) => (
-                                    <SelectItem
-                                        key={opt.value}
-                                        value={opt.value}
-                                        className="cursor-pointer px-3 py-2 text-sm hover:bg-[#F0FDF4] hover:text-green-700 rounded-md transition-colors"
-                                    >
-                                        {opt.label}
-                                    </SelectItem>
+                                {products.map(p => (
+                                    <SelectItem key={p._id} value={p._id} className="cursor-pointer px-3 py-2 text-sm hover:bg-[#F0FDF4] hover:text-green-700 rounded-md transition-colors">{p.name}</SelectItem>
                                 ))}
                             </SelectGroup>
                         </SelectContent>
                     </Select>
 
-                    {/* tra cứu kết quả */}
-                    <Button
-                        className='text-white w-full md:max-w-[160px] lg:max-w-[302px] h-[54px] text-base py-2 rounded-full cursor-pointer btn-hover-effect'
-                        style={{ boxShadow: '0 4px 6px rgba(0, 0, 0, 0.2)' }}
-                    >
-                        Tra cứu
+                    <Button onClick={handleSearch} disabled={loading}
+                        className='text-white w-full md:max-w-[160px] lg:max-w-[302px] h-[54px] text-base py-2 rounded-full cursor-pointer btn-hover-effect'>
+                        {loading ? <Spinner /> : "Tra cứu"}
                     </Button>
                 </div>
+
+                {error && <p className="text-red-500">{error}</p>}
             </div>
 
-            {/* Danh sách địa điểm */}
-            <div className='grid grid-cols-1 gap-12'>
-                <h3 className="text-xl font-medium text-black">Dánh sách địa điểm:</h3>
-
+            {/* === Bảng địa điểm === */}
+            <div className="grid grid-cols-1 gap-12">
+                <h3 className="text-xl font-medium text-black">Danh sách địa điểm:</h3>
                 <div className="rounded-3xl border border-gray-200 shadow-sm bg-white/35 py-5 px-4 md:px-14">
                     <div className="max-h-[456px] overflow-y-auto scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-gray-400">
                         <table className="min-w-full text-sm text-left text-black">
-                            <thead className="font-medium text-sx md:text-base">
-                                <tr className="border-b border-[#D5D5D5]">
-                                    <th className="w-1/5 py-3 px-4 sticky bg-white whitespace-nowrap">Ngày tháng</th>
-                                    <th className="w-3/5 py-3 px-4 sticky bg-white whitespace-nowrap">Nơi thu thập</th>
-                                    <th className="w-1/5 py-3 px-4 sticky bg-white whitespace-nowrap">Số lượng</th>
+                            <thead className="font-medium text-sx md:text-base bg-white/70">
+                                <tr className="border-b border-[#D5D5D5] bg-white">
+                                    <th className="w-1/5 py-3 px-4 sticky top-0 bg-white whitespace-nowrap">Ngày tháng</th>
+                                    <th className="w-3/5 py-3 px-4 sticky top-0 bg-white whitespace-nowrap">Nơi thu thập</th>
+                                    <th className="w-1/5 py-3 px-4 sticky top-0 bg-white whitespace-nowrap">Số lượng</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -264,7 +216,7 @@ const AdvancedSearch = ({ onExportData }: AdvancedSearchProps) => {
                                     <tr key={idx} className="border-b border-[#D5D5D5] font-medium text-sx md:text-base">
                                         <td className="w-1/5 py-4 px-4 whitespace-nowrap">{row.date}</td>
                                         <td className="w-3/5 py-4 px-4 whitespace-nowrap">{row.location}</td>
-                                        <td className="w-1/5 py-4 px-4 whitespace-nowrap">{row.quantity}</td>
+                                        <td className="w-1/5 py-4 px-4 whitespace-nowrap">{row.quantity.toLocaleString()} T</td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -273,19 +225,19 @@ const AdvancedSearch = ({ onExportData }: AdvancedSearchProps) => {
                 </div>
             </div>
 
-            {/* Dánh sách mặt hàng */}
+            {/* === Bảng mặt hàng === */}
             <div className="grid grid-cols-1 gap-12">
-                <h3 className="text-xl font-medium text-black">Dánh sách mặt hàng:</h3>
+                <h3 className="text-xl font-medium text-black">Danh sách mặt hàng:</h3>
                 <div className="rounded-3xl border border-gray-200 shadow-sm bg-white/35 py-5 px-4 md:px-14">
                     <div className="max-h-[456px] overflow-y-auto scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-gray-400">
                         <table className="min-w-full text-sm text-left text-black">
-                            <thead className="font-medium text-sx md:text-base">
+                            <thead className="font-medium text-sx md:text-base bg-white/70">
                                 <tr className='border-b border-[#D5D5D5]'>
-                                    <th className="py-3 px-4 sticky bg-white whitespace-nowrap">Ngày tháng</th>
-                                    <th className="py-3 px-4 sticky bg-white whitespace-nowrap">Tên mặt hàng</th>
-                                    <th className="py-3 px-4 sticky bg-white whitespace-nowrap">ĐVT</th>
-                                    <th className="py-3 px-4 sticky bg-white whitespace-nowrap">Giá tại chợ</th>
-                                    <th className="py-3 px-4 sticky bg-white whitespace-nowrap">Giá tại Vườn</th>
+                                    <th className="py-3 px-4 sticky top-0 bg-white whitespace-nowrap">Ngày tháng</th>
+                                    <th className="py-3 px-4 sticky top-0 bg-white whitespace-nowrap">Tên mặt hàng</th>
+                                    <th className="py-3 px-4 sticky top-0 bg-white whitespace-nowrap">ĐVT</th>
+                                    <th className="py-3 px-4 sticky top-0 bg-white whitespace-nowrap">Giá tại chợ</th>
+                                    <th className="py-3 px-4 sticky top-0 bg-white whitespace-nowrap">Giá tại vườn</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -294,8 +246,8 @@ const AdvancedSearch = ({ onExportData }: AdvancedSearchProps) => {
                                         <td className="py-4 px-4 whitespace-nowrap">{item.date}</td>
                                         <td className="py-4 px-4 whitespace-nowrap">{item.item}</td>
                                         <td className="py-4 px-4 whitespace-nowrap">{item.unit}</td>
-                                        <td className="py-4 px-4 whitespace-nowrap">{item.marketPrice}</td>
-                                        <td className="py-4 px-4 whitespace-nowrap">{item.gardenPrice}</td>
+                                        <td className="py-4 px-4 whitespace-nowrap">{item.marketPrice.toLocaleString()}</td>
+                                        <td className="py-4 px-4 whitespace-nowrap">{item.gardenPrice.toLocaleString()}</td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -303,7 +255,6 @@ const AdvancedSearch = ({ onExportData }: AdvancedSearchProps) => {
                     </div>
                 </div>
             </div>
-
         </div>
     );
 };

@@ -12,30 +12,45 @@ import {
 import { DropdownIcon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import CustomDatePicker from "@/components/ui/CustomDatePicker";
-import { getAllProvinces, getFarmMarketPrices, Province, FarmMarketPriceRecord } from "@/lib/api/general";
+import { getAllProvinces, getFarmMarketPrices, Province, FarmMarketPriceRecord, Product } from "@/lib/api/lookup";
+import Spinner from "@/components/ui/spinner";
+
+export type PriceRow = {
+    date: string;
+    item: string;
+    unit: string;
+    marketPrice: number;
+    gardenPrice: number;
+};
+
 
 // Props nhận hàm export data từ component cha để export Excel nếu cần
 type GeneralSearchProps = {
-    onExportData: (data: FarmMarketPriceRecord[]) => void;
+    onExportData: (data: PriceRow[]) => void;
 };
 
 const GeneralSearch = ({ onExportData }: GeneralSearchProps) => {
-    //State lưu danh sách tỉnh lấy từ API
+
     const [provinces, setProvinces] = useState<Province[]>([]);
-    // State lưu tỉnh được chọn (lưu _id từ API trả về)
+
     const [selectedProvince, setSelectedProvince] = useState<string>("");
-    // Lưu mảng productIds của tỉnh đang chọn, để render dropdown mặt hàng tương ứng
-    const [productIds, setProductIds] = useState<string[]>([]);
-    // Lưu productId được chọn trong dropdown mặt hàng
+
+    const [products, setProducts] = useState<Product[]>([]);
+
     const [selectedProduct, setSelectedProduct] = useState<string>("");
-    // Lưu ngày bắt đầu tra cứu (kiểu Date)
+
     const [fromDate, setFromDate] = useState<Date | undefined>();
-    // Lưu ngày kết thúc tra cứu (kiểu Date)
+
     const [toDate, setToDate] = useState<Date | undefined>();
+
     // Lưu mảng kết quả tra cứu sau khi call API
     const [filteredData, setFilteredData] = useState<FarmMarketPriceRecord[]>([]);
-    // Loading khi đang tra cứu để disable button, hiển thị "Đang tra cứu..."
+
+
     const [loading, setLoading] = useState(false);
+
+
+
     // Lưu thông báo lỗi (nếu có) để hiện ra giao diện
     const [error, setError] = useState<string>("");
     // useEffect chạy 1 lần khi component mount để lấy danh sách tỉnh
@@ -64,10 +79,10 @@ const GeneralSearch = ({ onExportData }: GeneralSearchProps) => {
         if (selectedProvince) {
             const province = provinces.find((p) => p._id === selectedProvince);
             if (province) {
-                setProductIds(province.productIds);
+                setProducts(province.products);
             }
         } else {
-            setProductIds([]);
+            setProducts([]);
         }
         setSelectedProduct(""); // reset mặt hàng khi đổi tỉnh
     }, [selectedProvince, provinces]);
@@ -80,8 +95,8 @@ const GeneralSearch = ({ onExportData }: GeneralSearchProps) => {
      */
     const handleSearch = async () => {
         setError("");
-        if (!selectedProvince || !fromDate || !toDate || !selectedProduct) {
-            setError("Vui lòng chọn tỉnh, khoảng ngày và mặt hàng trước khi tra cứu.");
+        if (!selectedProvince || !fromDate || !toDate) {
+            setError("Vui lòng chọn tỉnh và khoảng ngày trước khi tra cứu.");
             return;
         }
 
@@ -93,12 +108,32 @@ const GeneralSearch = ({ onExportData }: GeneralSearchProps) => {
                     start: fromDate.toISOString().split("T")[0],
                     end: toDate.toISOString().split("T")[0],
                 },
-                productIds: [selectedProduct],
+                productIds: selectedProduct
+                    ? [selectedProduct]
+                    : products.map((p) => p._id), // nếu chưa chọn mặt hàng thì gửi hết
             };
 
             const data = await getFarmMarketPrices(payload);
-            setFilteredData(data);
-            onExportData(data); // truyền data ra ngoài nếu cần xuất Excel
+
+            // Nếu đã chọn mặt hàng, lọc data theo tên mặt hàng
+            const finalData = selectedProduct
+                ? data.filter((item) =>
+                    item.productId === selectedProduct
+                )
+                : data;
+
+
+            setFilteredData(finalData);
+            onExportData(
+                finalData.map((item) => ({
+                    date: item.date.split("T")[0],
+                    item: item.productName,
+                    unit: item.marketUnit,
+                    marketPrice: item.marketPrice,
+                    gardenPrice: item.farmPrice,
+                }))
+            );
+
         } catch (err) {
             console.error(err);
             setError("Lỗi khi tra cứu dữ liệu.");
@@ -151,8 +186,9 @@ const GeneralSearch = ({ onExportData }: GeneralSearchProps) => {
                         </SelectTrigger>
                         <SelectContent className="bg-white border border-gray-300 rounded-lg shadow-sm">
                             <SelectGroup>
+                                {/* select tỉnh */}
                                 {(provinces ?? []).map((province) => (
-                                    <SelectItem key={province._id} value={province._id}>
+                                    <SelectItem key={province._id} value={province._id} className="cursor-pointer px-3 py-2 text-sm hover:bg-[#F0FDF4] hover:text-green-700 rounded-md transition-colors">
                                         {province.name}
                                     </SelectItem>
                                 ))}
@@ -167,19 +203,19 @@ const GeneralSearch = ({ onExportData }: GeneralSearchProps) => {
                     <Select
                         value={selectedProduct}
                         onValueChange={setSelectedProduct}
-                        disabled={productIds.length === 0}
+                        disabled={products.length === 0}
                     >
                         <SelectTrigger className="relative rounded-full px-4 pr-8 py-2 w-full md:w-[710px] !h-[54px] bg-white text-base border-gray-400 text-gray-400 custom-border-gradient [&>svg]:hidden">
-                            <SelectValue placeholder={productIds.length === 0 ? "Chọn tỉnh trước" : "Chọn mặt hàng"} />
+                            <SelectValue placeholder={products.length === 0 ? "Chọn tỉnh trước" : "Chọn mặt hàng"} />
                             <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none">
                                 <DropdownIcon />
                             </div>
                         </SelectTrigger>
                         <SelectContent className="bg-white border border-gray-300 rounded-lg shadow-sm max-h-60 overflow-auto">
                             <SelectGroup>
-                                {productIds.map((pid) => (
-                                    <SelectItem key={pid} value={pid}>
-                                        {pid}
+                                {products.map((product) => (
+                                    <SelectItem key={product._id} value={product._id} className="cursor-pointer px-3 py-2 text-sm hover:bg-[#F0FDF4] hover:text-green-700 rounded-md transition-colors">
+                                        {product.name}
                                     </SelectItem>
                                 ))}
                             </SelectGroup>
@@ -193,7 +229,7 @@ const GeneralSearch = ({ onExportData }: GeneralSearchProps) => {
                         className='text-white w-full md:max-w-[160px] lg:max-w-[302px] h-[54px] text-base py-2 rounded-full cursor-pointer btn-hover-effect'
                         style={{ boxShadow: '0 4px 6px rgba(0, 0, 0, 0.2)' }}
                     >
-                        {loading ? "Đang tra cứu..." : "Tra cứu"}
+                        {loading ? <Spinner /> : "Tra cứu"}
                     </Button>
                 </div>
 

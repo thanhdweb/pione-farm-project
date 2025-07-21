@@ -71,7 +71,7 @@ const HomePage = () => {
         </div>
       </section>
       <aside>
-        <RiceScopeBanner />
+        <RiceScopeBanner withBg />
       </aside>
       {/* Footer */}
       <Footer />

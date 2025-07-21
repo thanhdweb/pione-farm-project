@@ -67,7 +67,7 @@ export default function ForgotPasswordForm() {
                 }
 
                 console.log('OTP:', res.data?.otp);
-                console.log('UserId:', res.data?.userId);
+                console.log('userId:', res.data?.userId);
                 console.log('Type:', res.data?.type);
 
 

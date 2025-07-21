@@ -1,4 +1,5 @@
 import React from "react";
+import { useId } from "react";
 
 export const DropdownIcon = ({ className = "" }: { className?: string }) => (
     <svg
@@ -167,3 +168,199 @@ export const BellIcon = () => {
         </svg>
     );
 };
+
+// icon banner-------------------------------
+// BlueDotIcon.tsx
+export const BlueDotIcon = ({ className = '' }: { className?: string }) => {
+  const id = useId();
+
+  return (
+    <svg
+      viewBox="0 0 19 19"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+    >
+      <path
+        d="M9.30863 18.7793C14.4229 18.7793 18.5689 14.6316 18.5689 9.51516C18.5689 4.39869 14.4229 0.250977 9.30863 0.250977C4.19431 0.250977 0.0483398 4.39869 0.0483398 9.51516C0.0483398 14.6316 4.19431 18.7793 9.30863 18.7793Z"
+        fill={`url(#blue_dot_gradient_${id})`}
+      />
+      <defs>
+        <radialGradient
+          id={`blue_dot_gradient_${id}`}
+          cx="0"
+          cy="0"
+          r="1"
+          gradientUnits="userSpaceOnUse"
+          gradientTransform="translate(6.59933 6.49768) scale(12.4352 12.4405)"
+        >
+          <stop stopColor="#85DEDA" />
+          <stop offset="1" stopColor="#599CDA" />
+        </radialGradient>
+      </defs>
+    </svg>
+  );
+};
+
+
+// PurpleDotIcon.tsx
+export const PurpleDotIcon = ({ className = '' }: { className?: string }) => (
+    <svg
+        width="25"
+        height="25"
+        viewBox="0 0 25 25"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className={className}
+    >
+        <path
+            d="M21.1432 21.0263C25.8259 16.3416 25.8259 8.74631 21.1432 4.06166C16.4605 -0.622989 8.8684 -0.623001 4.18572 4.06165C-0.496955 8.7463 -0.496944 16.3416 4.18574 21.0263C8.86842 25.7109 16.4605 25.7109 21.1432 21.0263Z"
+            fill="url(#purple_gradient)"
+        />
+        <defs>
+            <radialGradient
+                id="purple_gradient"
+                cx="0"
+                cy="0"
+                r="1"
+                gradientUnits="userSpaceOnUse"
+                gradientTransform="translate(9.15529 8.6413) scale(16.097 16.1038)"
+            >
+                <stop stopColor="#D4BDF0" />
+                <stop offset="1" stopColor="#A190F0" />
+            </radialGradient>
+        </defs>
+    </svg>
+);
+
+// FancyGemIcon.tsx
+export const FancyGemIcon = ({ className = '' }: { className?: string }) => (
+    <svg
+        width="34"
+        height="36"
+        viewBox="0 0 34 36"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className={className}
+    >
+        <path
+            style={{ mixBlendMode: 'color-dodge' }}
+            d="M31.0525 20.8386C32.5176 12.6182 27.464 4.84084 19.7649 3.46746C12.0658 2.09408 4.63676 7.64471 3.17161 15.8651C1.70647 24.0855 6.76005 31.8629 14.4591 33.2362C22.1582 34.6096 29.5873 29.059 31.0525 20.8386Z"
+            fill="url(#paint0_radial)"
+        />
+        <path
+            style={{ mixBlendMode: 'color-dodge' }}
+            d="M19.2706 6.32869C25.4935 7.44039 29.5786 13.7294 28.3933 20.3785C27.208 27.0275 21.1967 31.5167 14.9738 30.405C8.75089 29.2933 4.66578 23.0042 5.8511 16.3552C7.03641 9.70615 13.0477 5.21699 19.2706 6.32869Z"
+            fill="url(#paint1_radial)"
+        />
+        <path
+            d="M16.0004 24.2429L18.5298 24.6982L22.5196 17.7527L18.1064 12.4483L13.0477 11.5483L12.8678 22.1254L16.0004 24.2429Z"
+            fill="#2487FB"
+        />
+        <path
+            d="M12.8678 22.1254L17.1222 18.3562L18.1064 12.4483L13.0477 11.5483L12.8678 22.1254Z"
+            fill="#1341C4"
+        />
+        <defs>
+            <radialGradient
+                id="paint0_radial"
+                cx="0"
+                cy="0"
+                r="1"
+                gradientUnits="userSpaceOnUse"
+                gradientTransform="translate(16.9346 18.4323) rotate(-79.8942) scale(15.1331 14.1073)"
+            >
+                <stop stopColor="white" />
+                <stop offset="0.15" stopColor="#D3D3D3" />
+                <stop offset="0.46" stopColor="#797979" />
+                <stop offset="0.72" stopColor="#383838" />
+                <stop offset="0.9" stopColor="#0F0F0F" />
+                <stop offset="1" stopColor="black" />
+            </radialGradient>
+            <radialGradient
+                id="paint1_radial"
+                cx="0"
+                cy="0"
+                r="1"
+                gradientUnits="userSpaceOnUse"
+                gradientTransform="translate(16.9444 18.4377) rotate(-79.8942) scale(12.2403 11.4106)"
+            >
+                <stop stopColor="#45FFFF" />
+                <stop offset="0.15" stopColor="#39D3D3" />
+                <stop offset="0.46" stopColor="#217979" />
+                <stop offset="0.72" stopColor="#0F3838" />
+                <stop offset="0.9" stopColor="#040F0F" />
+                <stop offset="1" stopColor="black" />
+            </radialGradient>
+        </defs>
+    </svg>
+);
+
+export const SmallGemIcon = ({ className = '' }: { className?: string }) => {
+    const id = useId();
+
+    return (
+        <svg
+            width="19"
+            height="19"
+            viewBox="0 0 19 19"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className={className}
+        >
+            <path
+                style={{ mixBlendMode: "color-dodge" }}
+                d="M15.5245 15.944C12.0109 19.2473 6.29598 18.8874 2.77178 15.1288C-0.752419 11.3701 -0.76299 5.65281 2.75063 2.33888C6.26425 -0.975049 11.9792 -0.604485 15.5034 3.15413C19.0276 6.91274 19.0381 12.6301 15.5245 15.944Z"
+                fill={`url(#paint0_radial_${id})`}
+            />
+            <path
+                style={{ mixBlendMode: "color-dodge" }}
+                d="M14.3074 14.6418C11.4606 17.3204 6.84629 17.024 3.98883 13.9853C1.13137 10.9467 1.13139 6.31987 3.97827 3.6412C6.82515 0.962525 11.4394 1.25898 14.2969 4.29763C17.1543 7.33629 17.1543 11.9631 14.3074 14.6418Z"
+                fill={`url(#paint1_radial_${id})`}
+            />
+            <path
+                d="M6.63463 6.42573L5.48106 7.50567L7.44955 12.0478L11.704 11.8148L14.0111 9.63379L8.84651 5.65283L6.63463 6.42573Z"
+                fill="#D4BDF0"
+            />
+            <path
+                d="M8.84651 5.65283L9.13228 9.14675L11.704 11.8148L14.0111 9.63379L8.84651 5.65283Z"
+                fill="#B08EF0"
+            />
+            <defs>
+                <radialGradient
+                    id={`paint0_radial_${id}`}
+                    cx="0"
+                    cy="0"
+                    r="1"
+                    gradientUnits="userSpaceOnUse"
+                    gradientTransform="translate(9.83607 9.32787) rotate(46.792) scale(9.34577 8.71549)"
+                >
+                    <stop stopColor="white" />
+                    <stop offset="0.15" stopColor="#D3D3D3" />
+                    <stop offset="0.46" stopColor="#797979" />
+                    <stop offset="0.72" stopColor="#383838" />
+                    <stop offset="0.9" stopColor="#0F0F0F" />
+                    <stop offset="1" />
+                </radialGradient>
+                <radialGradient
+                    id={`paint1_radial_${id}`}
+                    cx="0"
+                    cy="0"
+                    r="1"
+                    gradientUnits="userSpaceOnUse"
+                    gradientTransform="translate(9.83606 9.32791) rotate(46.792) scale(7.55575 7.04619)"
+                >
+                    <stop stopColor="#45FFFF" />
+                    <stop offset="0.15" stopColor="#39D3D3" />
+                    <stop offset="0.46" stopColor="#217979" />
+                    <stop offset="0.72" stopColor="#0F3838" />
+                    <stop offset="0.9" stopColor="#040F0F" />
+                    <stop offset="1" />
+                </radialGradient>
+            </defs>
+        </svg>
+    );
+};
+
+
+

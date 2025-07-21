@@ -19,7 +19,7 @@ export const forgotPassword = async (
     payload: ForgotPasswordPayload
 ): Promise<ForgotPasswordResponse> => {
     const res = await axios.post<ForgotPasswordResponse>(
-        `${process.env.NEXT_PUBLIC_API_TEST_URL}/api/user/forgot-password`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/user/forgot-password`,
         payload
     );
     return res.data;
@@ -40,7 +40,7 @@ export const newPassword = async (
     payload: NewPasswordPayload
 ): Promise<ApiResponse> => {
     const res = await axios.post<ApiResponse>(
-        `${process.env.NEXT_PUBLIC_API_TEST_URL}/api/user/new-password`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/user/new-password`,
         payload
     );
     return res.data;

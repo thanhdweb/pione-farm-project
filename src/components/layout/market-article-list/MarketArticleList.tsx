@@ -1,214 +1,99 @@
 "use client";
 
-import Image from 'next/image';
-import React, { useState } from 'react'
+import Image from "next/image";
+import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
+import { fetchNews } from "@/lib/api/news"; // Dùng lại logic fetch
+
 
 interface MarketItem {
-    id: number;
+    _id: string;
     title: string;
-    description: string;
-    image: string;
+    summary: string;
+    images: string[];
+    type: string;
+    date: string;
+    createdAt: string;
+    updatedAt: string;
 }
-
-const mockData: MarketItem[] = [
-    {
-        id: 1,
-        title: "Sầu riêng đông lạnh Việt Nam lần đầu vào Trung Quốc: Mở ra hướng xuất khẩu mới",
-        description:
-            "Một lô hàng sầu riêng đông lạnh từ Việt Nam vừa chính thức được thông quan qua cửa khẩu cầu Bắc Luân II (Đông Hưng, Quảng Tây),..............",
-        image: "/images/image.png",
-    },
-    {
-        id: 2,
-        title: "Giới thiệu Trung tâm Khuyến nông Vĩnh Long",
-        description:
-            "Trung tâm Khuyến nông Vĩnh Long là tổ chức sự nghiệp công lập trực thuộc Sở Nông nghiệp và Môi trường, có chức năng triển khai các hoạt động khuyến nông, khuyến lâm, khuyến ngư, chế biến, bảo quản, nông, lâm, .........",
-        image: "/images/image-1.png",
-    },
-    {
-        id: 3,
-        title: "Giới thiệu Trung tâm Khuyến nông Vĩnh Long",
-        description:
-            "Trung tâm Khuyến nông Vĩnh Long là tổ chức sự nghiệp công lập trực thuộc Sở Nông nghiệp và Môi trường, có chức năng triển khai các hoạt động khuyến nông, khuyến lâm, khuyến ngư, chế biến, bảo quản, nông, lâm, .........",
-        image: "/images/image-2.png",
-    },
-    {
-        id: 4,
-        title: "Giới thiệu Trung tâm Khuyến nông Vĩnh Long",
-        description:
-            "Trung tâm Khuyến nông Vĩnh Long là tổ chức sự nghiệp công lập trực thuộc Sở Nông nghiệp và Môi trường, có chức năng triển khai các hoạt động khuyến nông, khuyến lâm, khuyến ngư, chế biến, bảo quản, nông, lâm, .........",
-        image: "/images/image-3.png",
-    },
-    {
-        id: 5,
-        title: "Giới thiệu Trung tâm Khuyến nông Vĩnh Long",
-        description:
-            "Trung tâm Khuyến nông Vĩnh Long là tổ chức sự nghiệp công lập trực thuộc Sở Nông nghiệp và Môi trường, có chức năng triển khai các hoạt động khuyến nông, khuyến lâm, khuyến ngư, chế biến, bảo quản, nông, lâm, .........",
-        image: "/images/image-4.png",
-    },
-    {
-        id: 6,
-        title: "Giới thiệu Trung tâm Khuyến nông Vĩnh Long",
-        description:
-            "Trung tâm Khuyến nông Vĩnh Long là tổ chức sự nghiệp công lập trực thuộc Sở Nông nghiệp và Môi trường, có chức năng triển khai các hoạt động khuyến nông, khuyến lâm, khuyến ngư, chế biến, bảo quản, nông, lâm, .........",
-        image: "/images/image-5.png",
-    },
-    {
-        id: 7,
-        title: "Sầu riêng đông lạnh Việt Nam lần đầu vào Trung Quốc: Mở ra hướng xuất khẩu mới",
-        description:
-            "Một lô hàng sầu riêng đông lạnh từ Việt Nam vừa chính thức được thông quan qua cửa khẩu cầu Bắc Luân II (Đông Hưng, Quảng Tây),..............",
-        image: "/images/image-3.png",
-    },
-    {
-        id: 8,
-        title: "Giới thiệu Trung tâm Khuyến nông Vĩnh Long",
-        description:
-            "Trung tâm Khuyến nông Vĩnh Long là tổ chức sự nghiệp công lập trực thuộc Sở Nông nghiệp và Môi trường, có chức năng triển khai các hoạt động khuyến nông, khuyến lâm, khuyến ngư, chế biến, bảo quản, nông, lâm, .........",
-        image: "/images/image.png",
-    },
-    {
-        id: 9,
-        title: "Giới thiệu Trung tâm Khuyến nông Vĩnh Long",
-        description:
-            "Trung tâm Khuyến nông Vĩnh Long là tổ chức sự nghiệp công lập trực thuộc Sở Nông nghiệp và Môi trường, có chức năng triển khai các hoạt động khuyến nông, khuyến lâm, khuyến ngư, chế biến, bảo quản, nông, lâm, .........",
-        image: "/images/image-5.png",
-    },
-    {
-        id: 10,
-        title: "Giới thiệu Trung tâm Khuyến nông Vĩnh Long",
-        description:
-            "Trung tâm Khuyến nông Vĩnh Long là tổ chức sự nghiệp công lập trực thuộc Sở Nông nghiệp và Môi trường, có chức năng triển khai các hoạt động khuyến nông, khuyến lâm, khuyến ngư, chế biến, bảo quản, nông, lâm, .........",
-        image: "/images/image-1.png",
-    },
-    {
-        id: 11,
-        title: "Giới thiệu Trung tâm Khuyến nông Vĩnh Long",
-        description:
-            "Trung tâm Khuyến nông Vĩnh Long là tổ chức sự nghiệp công lập trực thuộc Sở Nông nghiệp và Môi trường, có chức năng triển khai các hoạt động khuyến nông, khuyến lâm, khuyến ngư, chế biến, bảo quản, nông, lâm, .........",
-        image: "/images/image-4.png",
-    },
-    {
-        id: 12,
-        title: "Giới thiệu Trung tâm Khuyến nông Vĩnh Long",
-        description:
-            "Trung tâm Khuyến nông Vĩnh Long là tổ chức sự nghiệp công lập trực thuộc Sở Nông nghiệp và Môi trường, có chức năng triển khai các hoạt động khuyến nông, khuyến lâm, khuyến ngư, chế biến, bảo quản, nông, lâm, .........",
-        image: "/images/image-2.png",
-    },
-    {
-        id: 13,
-        title: "Sầu riêng đông lạnh Việt Nam lần đầu vào Trung Quốc: Mở ra hướng xuất khẩu mới",
-        description:
-            "Một lô hàng sầu riêng đông lạnh từ Việt Nam vừa chính thức được thông quan qua cửa khẩu cầu Bắc Luân II (Đông Hưng, Quảng Tây),..............",
-        image: "/images/image-1.png",
-    },
-    {
-        id: 14,
-        title: "Giới thiệu Trung tâm Khuyến nông Vĩnh Long",
-        description:
-            "Trung tâm Khuyến nông Vĩnh Long là tổ chức sự nghiệp công lập trực thuộc Sở Nông nghiệp và Môi trường, có chức năng triển khai các hoạt động khuyến nông, khuyến lâm, khuyến ngư, chế biến, bảo quản, nông, lâm, .........",
-        image: "/images/image-5.png",
-    },
-    {
-        id: 15,
-        title: "Giới thiệu Trung tâm Khuyến nông Vĩnh Long",
-        description:
-            "Trung tâm Khuyến nông Vĩnh Long là tổ chức sự nghiệp công lập trực thuộc Sở Nông nghiệp và Môi trường, có chức năng triển khai các hoạt động khuyến nông, khuyến lâm, khuyến ngư, chế biến, bảo quản, nông, lâm, .........",
-        image: "/images/image-4.png",
-    },
-    {
-        id: 16,
-        title: "Giới thiệu Trung tâm Khuyến nông Vĩnh Long",
-        description:
-            "Trung tâm Khuyến nông Vĩnh Long là tổ chức sự nghiệp công lập trực thuộc Sở Nông nghiệp và Môi trường, có chức năng triển khai các hoạt động khuyến nông, khuyến lâm, khuyến ngư, chế biến, bảo quản, nông, lâm, .........",
-        image: "/images/image-3.png",
-    },
-    {
-        id: 17,
-        title: "Giới thiệu Trung tâm Khuyến nông Vĩnh Long",
-        description:
-            "Trung tâm Khuyến nông Vĩnh Long là tổ chức sự nghiệp công lập trực thuộc Sở Nông nghiệp và Môi trường, có chức năng triển khai các hoạt động khuyến nông, khuyến lâm, khuyến ngư, chế biến, bảo quản, nông, lâm, .........",
-        image: "/images/image-2.png",
-    },
-    {
-        id: 18,
-        title: "Giới thiệu Trung tâm Khuyến nông Vĩnh Long",
-        description:
-            "Trung tâm Khuyến nông Vĩnh Long là tổ chức sự nghiệp công lập trực thuộc Sở Nông nghiệp và Môi trường, có chức năng triển khai các hoạt động khuyến nông, khuyến lâm, khuyến ngư, chế biến, bảo quản, nông, lâm, .........",
-        image: "/images/image.png",
-    },
-];
-
 
 const ITEMS_PER_PAGE = 6;
 
-const MarketArticleList = () => {
-    // State lưu trang hiện tại
-    const [currentPage, setCurrentPage] = useState<number>(0);
+interface MarketArticleListProps {
+    type: string;
+}
 
-    // Vị trí bắt đầu của item trên trang hiện tại
+const MarketArticleList = ({ type }: MarketArticleListProps) => {
+    const [data, setData] = useState<MarketItem[]>([]);
+    const [currentPage, setCurrentPage] = useState(0);
+
     const offset = currentPage * ITEMS_PER_PAGE;
+    const currentItems = data.slice(offset, offset + ITEMS_PER_PAGE);
+    const pageCount = Math.ceil(data.length / ITEMS_PER_PAGE);
 
-    // Lấy danh sách item hiển thị trên trang hiện tại
-    const currentItems = mockData.slice(offset, offset + ITEMS_PER_PAGE);
+    // Fetch data on client
+    useEffect(() => {
+        const fetchData = async () => {
+            const accessToken = localStorage.getItem("accessToken") || "";
+            if (!accessToken) return;
 
-    // Tính tổng số trang (làm tròn lên)
-    const pageCount = Math.ceil(mockData.length / ITEMS_PER_PAGE);
+            const result = await fetchNews(type, accessToken);
+            setData(result);
+        };
+
+        fetchData();
+    }, [type]);
 
     const handlePageClick = ({ selected }: { selected: number }) => {
         setCurrentPage(selected);
     };
+
     return (
         <div className="w-full">
-            {/* Grid 2 cột */}
             <div className="grid md:grid-cols-2 gap-x-36 gap-y-12">
                 {currentItems.map((item) => (
-                    <div
-                        key={item.id}
-                        className="flex flex-col xl:flex-row gap-8"
-                    >
+                    <div key={item._id} className="flex flex-col xl:flex-row gap-8">
                         <div className="relative w-[290px] h-[194px] flex-shrink-0">
                             <Image
-                                src={item.image}
+                                src={`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/upload/${item.images?.[0] || "default.png"}`}
                                 alt={item.title}
                                 fill
-                                className="object-cover w-[290px] h-[194px]"
+                                className="object-cover w-[290px] h-[194px] rounded-2xl"
                             />
                         </div>
-
-                        <div>
-                            <h3 className="font-bold text-xl md:text-lg mb-2">
-                                {item.title}
-                            </h3>
-                            <p className="text-[13px] font-medium">{item.description}</p>
+                        <div className="flex flex-col gap-4">
+                            <h3 className="font-bold text-xl md:text-lg mb-2">{item.title}</h3>
+                            <p className="text-[13px] font-medium">{item.summary}</p>
+                            <div className="flex justify-between items-center text-sm text-gray-500">
+                                <span className="text-sm font-semibold text-[#00B032]">{item.type || "Không có loại"}</span>
+                                <p className="text-sm text-gray-500">
+                                    {`${new Date(item.createdAt).toLocaleDateString("vi-VN")} ${new Date(item.createdAt).toLocaleTimeString("vi-VN", {
+                                        hour: "2-digit",
+                                        minute: "2-digit"
+                                    })}`}
+                                </p>
+                            </div>
                         </div>
                     </div>
                 ))}
             </div>
 
-            {/* Pagination */}
             <div className="flex justify-center mt-16">
                 <ReactPaginate
-                    previousLabel={
-                        <div className="flex items-center justify-center w-10 h-10 text-3xl leading-none">{'<'}</div>
-                    }
-                    nextLabel={
-                        <div className="flex items-center justify-center w-10 h-10 text-3xl leading-none">{'>'}</div>
-                    }
+                    previousLabel={<div className="w-10 h-10 text-3xl">{'<'}</div>}
+                    nextLabel={<div className="w-10 h-10 text-3xl">{'>'}</div>}
                     pageCount={pageCount}
                     onPageChange={handlePageClick}
                     containerClassName="flex gap-2"
-                    pageClassName="flex items-center justify-center w-10 h-10 cursor-pointer hover:text-green-500 transition-colors"
+                    pageClassName="w-10 h-10 flex items-center justify-center cursor-pointer hover:text-green-500"
                     activeClassName="bg-green-500 text-white rounded"
-                    previousClassName="flex items-center justify-center w-10 h-10 cursor-pointer"
-                    nextClassName="flex items-center justify-center w-10 h-10 cursor-pointer"
+                    previousClassName="w-10 h-10 flex items-center justify-center"
+                    nextClassName="w-10 h-10 flex items-center justify-center"
                     disabledClassName="text-gray-400 cursor-default opacity-50"
                 />
-
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default MarketArticleList
+export default MarketArticleList;

@@ -23,6 +23,10 @@ const IntroCard = ({ item }: Props) => {
                 <p className="text-[13px] font-medium leading-relaxed text-justify">
                     {item.description}
                 </p>
+                <div className="flex justify-between items-center text-sm text-gray-500">
+                    <span className="text-sm font-semibold text-[#00B032]"> {item.type || "Không có loại"}</span>
+                    <p>{new Date(item.date).toISOString().slice(0, 10)}</p>
+                </div>
             </div>
         </div>
 

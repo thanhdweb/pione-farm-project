@@ -32,7 +32,7 @@ export interface ProductPriceResponse {
  */
 export const getProvinceProducts = async (): Promise<ProvinceProduct[]> => {
     const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_TEST_URL}/api/statistical/province-product`
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/statistical/province-product`
     );
     return res.data.data;
 };
@@ -48,7 +48,7 @@ export const getProductPriceData = async (
     provinceId: string
 ): Promise<ProductPriceResponse[]> => {
     const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_TEST_URL}/api/statistical/product-price`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/statistical/product-price`,
         { productIds, provinceId }
     );
     return res.data.data;

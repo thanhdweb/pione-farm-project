@@ -7,6 +7,8 @@ import React, { useState } from 'react'
 
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+import Footer from '@/components/footer/Footer';
+import RiceScopeBanner from '@/components/layout/rice-scope-banner/RiceScopeBanner';
 
 const AdvancedLookup = () => {
     const [productData, setProductData] = useState<PriceRow[]>([]);
@@ -107,6 +109,11 @@ const AdvancedLookup = () => {
                 </div>
             </section>
 
+            <aside>
+                <RiceScopeBanner />
+            </aside>
+            {/* Footer--------- */}
+            <Footer />
         </div>
     )
 }

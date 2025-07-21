@@ -124,7 +124,7 @@ const Navbar = () => {
                 </li>
                 <li>
                   <Link
-                    href="/market-inland"
+                    href="/market/trongnuoc"
                     className="block rounded-md px-3 py-2 hover:bg-gray-100"
                   >
                     Trong nước
@@ -132,7 +132,7 @@ const Navbar = () => {
                 </li>
                 <li>
                   <Link
-                    href="#"
+                    href="/market/ngoainuoc"
                     className="block rounded-md px-3 py-2 hover:bg-gray-100"
                   >
                     Ngoài nước

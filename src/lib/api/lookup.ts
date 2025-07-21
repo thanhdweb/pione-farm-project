@@ -1,10 +1,15 @@
 import axios from "axios";
 
-/** Response từ API /api/province */
+export interface Product {
+    _id: string;
+    name: string;
+}
+
+// Sửa lại interface Province
 export interface Province {
     _id: string;
     name: string;
-    productIds: string[];
+    products: Product[];
 }
 
 export interface GetAllProvincesResponse {
@@ -14,22 +19,17 @@ export interface GetAllProvincesResponse {
 }
 
 export const getAllProvinces = async (): Promise<Province[]> => {
-    const url = `${process.env.NEXT_PUBLIC_API_TEST_URL}/api/province`;
-    console.log("URL gọi API:", url);
-
     try {
-        const res = await axios.get<GetAllProvincesResponse>(url);
-        console.log("Full API Response:", res);
-        console.log("res.data:", res.data);
-        console.log("res.data.data:", res.data.data);
-
-        return res.data.data;
+        const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/province`, {
+            headers: { Accept: "application/json" },
+        });
+        if (!data?.data) throw new Error("API không trả về data như mong đợi");
+        return data.data;
     } catch (error) {
-        console.error("Lỗi gọi API /api/province:", error);
+        console.error("Lỗi API /api/province:", error);
         throw error;
     }
 };
-
 
 // -------------------------------------------------------------------------
 
@@ -37,7 +37,7 @@ export const getAllProvinces = async (): Promise<Province[]> => {
 export interface GetFarmMarketPricePayload {
     provinceId: string;
     date: { start: string; end: string };
-    productIds: string[];
+    productIds: string[]; // nhận array productId từ tỉnh để lọc
 }
 
 export interface FarmMarketPriceRecord {
@@ -61,8 +61,25 @@ export const getFarmMarketPrices = async (
     payload: GetFarmMarketPricePayload
 ): Promise<FarmMarketPriceRecord[]> => {
     const res = await axios.post<GetFarmMarketPriceResponse>(
-        `${process.env.NEXT_PUBLIC_API_TEST_URL}/api/statistical/farm-market-price`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/statistical/farm-market-price`,
         payload
     );
+    return res.data.data;
+};
+
+
+// -------------------------------------------------------------------------
+// API lấy dữ liệu  Danh sách địa điểm
+
+// Thêm vào file api/general.ts
+export interface HarvestSummary {
+    provinceName: string;
+    date: string;
+    quantitySum: number;
+}
+
+export const getTodayHarvestSummary = async (): Promise<HarvestSummary[]> => {
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/statistical/today-harvest-sum`);
+    console.log("getTodayHarvestSummary res", res.data);
     return res.data.data;
 };

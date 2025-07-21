@@ -8,6 +8,7 @@ import React, { useState } from 'react'
 
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+import RiceScopeBanner from '@/components/layout/rice-scope-banner/RiceScopeBanner';
 
 const GeneralLookup = () => {
     const [exportData, setExportData] = useState<PriceRow[]>([]);
@@ -79,6 +80,9 @@ const GeneralLookup = () => {
                     </button>
                 </div>
             </section>
+            <aside>
+                <RiceScopeBanner />
+            </aside>
 
             <Footer />
         </div>

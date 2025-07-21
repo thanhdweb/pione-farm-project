@@ -7,10 +7,12 @@ import IntroCard from './IntroCard';
 
 // types.ts hoặc ngay trong file cũng được
 export type IntroductionItem = {
-    id: number;
+    id: string;
     title: string;
     description: string;
     image: string; // URL hoặc base64 sau này từ REST API
+    type: string; // Loại 
+    date: string; // Ngày tạo oặc cập nhật
 };
 
 type Props = {

@@ -57,10 +57,7 @@ const VerifyOtpForm: React.FC<VerifyOtpFormProps> = ({ userId, type, phone }) =>
         setIsSubmitting(true);
 
         try {
-            // const res = await axios.post(`${process.env.NEXT_PUBLIC_API_TEST_URL}/api/authentication/verify-otp`, {
-            //     otp,
-            //     userId,
-            // });
+
             const res = await verifyOtp({ userId, otp });
 
             if (res.success) {
@@ -109,19 +106,12 @@ const VerifyOtpForm: React.FC<VerifyOtpFormProps> = ({ userId, type, phone }) =>
         }
     };
 
+    // again-otp-------------------
     const handleResendOtp = async () => {
         if (resendTimer > 0 || isResending) return;
         setIsResending(true);
 
-        // const url = `${process.env.NEXT_PUBLIC_API_TEST_URL}/api/authentication/again-otp`;
-        // const payload = { userId, type, phone };
-
-        // console.log("URL resend OTP:", url);
-        // console.log("Payload resend OTP:", payload);
-
         try {
-            // const res = await axios.post(url, payload);
-            // console.log("Response resend OTP:", res.data);
             const res = await resendOtp({ userId, type, phone });
 
             if (res.success) {

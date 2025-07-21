@@ -5,10 +5,10 @@ import Image from "next/image";
 import { Menu } from "lucide-react";
 import MobileNavbar from "@/components/mobile-navbar/MobileNavbar";
 import Link from "next/link";
-import axios from "axios";
 import { BellIcon, DropdownIcon, SearchIcon } from "@/components/ui/icon";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { logoutUser } from "@/lib/api/auth";
 
 const HeaderTop = () => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -32,41 +32,24 @@ const HeaderTop = () => {
     };
   }, []);
 
-  // api logout
+
   const router = useRouter();
 
   const handleLogout = async () => {
     try {
-      const accessToken = localStorage.getItem("accessToken"); // hoặc lấy từ cookie nếu bạn lưu ở đó
-      const refreshToken = localStorage.getItem("refreshToken");
+      const res = await logoutUser();
 
-      if (!accessToken || !refreshToken) {
-        toast.error("Bạn chưa đăng nhập hoặc thiếu token.");
-        return;
-      }
-
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/authentication/log-out`,
-        { refreshToken },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-
-      if (res.data.success) {
+      if (res.success) {
         toast.success("Đăng xuất thành công!");
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
         router.push("/auth/login");
       } else {
-        toast.error(res.data.message || "Đăng xuất thất bại.");
+        toast.error(res.message || "Đăng xuất thất bại.");
       }
     } catch (error) {
-      console.error("Logout error:", error);
-      if (axios.isAxiosError(error)) {
-        toast.error(error.response?.data?.message || "Có lỗi xảy ra khi đăng xuất.");
+      if (error instanceof Error) {
+        toast.error(error.message || "Có lỗi xảy ra khi đăng xuất.");
       } else {
         toast.error("Có lỗi xảy ra khi đăng xuất.");
       }
