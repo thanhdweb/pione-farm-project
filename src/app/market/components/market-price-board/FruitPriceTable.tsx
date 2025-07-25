@@ -9,7 +9,7 @@ export type FruitPrice = {
     price: number;
 };
 
-export const fruitPricesImport: FruitPrice[] = [
+export const fruitPricesExport: FruitPrice[] = [
     { id: 1, name: "Cam sành loại 1", unit: "đ/Kg", price: 5000 },
     { id: 2, name: "Cam sành loại 2", unit: "đ/Kg", price: 3000 },
     { id: 3, name: "Quýt đường loại 1", unit: "đ/Kg", price: 40000 },
@@ -35,8 +35,6 @@ export const fruitPricesImport: FruitPrice[] = [
     { id: 23, name: "Mãng cầu Xiêm loại 1", unit: "đ/Kg", price: 35000 },
     { id: 24, name: "Vú sữa Lò Rèn loại 1", unit: "đ/Kg", price: 40000 },
 ];
-
-export const fruitPricesExport: FruitPrice[] = [...fruitPricesImport];
 
 interface FruitPriceTableProps {
     title: string;
@@ -85,7 +83,7 @@ const FruitPriceTable = ({ title, highlight, data }: FruitPriceTableProps) => {
                     <tbody className="table-mask-cut">
                         {filteredData.length > 0 ? (
                             filteredData.map((item) => (
-                                <tr key={item.id} className="hover:bg-[#F0FDF4] transition-colors text-gray-900">
+                                <tr key={item.id} className="hover:bg-[#F0FDF4] transition-colors text-gray-900 text-sm">
                                     <td className="py-1">{item.name}</td>
                                     <td className="py-1">{item.unit}</td>
                                     <td className="py-1">{item.price.toLocaleString()}</td>

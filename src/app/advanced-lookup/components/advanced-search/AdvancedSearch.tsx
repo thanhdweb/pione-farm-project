@@ -12,7 +12,7 @@ import {
 import { DropdownIcon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import CustomDatePicker from "@/components/ui/CustomDatePicker";
-import Spinner from "@/components/ui/spinner";
+import {Spinner} from "@/components/ui/spinner";
 
 import {
     getAllProvinces,

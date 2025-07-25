@@ -55,8 +55,8 @@ export const verifyOtp = async (
 };
 
 
-// Resend OTP Payload--------------------------------------------------------------
 
+/** Payload gửi lại OTP ------------------------------------------------- */
 export interface ResendOtpPayload {
     userId: string;
     type?: string | null;

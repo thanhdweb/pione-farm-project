@@ -6,7 +6,7 @@ import axios from 'axios';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
-import Spinner from '@/components/ui/spinner';
+import { Spinner } from '@/components/ui/spinner';
 import { resendOtp, verifyOtp } from '@/lib/api/auth';
 
 interface VerifyOtpFormProps {

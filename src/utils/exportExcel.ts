@@ -1,6 +1,6 @@
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
-import { FruitPrice } from "@/components/layout/market-price-board/FruitPriceTable";
+import { FruitPrice } from "@/app/market/components/market-price-board/FruitPriceTable";
 
 export function exportFruitPricesToExcel(data: FruitPrice[], filename: string) {
     // Chuyển dữ liệu thành định dạng array of objects

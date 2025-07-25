@@ -7,33 +7,44 @@ import { ChevronDown } from "lucide-react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { logoutUser } from "@/lib/api/auth";
+import NotificationsMobile from "../layout/notifications/NotificationsMobile";
 
 interface MobileNavbarProps {
   onClose: () => void;
   isOpen: boolean;
+  onOpenNotifications: () => void;
 }
 
-const MobileNavbar: React.FC<MobileNavbarProps> = ({ onClose, isOpen }) => {
+const MobileNavbar = ({ onClose, isOpen, onOpenNotifications }: MobileNavbarProps) => {
   const menuRef = useRef<HTMLDivElement>(null);
+
+  // State quản lý modal thông báo
+  const [isNotificationsModalOpen, setIsNotificationsModalOpen] = useState(false);
+
 
   // Dropdown mobile
   const [openMobileDropdown, setOpenMobileDropdown] = useState<string | null>(
     null
   );
 
+  // Hàm toggle dropdown
   const toggleMobileDropdown = (name: string) => {
     setOpenMobileDropdown((prev) => (prev === name ? null : name));
   };
 
+  // Đóng menu khi click ngoài
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
+      // Nếu đang mở modal thông báo thì không đóng menu
+      if (isNotificationsModalOpen) return;
+
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
         onClose();
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [onClose]);
+  }, [onClose, isNotificationsModalOpen]);
 
 
   const router = useRouter();
@@ -70,6 +81,11 @@ const MobileNavbar: React.FC<MobileNavbarProps> = ({ onClose, isOpen }) => {
           className="fixed inset-0 z-40 bg-black/20 backdrop-blur-sm transition-opacity"
           onClick={onClose}
         />
+      )}
+
+      {/* Modal NotificationsMobile (NEW) */}
+      {isNotificationsModalOpen && (
+        <NotificationsMobile onClose={() => setIsNotificationsModalOpen(false)} />
       )}
 
       <div
@@ -204,6 +220,15 @@ const MobileNavbar: React.FC<MobileNavbarProps> = ({ onClose, isOpen }) => {
           </li>
 
           <li>
+            <button
+              onClick={onOpenNotifications}
+              className="block w-full text-left py-2 hover:text-black/80"
+            >
+              Thông báo
+            </button>
+          </li>
+
+          <li>
             <Link href="#" className="block py-2 hover:text-black/80">
               Liên hệ
             </Link>
@@ -213,7 +238,7 @@ const MobileNavbar: React.FC<MobileNavbarProps> = ({ onClose, isOpen }) => {
         <div>
           <p className="px-6 mt-6 group text-base font-medium">
             <Link
-              href="#"
+              href="/user"
               className="block text-sm text-gray-700 transition-transform duration-200 ease-in-out group-hover:translate-x-3 active:translate-x-3"
             >
               Thông tin cá nhân

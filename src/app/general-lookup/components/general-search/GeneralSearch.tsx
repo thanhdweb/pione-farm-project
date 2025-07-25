@@ -13,7 +13,7 @@ import { DropdownIcon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import CustomDatePicker from "@/components/ui/CustomDatePicker";
 import { getAllProvinces, getFarmMarketPrices, Province, FarmMarketPriceRecord, Product } from "@/lib/api/lookup";
-import Spinner from "@/components/ui/spinner";
+import { Spinner } from "@/components/ui/spinner";
 
 export type PriceRow = {
     date: string;

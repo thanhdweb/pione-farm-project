@@ -2,7 +2,7 @@
 
 import Footer from '@/components/footer/Footer'
 import Header from '@/components/header/Header'
-import GeneralSearch, { PriceRow } from '@/components/layout/general-search/GeneralSearch'
+import GeneralSearch, { PriceRow } from '@/app/general-lookup/components/general-search/GeneralSearch'
 import Image from 'next/image'
 import React, { useState } from 'react'
 

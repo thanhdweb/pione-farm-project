@@ -1,11 +1,11 @@
 import React from "react";
 import Image from "next/image";
 import Header from "@/components/header/Header";
-import LocationSelector from "@/components/layout/location-selector/LocationSelector";
-import StatisticsChart from "@/components/layout/statistics-chart/StatisticsChart";
-import AgriPriceSearch from "@/components/layout/agri-price-search/AgriPriceSearch";
-import PriceTable from "@/components/layout/price-table/PriceTable";
-import AuthButtons from "@/components/layout/auth-buttons/AuthButtons";
+import LocationSelector from "@/app/home/components/location-selector/LocationSelector";
+import StatisticsChart from "@/app/home/components/statistics-chart/StatisticsChart";
+import AgriPriceSearch from "@/app/home/components/agri-price-search/AgriPriceSearch";
+import PriceTable from "@/app/home/components/price-table/PriceTable";
+import AuthButtons from "@/app/home/components/auth-buttons/AuthButtons";
 import Footer from "@/components/footer/Footer";
 import RiceScopeBanner from "@/components/layout/rice-scope-banner/RiceScopeBanner";
 

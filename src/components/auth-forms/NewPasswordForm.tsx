@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Eye, EyeOff } from 'lucide-react';
-import Spinner from '@/components/ui/spinner';
+import { Spinner } from '@/components/ui/spinner';
 import { newPassword } from '@/lib/api/user';
 
 interface NewPasswordFormValues {
@@ -32,7 +32,7 @@ export default function NewPasswordForm() {
 
     const searchParams = useSearchParams();
     const userId = searchParams.get('userId'); // lấy userId từ query
-        // const type = searchParams.get('type');     // lấy type từ query nếu cần
+    // const type = searchParams.get('type');     // lấy type từ query nếu cần
 
     const {
         register,

@@ -14,7 +14,7 @@ import { Label } from '@/components/ui/label';
 import { Eye, EyeOff } from 'lucide-react';
 import { AppleIcon, FacebookIcon, GoogleIcon } from '@/components/ui/icon';
 import { useRouter } from 'next/navigation';
-import Spinner from '@/components/ui/spinner';
+import { Spinner } from '@/components/ui/spinner';
 import { registerUser } from '@/lib/api/auth';
 
 interface RegisterFormValues {
@@ -75,6 +75,11 @@ export default function RegisterForm() {
             console.log(res);
 
             const { userId, type } = res.data;
+
+            // Lưu tên người dùng để hiển thị ở HeaderTop
+            // if (user) {
+            //     localStorage.setItem('userName', user.fullName || user.userName);
+            // }
 
             // chỉ giữ 1 lần, xác định URL phù hợp:
             const redirectUrl = isEmail

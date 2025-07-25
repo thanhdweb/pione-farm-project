@@ -45,7 +45,7 @@ const Navbar = () => {
 
   return (
     <div
-      className="hidden lg:block px-4 md:px-12 py-4"
+      className="hidden lg:block px-4 md:px-12 py-4 sticky top-0 z-40"
       style={{ background: 'linear-gradient(90deg, #00A10B 40%, #00A10B 50%, #B7EDF0 100%)' }}
     >
       <div className="flex items-center justify-between">

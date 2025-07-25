@@ -14,7 +14,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Eye, EyeOff } from 'lucide-react';
 import { AppleIcon, FacebookIcon, GoogleIcon } from '@/components/ui/icon';
-import Spinner from '@/components/ui/spinner';
+import { Spinner } from '@/components/ui/spinner';
 import { loginUser } from '@/lib/api/auth';
 import Link from 'next/link';
 
@@ -73,6 +73,7 @@ export default function LoginForm() {
                 const { accessToken, refreshToken } = res.data;
                 localStorage.setItem('accessToken', accessToken);
                 localStorage.setItem('refreshToken', refreshToken);
+
 
                 setTimeout(() => {
                     router.push('/');

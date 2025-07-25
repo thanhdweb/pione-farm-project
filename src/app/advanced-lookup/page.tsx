@@ -1,7 +1,7 @@
 "use client";
 
 import Header from '@/components/header/Header'
-import AdvancedSearch, { LocationRow, PriceRow } from '@/components/layout/advanced-search/AdvancedSearch'
+import AdvancedSearch, { LocationRow, PriceRow } from '@/app/advanced-lookup/components/advanced-search/AdvancedSearch'
 import Image from 'next/image'
 import React, { useState } from 'react'
 

@@ -5,15 +5,31 @@ import Image from "next/image";
 import { Menu } from "lucide-react";
 import MobileNavbar from "@/components/mobile-navbar/MobileNavbar";
 import Link from "next/link";
-import { BellIcon, DropdownIcon, SearchIcon } from "@/components/ui/icon";
+import { DropdownIcon, SearchIcon } from "@/components/ui/icon";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { logoutUser } from "@/lib/api/auth";
+import Notifications from "@/components/layout/notifications/Notifications";
+import NotificationsMobile from "@/components/layout/notifications/NotificationsMobile";
 
 const HeaderTop = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  // State để quản lý modal notificationsMobile
+  const [isNotificationsModalOpen, setIsNotificationsModalOpen] = useState(false);
+
+  // const [userName, setUserName] = useState<string>("");
+
+  // Lấy userName từ localStorage khi component mount
+  // useEffect(() => {
+  //   if (typeof window !== "undefined") {
+  //     const storedName = localStorage.getItem("userName");
+  //     if (storedName) {
+  //       setUserName(storedName);
+  //     }
+  //   }
+  // }, []);
 
   // Bắt sự kiện click ngoài dropdown
   useEffect(() => {
@@ -33,6 +49,8 @@ const HeaderTop = () => {
   }, []);
 
 
+
+
   const router = useRouter();
 
   const handleLogout = async () => {
@@ -43,6 +61,7 @@ const HeaderTop = () => {
         toast.success("Đăng xuất thành công!");
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
+        // localStorage.removeItem("userName");
         router.push("/auth/login");
       } else {
         toast.error(res.message || "Đăng xuất thất bại.");
@@ -81,10 +100,8 @@ const HeaderTop = () => {
         <button>
           <SearchIcon className="w-5 h-5" fill="gray" />
         </button>
-        {/* Bell icon */}
-        <button>
-          <BellIcon />
-        </button>
+        {/* Bell icon  */}
+        <Notifications />
 
         {/* Avatar và tên */}
         <div className="relative" ref={dropdownRef}>
@@ -93,14 +110,14 @@ const HeaderTop = () => {
             onClick={() => setShowDropdown(!showDropdown)}
           >
             <Image
-              src="/images/avatar.png"
+              src="/images/avatar-2.png"
               alt="User"
               width={32}
               height={32}
               className="rounded-full"
             />
             <span className="text-sm font-medium text-gray-900">
-              Marci Fumons
+              {"User"}
             </span>
             <DropdownIcon />
           </div>
@@ -109,7 +126,7 @@ const HeaderTop = () => {
             <ul className="absolute right-0 mt-2 w-38 bg-white border border-gray-200 rounded-lg shadow-md z-50">
               <li>
                 <Link
-                  href="#"
+                  href="/user"
                   className="block p-2 text-sm text-gray-700 hover:bg-gray-100"
                 >
                   Thông tin cá nhân
@@ -141,8 +158,18 @@ const HeaderTop = () => {
         <MobileNavbar
           isOpen={isMobileOpen}
           onClose={() => setIsMobileOpen(false)}
+          onOpenNotifications={() => {
+            setIsMobileOpen(false); // Tắt nav mobile
+            setIsNotificationsModalOpen(true); // Hiện modal notifications
+          }}
         />
       )}
+
+      {/* Modal NotificationsMobile */}
+      {isNotificationsModalOpen && (
+        <NotificationsMobile onClose={() => setIsNotificationsModalOpen(false)} />
+      )}
+
     </div>
   );
 };

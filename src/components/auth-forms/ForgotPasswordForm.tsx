@@ -10,7 +10,7 @@ import { forgotPassword } from '@/lib/api/user';
 
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import Spinner from '@/components/ui/spinner';
+import { Spinner } from '@/components/ui/spinner';
 
 interface ForgotPasswordFormValues {
     emailOrPhone: string;

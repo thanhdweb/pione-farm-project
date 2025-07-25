@@ -2,11 +2,11 @@
 
 import React, { useEffect, useState } from "react";
 import Header from "@/components/header/Header";
-import Introduction from "@/components/layout/introduction/Introduction";
+import Introduction from "@/app/introduction/components/introduction/Introduction";
 import Image from "next/image";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
-import { IntroductionItem } from "@/components/layout/introduction/Introduction";
+import { IntroductionItem } from "@/app/introduction/components/introduction/Introduction";
 import { getIntroductionList } from "@/lib/api/introduction";
 import RiceScopeBanner from "@/components/layout/rice-scope-banner/RiceScopeBanner";
 import Footer from "@/components/footer/Footer";
