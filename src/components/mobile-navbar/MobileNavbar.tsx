@@ -173,12 +173,12 @@ const MobileNavbar = ({ onClose, isOpen, onOpenNotifications }: MobileNavbarProp
                   </Link>
                 </li>
                 <li className="group">
-                  <Link href="/market-inland" className="block py-1 hover:text-black transition-transform duration-200 ease-in-out group-hover:translate-x-3 active:translate-x-3">
+                  <Link href="/market/trongnuoc" className="block py-1 hover:text-black transition-transform duration-200 ease-in-out group-hover:translate-x-3 active:translate-x-3">
                     Trong nước
                   </Link>
                 </li>
                 <li className="group">
-                  <Link href="#" className="block py-1 hover:text-black transition-transform duration-200 ease-in-out group-hover:translate-x-3 active:translate-x-3">
+                  <Link href="/market/ngoainuoc" className="block py-1 hover:text-black transition-transform duration-200 ease-in-out group-hover:translate-x-3 active:translate-x-3">
                     Ngoài nước
                   </Link>
                 </li>

@@ -12,6 +12,8 @@ import { Label } from '@/components/ui/label';
 import Image from 'next/image';
 import { CameraIcon } from '@/components/ui/icon';
 
+
+
 interface FormValues {
     fullName?: string;
     userName?: string;
@@ -35,14 +37,18 @@ const FormInformationUser = () => {
     // reset: reset form
     const { register, handleSubmit, reset } = useForm<FormValues>();
 
+    // State để lưu địa chỉ ví điện tử
+    // const [walletAddress, setWalletAddress] = useState<string | null>(null);
+
+
+
+    //-----------------------------------------------------------------------
+
     // State để lưu avatar preview
     const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
     // State để lưu file avatar đã chọn
     const [selectedAvatarFile, setSelectedAvatarFile] = useState<File | null>(null);
-
-
     const [loading, setLoading] = useState(false);
-
     // Lấy thông tin user khi component mount
     useEffect(() => {
         const fetchUser = async () => {
@@ -97,8 +103,6 @@ const FormInformationUser = () => {
 
         fetchUser();
     }, [reset]);
-
-
     // Hàm xử lý submit form
     const onSubmit = async (data: FormValues) => {
         setLoading(true);
@@ -136,7 +140,7 @@ const FormInformationUser = () => {
     };
 
 
-    //
+
 
     return (
         <>
@@ -236,10 +240,17 @@ const FormInformationUser = () => {
                 </div>
 
                 {/* kết nối ví điện tử */}
-                <div className='max-w-sm p-4'>
+                <div className='max-w-xl p-4'>
                     <h2 className="text-center text-lg font-semibold text-gray-800">Kết nối ví điện tử</h2>
-                    <Card className="w-full p-6 space-y-4 shadow-lg bg-white/70 mt-6">
-                        <p className="text-center text-gray-600">Chức năng này sẽ sớm được cập nhật.</p>
+                    <Card className="w-full p-6 space-y-4 shadow-lg bg-white/70 mt-6 text-black">
+                        {/* <Button onClick={handleConnectWallet} className="w-full">
+                            Kết nối ví Metamask
+                        </Button> */}
+                        {/* {walletAddress && (
+                            <p className="text-center text-sm text-gray-700 break-all">
+                                Địa chỉ ví: {walletAddress}
+                            </p>
+                        )} */}
                     </Card>
                 </div>
             </div>
