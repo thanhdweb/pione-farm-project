@@ -128,7 +128,7 @@ const NotificationsMobile: React.FC<NotificationsMobileProps> = ({ onClose }) =>
                                     {notifications.today.map((item) => (
                                         <div
                                             key={item._id}
-                                            className="p-3 rounded-lg bg-green-100 hover:bg-green-200 transition"
+                                            className="p-3 rounded-tl-3xl rounded-br-3xl bg-[#30d158]/30 hover:bg-[#30d158] cursor-pointer transition"
                                         >
                                             <p className="font-medium text-gray-800">{item.title}</p>
                                             <p className="text-sm text-gray-600 mt-1">{item.description}</p>
@@ -148,7 +148,7 @@ const NotificationsMobile: React.FC<NotificationsMobileProps> = ({ onClose }) =>
                                     {notifications.yesterday.map((item) => (
                                         <div
                                             key={item._id}
-                                            className="p-3 rounded-lg bg-green-100 hover:bg-green-200 transition"
+                                            className="p-3 rounded-tl-3xl rounded-br-3xl bg-[#30d158]/30 hover:bg-[#30d158] cursor-pointer transition"
                                         >
                                             <p className="font-medium text-gray-800">{item.title}</p>
                                             <p className="text-sm text-gray-600 mt-1">{item.description}</p>

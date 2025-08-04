@@ -30,17 +30,11 @@ type GeneralSearchProps = {
 };
 
 const GeneralSearch = ({ onExportData }: GeneralSearchProps) => {
-
     const [provinces, setProvinces] = useState<Province[]>([]);
-
     const [selectedProvince, setSelectedProvince] = useState<string>("");
-
     const [products, setProducts] = useState<Product[]>([]);
-
     const [selectedProduct, setSelectedProduct] = useState<string>("");
-
     const [fromDate, setFromDate] = useState<Date | undefined>();
-
     const [toDate, setToDate] = useState<Date | undefined>();
 
     // Lưu mảng kết quả tra cứu sau khi call API

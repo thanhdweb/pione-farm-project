@@ -146,7 +146,7 @@ const Notifications = () => {
                                 <div className="space-y-4">
                                     <p className="text-sm text-gray-400 mb-2">{displayDate}</p>
                                     {notifications.today.map((item) => (
-                                        <div key={item._id} className="p-2 rounded-tl-2xl rounded-br-2xl bg-[#30d158]/30 hover:bg-[#30d158] cursor-pointer">
+                                        <div key={item._id} className="p-2 rounded-tl-3xl rounded-br-3xl bg-[#30d158]/30 hover:bg-[#30d158] cursor-pointer">
                                             <p className="text-sm font-medium text-gray-800">{item.title}</p>
                                             <p className="text-sm text-gray-600 line-clamp-2 mt-2">{item.description}</p>
                                             <div className="flex items-center justify-between mt-2">
@@ -162,7 +162,7 @@ const Notifications = () => {
                                 <div className="space-y-4">
                                     <p className="text-sm text-gray-400 mt-2 mb-1">Hôm qua</p>
                                     {notifications.yesterday.map((item) => (
-                                        <div key={item._id} className="p-2 rounded-tl-2xl rounded-br-2xl bg-[#30d158]/30 hover:bg-[#30d158] cursor-pointer">
+                                        <div key={item._id} className="p-2 rounded-tl-3xl rounded-br-3xl bg-[#30d158]/30 hover:bg-[#30d158] cursor-pointer">
                                             <p className="text-sm font-medium text-gray-800">{item.title}</p>
                                             <p className="text-sm text-gray-600 line-clamp-2 mt-2">{item.description}</p>
                                             <div className="flex items-center justify-between mt-2">

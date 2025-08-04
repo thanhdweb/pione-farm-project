@@ -24,16 +24,15 @@ const RiceScopeBanner = ({ withBg = false }) => {
 
                 <BlueDotIcon className="absolute left-[66px] top-[200px] !w-6 !h-6" />
 
-                <BlueDotIcon className="absolute left-[400px] top-[130px] !w-3 !h-3" />
+                <BlueDotIcon className="hidden lg:block lg:absolute lg:left-[400px] lg:top-[130px] !w-3 !h-3" />
 
-                <PurpleDotIcon className="absolute left-[460px] top-[135px] !w-6 !h-6" />
+                <PurpleDotIcon className="hidden lg:block lg:absolute lg:left-[460px] lg:top-[135px] !w-6 !h-6" />
 
                 <FancyGemIcon className="absolute left-[60px] top-[360px] w-10 h-10" />
 
-                <SmallGemIcon className="absolute left-[500px] bottom-[320px] w-7 h-7" />
+                <SmallGemIcon className="hidden lg:block lg:absolute lg:left-[500px] lg:bottom-[320px] w-7 h-7" />
 
-                <SmallGemIcon className="absolute left-[500px] bottom-[280px] w-5 h-5" />
-
+                <SmallGemIcon className="hidden lg:block lg:absolute lg:left-[500px] lg:bottom-[280px] w-5 h-5" />
 
                 <div className='relative w-full h-full bg-cover bg-center bg-no-repeat z-10'>
                     <Image src={'/images/bannerAI2.png'} alt='' width={360} height={350} className='absolute z-20 w-[120px] h-[140px] top-10 left-6 md:w-[360px] md:h-[350px] md:left-24 md:top-2/3 md:-translate-y-2/3' />

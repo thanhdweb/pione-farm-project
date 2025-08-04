@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { logoutUser } from "@/lib/api/auth";
 import Notifications from "@/components/layout/notifications/Notifications";
 import NotificationsMobile from "@/components/layout/notifications/NotificationsMobile";
+import { useUserStore } from "@/lib/store/user-store";
 
 const HeaderTop = () => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -19,18 +20,9 @@ const HeaderTop = () => {
   // State để quản lý modal notificationsMobile
   const [isNotificationsModalOpen, setIsNotificationsModalOpen] = useState(false);
 
-  // const [userName, setUserName] = useState<string>("");
-
-  // Lấy userName từ localStorage khi component mount
-  // useEffect(() => {
-  //   if (typeof window !== "undefined") {
-  //     const storedName = localStorage.getItem("userName");
-  //     if (storedName) {
-  //       setUserName(storedName);
-  //     }
-  //   }
-  // }, []);
-
+  const fullName = useUserStore((state) => state.fullName);
+  const avatarUrl = useUserStore((state) => state.avatarUrl);
+  
   // Bắt sự kiện click ngoài dropdown
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -47,9 +39,6 @@ const HeaderTop = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
-
-
 
   const router = useRouter();
 
@@ -110,14 +99,14 @@ const HeaderTop = () => {
             onClick={() => setShowDropdown(!showDropdown)}
           >
             <Image
-              src="/images/avatar-2.png"
-              alt="User"
+              src={avatarUrl || "/images/avatar-2.png"}
+              alt="User Avatar"
               width={32}
               height={32}
-              className="rounded-full"
+              className="rounded-full w-9 h-9 object-cover"
             />
             <span className="text-sm font-medium text-gray-900">
-              {"User"}
+              {fullName}
             </span>
             <DropdownIcon />
           </div>

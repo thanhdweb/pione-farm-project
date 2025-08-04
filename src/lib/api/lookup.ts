@@ -62,7 +62,12 @@ export const getFarmMarketPrices = async (
 ): Promise<FarmMarketPriceRecord[]> => {
     const res = await axios.post<GetFarmMarketPriceResponse>(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/statistical/farm-market-price`,
-        payload
+        payload,
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            }
+        }
     );
     return res.data.data;
 };

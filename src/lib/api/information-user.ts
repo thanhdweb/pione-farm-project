@@ -53,7 +53,7 @@ interface UpdateUserInformationPayload {
 interface UpdateUserOTPData {
     otp: {
         otp: string;
-        userId: number;
+        userId: string;
         type: string;
     };
 }
@@ -91,3 +91,24 @@ export const updateUserInformation = async (
     console.log("updateUserInformation response:", res.data);
     return res.data;
 };
+
+// Đổi mật khẩu user
+export interface ChangePasswordPayload {
+    currentPassword: string;
+    newPassword: string;
+    confirmPassword: string;
+}
+
+export const changePassword = async (payload: ChangePasswordPayload) => {
+    const res = await axios.put(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/user/change-password`,
+        payload,
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("accessToken") || ""}`,
+            },
+        }
+    );
+    console.log("changePassword response:", res.data);
+    return res.data;
+}

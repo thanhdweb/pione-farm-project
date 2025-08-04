@@ -1,9 +1,9 @@
-// import { Ethereum } from "@metamask/providers";
+import { Ethereum } from "@metamask/providers";
 
-// declare global {
-//     interface Window {
-//         ethereum?: Ethereum;
-//     }
-// }
+declare global {
+    interface Window {
+        ethereum?: Ethereum;
+    }
+}
 
-// export { };
+export { };

@@ -25,7 +25,9 @@ export default function RootLayout({
         className={`antialiased`}
       >
         <main>
-          {children}
+        
+            {children}
+          
         </main>
         {/* Thêm ToastContainer vào cuối layout */}
         <ToastContainer

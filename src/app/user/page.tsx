@@ -4,6 +4,8 @@ import React from 'react'
 import FormInformationUser from '@/app/user/components/FormInformationUser'
 import Footer from '@/components/footer/Footer'
 import Image from 'next/image'
+import ChangePasswordForm from '@/app/user/components/ChangePasswordForm'
+import ConnectWallet from '@/app/user/components/ConnectWallet'
 
 const InformationUser = () => {
     return (
@@ -39,7 +41,16 @@ const InformationUser = () => {
 
                 {/* Content information user */}
                 <article className="relative z-10">
-                    <FormInformationUser />
+                    <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
+                        <div className="grid grid-cols-1 gap-8">
+                            <FormInformationUser />
+                            <ChangePasswordForm />
+                        </div>
+                        <div className=''>
+                            {/* ví diện tử */}
+                           <ConnectWallet/>
+                        </div>
+                    </div>
                 </article>
 
             </section>
