@@ -22,7 +22,7 @@ const HeaderTop = () => {
 
   const fullName = useUserStore((state) => state.fullName);
   const avatarUrl = useUserStore((state) => state.avatarUrl);
-  
+
   // Bắt sự kiện click ngoài dropdown
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -50,7 +50,11 @@ const HeaderTop = () => {
         toast.success("Đăng xuất thành công!");
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
-        // localStorage.removeItem("userName");
+
+        // xóa dữ liệu user trong zustand
+        useUserStore.persist.clearStorage();
+        useUserStore.setState({fullName: "User", avatarUrl: null});
+        
         router.push("/auth/login");
       } else {
         toast.error(res.message || "Đăng xuất thất bại.");
@@ -92,8 +96,9 @@ const HeaderTop = () => {
         {/* Bell icon  */}
         <Notifications />
 
-        {/* Avatar và tên */}
+
         <div className="relative" ref={dropdownRef}>
+          {/* Avatar và tên */}
           <div
             className="flex items-center gap-2 cursor-pointer"
             onClick={() => setShowDropdown(!showDropdown)}

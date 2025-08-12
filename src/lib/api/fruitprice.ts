@@ -27,12 +27,14 @@ interface GetFruitImportPricePayload {
 
 // Hàm gọi API lấy giá nhập khẩu
 export const getFruitImportPrices = async (
-    payload: GetFruitImportPricePayload
+    payload?: GetFruitImportPricePayload
 ): Promise<FruitImportPriceRecord[]> => {
     const res = await axios.post<GetFruitImportPriceResponse>(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/statistical/farm-market-price`,
-        payload
+        payload ?? {}
     );
     console.log("getFruitImportPrices response:", res.data);
     return res.data.data;
 };
+
+

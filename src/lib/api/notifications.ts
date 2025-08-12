@@ -1,4 +1,5 @@
-import axios from "axios";
+
+import axiosInstance from "@/lib/api/axiosInstance";
 
 // Kiểu dữ liệu thông báo
 export interface Notification {
@@ -22,16 +23,9 @@ interface GetNotificationsResponse {
 
 // Hàm gọi API lấy thông báo hôm nay + hôm qua
 export const getNotifications = async (
-    accessToken: string
 ): Promise<GetNotificationsResponse> => {
-    const res = await axios.get<GetNotificationsResponse>(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/notification`,
-        {
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-            },
-        }
-    );
+    const res = await axiosInstance.get<GetNotificationsResponse>(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/notification`);
 
     console.log("data notification:", res.data);
     return res.data;
@@ -51,15 +45,12 @@ interface GetFindNotificationsResponse {
 }
 
 export const getFindNotifications = async (
-    accessToken: string,
+
     filters: NotificationFilter = {}
 ): Promise<GetFindNotificationsResponse> => {
-    const res = await axios.post<GetFindNotificationsResponse>(
+    const res = await axiosInstance.post<GetFindNotificationsResponse>(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/notification`,
-        filters,
-        {
-            headers: { Authorization: `Bearer ${accessToken}` },
-        }
+        filters
     );
     console.log("data find notification:", res.data);
     return res.data;

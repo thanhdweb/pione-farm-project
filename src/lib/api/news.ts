@@ -1,13 +1,10 @@
-import axios from "axios";
+import axiosInstance from "@/lib/api/axiosInstance";
 
-export async function fetchNews(type: string, accessToken: string) {
+export async function fetchNews(type: string) {
     try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/news`, {
+        const response = await axiosInstance.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/news`, {
             params: { type },
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-            },
-        });
+                   });
         console.log("Dữ liệu tin tức:", response.data);
         return response.data.data || [];
     } catch (error) {

@@ -1,4 +1,5 @@
 import axios from "axios";
+import axiosInstance from "@/lib/api/axiosInstance";
 
 // Kiểu dữ liệu trả về từ API
 export interface UserInformation {
@@ -25,14 +26,8 @@ interface GetUserInformationResponse {
 
 // Lấy thông tin user
 export const getUserInformation = async (): Promise<UserInformation> => {
-    const res = await axios.get<GetUserInformationResponse>(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/user/get-user`,
-        {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("accessToken") || ""}`,
-            },
-        }
-    );
+    const res = await axiosInstance.get<GetUserInformationResponse>(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/user/get-user`);
     console.log("getUserInformation response:", res.data);
     return res.data.data;
 };
@@ -79,14 +74,9 @@ export const updateUserInformation = async (
         dataToSend = formData;
     }
 
-    const res = await axios.put<UpdateUserInformationResponse>(
+    const res = await axiosInstance.put<UpdateUserInformationResponse>(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/user/user`,
-        dataToSend,
-        {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("accessToken") || ""}`,
-            },
-        }
+        dataToSend
     );
     console.log("updateUserInformation response:", res.data);
     return res.data;

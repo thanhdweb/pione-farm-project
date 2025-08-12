@@ -14,6 +14,7 @@ import { CameraIcon } from '@/components/ui/icon';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import VerifyUpdateOtp from '@/app/user/components/VerifyUpdateOtp';
 import { useUserStore } from '@/lib/store/user-store';
+import ConnectWallet from '@/app/user/components/ConnectWallet';
 
 interface FormValues {
     fullName?: string;
@@ -328,6 +329,10 @@ const FormInformationUser = () => {
                                         </SelectGroup>
                                     </SelectContent>
                                 </Select>
+                            </div>
+                            {/* ví điện tử */}
+                            <div>
+                                <ConnectWallet />
                             </div>
                             <div className='flex justify-center items-center mt-6'>
                                 <Button type="submit" disabled={loading} className='font-semibold text-white bg-green-500 hover:bg-green-600 px-6 py-2 rounded-md transition-colors duration-200'>

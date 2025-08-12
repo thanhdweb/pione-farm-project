@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import { X } from "lucide-react";
 import { getNotifications, getFindNotifications } from "@/lib/api/notifications";
 import { DotLoader } from "@/components/ui/spinner";
+import CustomDatePicker from "@/components/ui/CustomDatePicker";
+import { format, parse } from "date-fns";
 
 // Props nhận từ NavMobile để đóng modal
 interface NotificationsMobileProps {
@@ -30,6 +32,18 @@ const NotificationsMobile: React.FC<NotificationsMobileProps> = ({ onClose }) =>
     const [loading, setLoading] = useState(false); // loading khi fetch
     const [error, setError] = useState(""); // lỗi nếu có
     const [selectedDate, setSelectedDate] = useState(""); // ngày lọc yyyy-mm-dd
+    const selectedDateAsDate = selectedDate ? parse(selectedDate, 'yyyy-MM-dd', new Date()) : undefined;
+
+    // Handle when CustomDatePicker returns a Date
+    const handleDateChange = (date: Date | undefined) => {
+        if (date) {
+            const formatted = format(date, 'yyyy-MM-dd');
+            setSelectedDate(formatted);
+        } else {
+            setSelectedDate('');
+        }
+    };
+
 
     // Lấy accessToken từ localStorage
     const accessToken = typeof window !== "undefined" ? localStorage.getItem("accessToken") : "";
@@ -41,7 +55,7 @@ const NotificationsMobile: React.FC<NotificationsMobileProps> = ({ onClose }) =>
                 setLoading(true);
 
                 if (selectedDate) {
-                    const data = await getFindNotifications(accessToken, {
+                    const data = await getFindNotifications({
                         date: selectedDate || undefined,
                     });
                     if (data.success) {
@@ -53,7 +67,7 @@ const NotificationsMobile: React.FC<NotificationsMobileProps> = ({ onClose }) =>
                         setError(data.message);
                     }
                 } else {
-                    const data = await getNotifications(accessToken);
+                    const data = await getNotifications();
                     if (data.success) {
                         setNotifications(data.data);
                     } else {
@@ -85,10 +99,10 @@ const NotificationsMobile: React.FC<NotificationsMobileProps> = ({ onClose }) =>
     return (
         <div className="fixed inset-0 z-[999] bg-black/40 backdrop-blur-sm flex justify-center items-center px-4 lg:hidden">
             {/* Modal container */}
-            <div className="relative bg-white rounded-2xl shadow-lg max-w-md w-full max-h-[80vh] overflow-y-auto">
+            <div className="relative bg-white rounded-2xl shadow-lg max-w-md w-full h-[80vh] flex flex-col overflow-hidden">
 
                 {/* Header modal */}
-                <div className="flex justify-between items-center p-4 border-b">
+                <div className="flex justify-between items-center p-4 border-b shrink-0">
                     <h2 className="text-lg font-semibold text-gray-800">Thông báo</h2>
                     <button onClick={onClose} aria-label="Đóng">
                         <X className="w-6 h-6 text-gray-600 hover:text-black" />
@@ -96,14 +110,14 @@ const NotificationsMobile: React.FC<NotificationsMobileProps> = ({ onClose }) =>
                 </div>
 
                 {/* Bộ lọc ngày */}
-                <div className="p-4 space-y-2">
+                <div className="p-4 space-y-2 shrink-0">
                     <label className="text-sm text-gray-700">Lọc theo ngày:</label>
-                    <input
-                        type="date"
-                        value={selectedDate}
-                        onChange={(e) => setSelectedDate(e.target.value)}
-                        className="w-full border border-gray-300 rounded p-2 text-sm"
+                    <CustomDatePicker
+                        value={selectedDateAsDate}
+                        onChange={handleDateChange}
+                        placeholder="Chọn ngày thông báo"
                     />
+
                     {selectedDate && (
                         <button
                             onClick={() => setSelectedDate("")}
@@ -115,7 +129,7 @@ const NotificationsMobile: React.FC<NotificationsMobileProps> = ({ onClose }) =>
                 </div>
 
                 {/* Nội dung thông báo */}
-                <div className="p-4 space-y-4">
+                <div className="flex-1 overflow-y-auto p-4 space-y-4">
                     {loading && <DotLoader />} {/* loading khi fetch */}
                     {error && <p className="text-sm text-red-500">{error}</p>} {/* báo lỗi */}
 

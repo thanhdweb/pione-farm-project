@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import FruitPriceTable, { fruitPricesExport } from "@/app/market/components/market-price-board/FruitPriceTable";
+import FruitPriceTable from "@/app/market/components/market-price-board/FruitPriceTable";
 import { exportFruitPricesToExcel } from "@/utils/exportExcel";
 import { getFruitImportPrices, FruitImportPriceRecord } from "@/lib/api/fruitprice";
+import { DotLoader } from "@/components/ui/spinner";
 
 export type FruitPrice = {
     id: number;
@@ -44,9 +45,7 @@ const MarketPriceBoard = () => {
     return (
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-24">
             <div>
-                {loading ? (
-                    <div className="text-center text-lg font-medium text-gray-500">Đang tải dữ liệu...</div>
-                ) : (
+                {loading ? <DotLoader/> : (
                     <>
                         <FruitPriceTable
                             title="Bảng giá trái cây"
@@ -69,7 +68,7 @@ const MarketPriceBoard = () => {
                 <FruitPriceTable
                     title="Bảng giá trái cây"
                     highlight="Xuất khẩu"
-                    data={fruitPricesExport}
+                    data={importPrices}
                 />
                 <div className="relative flex mt-12 z-20">
                     <button

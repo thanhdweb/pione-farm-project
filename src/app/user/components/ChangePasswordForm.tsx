@@ -39,7 +39,7 @@ export default function ChangePasswordForm() {
   };
 
   return (
-    <div className="mt-6 max-w-xl p-4 grid grid-cols-1">
+    <div className="max-w-xl p-4 grid grid-cols-1">
       <div className="bg-gray-300 rounded-tl-2xl rounded-tr-2xl py-6">
         <h2 className="text-center text-lg font-semibold text-gray-800">Đổi mật khẩu</h2>
       </div>

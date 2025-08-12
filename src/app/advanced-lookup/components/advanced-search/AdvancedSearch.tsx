@@ -12,7 +12,7 @@ import {
 import { DropdownIcon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import CustomDatePicker from "@/components/ui/CustomDatePicker";
-import {Spinner} from "@/components/ui/spinner";
+import { Spinner } from "@/components/ui/spinner";
 
 import {
     getAllProvinces,
@@ -101,10 +101,15 @@ const AdvancedSearch = ({ onExportData }: AdvancedSearchProps) => {
                     : products.map(p => p._id),
             });
 
+            // console.log("==> API trả về:", farmMarketRes);
+            // console.log("==> productIds gửi lên:", selectedProduct ? [selectedProduct] : products.map(p => p._id));
+
             // Nếu đã chọn mặt hàng => lọc lại kết quả (đảm bảo chỉ lấy đúng mặt hàng đã chọn)
             const filtered = selectedProduct
                 ? farmMarketRes.filter(item => item.productId === selectedProduct)
                 : farmMarketRes;
+
+            // console.log("==> Sau khi lọc:", filtered);
 
             const formattedProductData: PriceRow[] = filtered.map(item => ({
                 date: item.date.split("T")[0],

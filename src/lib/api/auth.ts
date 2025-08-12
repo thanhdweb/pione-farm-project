@@ -1,4 +1,5 @@
 import axios from 'axios';
+import axiosInstance from '@/lib/api/axiosInstance';
 
 // REGISTER USER -------------------------------------------------------------
 
@@ -122,14 +123,9 @@ export const logoutUser = async () => {
         throw new Error("Thiếu token hoặc chưa đăng nhập.");
     }
 
-    const response = await axios.post(
+    const response = await axiosInstance.post(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/authentication/log-out`,
-        { refreshToken },
-        {
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-            },
-        }
+        { refreshToken }
     );
 
     return response.data;

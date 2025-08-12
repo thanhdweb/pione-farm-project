@@ -37,7 +37,7 @@ const MarketArticleList = ({ type }: MarketArticleListProps) => {
             const accessToken = localStorage.getItem("accessToken") || "";
             if (!accessToken) return;
 
-            const result = await fetchNews(type, accessToken);
+            const result = await fetchNews(type);
             setData(result);
         };
 

@@ -17,6 +17,8 @@ import { AppleIcon, FacebookIcon, GoogleIcon } from '@/components/ui/icon';
 import { Spinner } from '@/components/ui/spinner';
 import { loginUser } from '@/lib/api/auth';
 import Link from 'next/link';
+import { getUserInformation } from '@/lib/api/information-user';
+import { useUserStore } from '@/lib/store/user-store';
 
 interface LoginFormValues {
     emailOrPhone: string;
@@ -71,9 +73,30 @@ export default function LoginForm() {
             if (res.success) {
                 toast.success(res.message || 'Đăng nhập thành công!');
                 const { accessToken, refreshToken } = res.data;
+                // save token
                 localStorage.setItem('accessToken', accessToken);
                 localStorage.setItem('refreshToken', refreshToken);
 
+                // handle get fullname and avatar
+                try {
+                    const userInfo = await getUserInformation();
+
+                    // handle avatar
+                    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "";
+                    const avatarUrl = userInfo.avatar
+                        ? userInfo.avatar.startsWith('http')
+                            ? userInfo.avatar
+                            : `${baseUrl}/api/upload/${userInfo.avatar}`
+                        : null;
+
+                    // update user-store to HeaderTop display
+                    useUserStore.getState().setUser({
+                        fullName: userInfo.fullName,
+                        avatarUrl: avatarUrl,
+                    })
+                } catch (error) {
+                    console.log("Lỗi khi lấy thông tin user", error)
+                }
 
                 setTimeout(() => {
                     router.push('/');

@@ -62,7 +62,7 @@ const MarketPage = async ({ params }: Props) => {
                     <MarketArticleList type={type} />
                 </aside>
 
-                {/* tạo component và gọi 2 bảng đó */}
+                {/* tạo component và gọi 2 table price đó */}
                 <article className="relative z-10 mt-24">
                     <MarketPriceBoard />
                 </article>

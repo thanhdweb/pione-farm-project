@@ -1,4 +1,5 @@
 import axios from "axios";
+import axiosInstance from "@/lib/api/axiosInstance";
 
 export interface Product {
     _id: string;
@@ -60,15 +61,11 @@ export interface GetFarmMarketPriceResponse {
 export const getFarmMarketPrices = async (
     payload: GetFarmMarketPricePayload
 ): Promise<FarmMarketPriceRecord[]> => {
-    const res = await axios.post<GetFarmMarketPriceResponse>(
+    const res = await axiosInstance.post<GetFarmMarketPriceResponse>(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/statistical/farm-market-price`,
-        payload,
-        {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-            }
-        }
+        payload
     );
+    console.log("getProduct", res)
     return res.data.data;
 };
 
