@@ -9,6 +9,7 @@ import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import Footer from '@/components/footer/Footer';
 import RiceScopeBanner from '@/components/layout/rice-scope-banner/RiceScopeBanner';
+import Breadcrumb from '@/components/layout/Breadcrumb/Breadcrumb';
 
 const AdvancedLookup = () => {
     const [productData, setProductData] = useState<PriceRow[]>([]);
@@ -66,6 +67,10 @@ const AdvancedLookup = () => {
                     </p>
                 </div>
             </Header>
+
+            <div className="pt-8 px-6 md:px-12 lg:px-24">
+                <Breadcrumb />
+            </div>
 
             <section className="relative w-full text-white pt-16 pb-24 md:pb-32 px-6 md:px-12 lg:px-24 overflow-hidden">
                 {/* Hình nền 1 lớn */}

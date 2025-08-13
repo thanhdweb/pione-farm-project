@@ -8,6 +8,7 @@ import PriceTable from "@/app/home/components/price-table/PriceTable";
 import AuthButtons from "@/app/home/components/auth-buttons/AuthButtons";
 import Footer from "@/components/footer/Footer";
 import RiceScopeBanner from "@/components/layout/rice-scope-banner/RiceScopeBanner";
+import Breadcrumb from "@/components/layout/Breadcrumb/Breadcrumb";
 
 const HomePage = () => {
   return (
@@ -27,6 +28,11 @@ const HomePage = () => {
           ứng.
         </p>
       </Header>
+
+      <div className="pt-8 px-6 md:px-12">
+        <Breadcrumb />
+      </div>
+      
       <section className="relative w-full h-auto px-4 md:px-12 pt-12 pb-24 overflow-hidden">
         {/* Hình nền 1 lớn */}
         <div className="absolute top-0 bottom-4 left-1/2 -translate-x-1/2 z-0 w-full pointer-events-none">

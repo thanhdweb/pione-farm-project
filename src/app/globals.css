@@ -74,17 +74,19 @@
 }
 .rdp-button_previous {
   position: absolute !important;
-  right: 45px !important;
+  right: 48px !important;
   top: 6% !important;
   transform: translateY(-50%) !important;
   display: flex !important;
   align-items: center !important;
+  /* color: green !important; */
 }
 .rdp-button_next {
   position: absolute !important;
-  right: -15px !important;
+  right: -18px !important;
   top: 6% !important;
   transform: translateY(-50%) !important;
   display: flex !important;
   align-items: center !important;
+  /* color: green !important; */
 }

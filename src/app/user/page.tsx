@@ -18,6 +18,8 @@ const InformationUser = () => {
                     Quản lý và chỉnh sửa thông tin cá nhân của bạn.
                 </p>
             </Header>
+
+           
             <section className='relative w-full h-auto text-white pt-16 pb-24 md:pb-32 px-6 md:px-12 lg:px-24 overflow-hidden'>
                 {/* Hình nền */}
                 <div className="absolute top-0 bottom-4 left-1/2 -translate-x-1/2 z-0 w-full pointer-events-none">
@@ -45,7 +47,7 @@ const InformationUser = () => {
                         <div className="">
                             <FormInformationUser />
                         </div>
-                        <div className=''>                          
+                        <div className=''>
                             <ChangePasswordForm />
                         </div>
                     </div>

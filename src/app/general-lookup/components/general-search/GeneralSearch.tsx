@@ -40,10 +40,7 @@ const GeneralSearch = ({ onExportData }: GeneralSearchProps) => {
     // Lưu mảng kết quả tra cứu sau khi call API
     const [filteredData, setFilteredData] = useState<FarmMarketPriceRecord[]>([]);
 
-
     const [loading, setLoading] = useState(false);
-
-
 
     // Lưu thông báo lỗi (nếu có) để hiện ra giao diện
     const [error, setError] = useState<string>("");

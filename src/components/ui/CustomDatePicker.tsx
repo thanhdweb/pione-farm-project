@@ -47,15 +47,15 @@ export default function CustomDatePicker({
       <button
         onClick={() => setOpen(!open)}
         className={`${isNotification
-          ? 'relative flex items-center justify-between w-full rounded-2xl px-2 py-2 text-sm border border-gray-300 hover:bg-gray-50' //  Giao diện nhỏ gọn cho notification
-          : 'relative w-full bg-white border text-black shadow-sm transition-all rounded-full px-4 py-3 text-xl border-gray-400 custom-border-gradient' //  Giao diện to cho default
+          ? 'relative flex items-center justify-between w-full rounded-lg px-2 py-2 text-sm border border-gray-300 hover:bg-gray-50 text-gray-700' //  Giao diện nhỏ gọn cho notification
+          : 'relative w-full bg-white border text-black shadow-sm transition-all rounded-full px-4 py-3 text-xl border-gray-400   ' //  Giao diện to cho default
           }`}
       >
         {selected ? format(selected, 'yyyy/MM/dd') : placeholder}
 
         {/*  Điều chỉnh vị trí icon nếu là notification */}
         <div className={`absolute ${isNotification ? 'right-3' : 'right-8'} top-1/2 -translate-y-1/2 pointer-events-none`}>
-          <DropdownIcon className="w-4 h-4" />
+          <DropdownIcon className="w-3 h-3" />
         </div>
       </button>
 
@@ -69,7 +69,7 @@ export default function CustomDatePicker({
                 selected={selected}
                 onSelect={handleSelect}
                 showOutsideDays
-                modifiersClassNames={{
+                               modifiersClassNames={{
                   selected: 'bg-green-500 text-white rounded-full',
                   today: 'text-green-600 font-semibold rounded-full',
                 }}
@@ -84,7 +84,7 @@ export default function CustomDatePicker({
                   table: 'w-full border-collapse',
                   head_row: 'text-gray-400',
                   row: '',
-                  cell: 'h-7 w-7 p-0 text-xs text-center align-middle cursor-pointer hover:bg-green-100 rounded-full',
+                  cell: 'h-5 w-5 p-0 text-xs text-center align-middle cursor-pointer hover:bg-green-100 rounded-full',
                   selected: 'bg-green-500 text-white',
                   today: 'text-green-600',
                 }}

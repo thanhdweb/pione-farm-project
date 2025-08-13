@@ -10,6 +10,7 @@ import { IntroductionItem } from "@/app/introduction/components/introduction/Int
 import { getIntroductionList } from "@/lib/api/introduction";
 import RiceScopeBanner from "@/components/layout/rice-scope-banner/RiceScopeBanner";
 import Footer from "@/components/footer/Footer";
+import Breadcrumb from "@/components/layout/Breadcrumb/Breadcrumb";
 
 const IntroductionPage = () => {
     const [introductionData, setIntroductionData] = useState<IntroductionItem[]>([]);
@@ -77,6 +78,10 @@ const IntroductionPage = () => {
                     </p>
                 </div>
             </Header>
+
+            <div className="pt-8 px-6 md:px-12 lg:px-24">
+                <Breadcrumb />
+            </div>
 
             <section className="relative w-full h-auto text-white pt-16 pb-24 md:pb-32 px-6 md:px-12 lg:px-24 overflow-hidden">
                 {/* Hình nền */}

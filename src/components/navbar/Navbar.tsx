@@ -4,6 +4,7 @@ import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { DropdownIconNav } from "@/components/ui/icon";
+import { findMenuItem } from "@/utils/findMenuItem";
 
 const Navbar = () => {
   const [isClient, setIsClient] = useState(false);
@@ -18,6 +19,16 @@ const Navbar = () => {
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+
+  // Lấy nhanh item từ menuConfig
+  const home = findMenuItem("Trang chủ");
+  const ganeralLookup = findMenuItem("Tra cứu tổng hợp");
+  const advancedLookup = findMenuItem("Tra cứu nâng cao");
+  const introduction = findMenuItem("Giới thiệu");
+  const domesticMarket = findMenuItem("Thông tin trong nước");
+  const foreignMarket = findMenuItem("Thông tin ngoài nước");
+
 
   // Đóng khi click ra ngoài
   useEffect(() => {
@@ -51,7 +62,7 @@ const Navbar = () => {
       <div className="flex items-center justify-between">
         <ul className="flex items-center gap-4 xl:gap-10 text-white lg:text-sm lg:whitespace-nowrap 2xl:text-base font-medium">
           <li>
-            <Link href="/" className="relative inline-flex items-center group">Trang chủ
+            <Link href={home?.path || "#"} className="relative inline-flex items-center group">Trang chủ
               <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full group-hover:animate-pulse"></span>
             </Link>
 
@@ -71,7 +82,7 @@ const Navbar = () => {
               <ul className="absolute left-0 top-full w-44 mt-2 bg-white text-black rounded-md shadow-lg z-50">
                 <li>
                   <Link
-                    href="/general-lookup"
+                    href={ganeralLookup?.path || "#"}
                     className="block rounded-md px-3 py-2 hover:bg-gray-100"
                   >
                     Tra cứu tổng hợp
@@ -79,7 +90,7 @@ const Navbar = () => {
                 </li>
                 <li>
                   <Link
-                    href="/advanced-lookup"
+                    href={advancedLookup?.path || "#"}
                     className="block rounded-md px-3 py-2 hover:bg-gray-100"
                   >
                     Tra cứu nâng cao
@@ -98,7 +109,7 @@ const Navbar = () => {
           </li>
 
           <li>
-            <Link href="/introduction" className="relative inline-flex items-center group">Giới Thiệu
+            <Link href={introduction?.path || "#"} className="relative inline-flex items-center group">Giới Thiệu
               <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full group-hover:animate-pulse"></span></Link>
           </li>
 
@@ -116,7 +127,7 @@ const Navbar = () => {
               <ul className="absolute left-0 top-full mt-2 w-44 bg-white text-black rounded-md shadow-lg z-50">
                 <li>
                   <Link
-                    href="#"
+                      href={"#"}
                     className="block rounded-md px-3 py-2 hover:bg-gray-100"
                   >
                     Thông tin thị trường
@@ -124,7 +135,7 @@ const Navbar = () => {
                 </li>
                 <li>
                   <Link
-                    href="/market/trongnuoc"
+                    href={domesticMarket?.path || "#"}
                     className="block rounded-md px-3 py-2 hover:bg-gray-100"
                   >
                     Trong nước
@@ -132,7 +143,7 @@ const Navbar = () => {
                 </li>
                 <li>
                   <Link
-                    href="/market/ngoainuoc"
+                     href={foreignMarket?.path || "#"}
                     className="block rounded-md px-3 py-2 hover:bg-gray-100"
                   >
                     Ngoài nước

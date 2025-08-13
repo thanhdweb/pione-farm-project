@@ -146,25 +146,33 @@ const Notifications = () => {
             </button>
 
             {isOpen && (
-                <div className="absolute right-0 mt-2 w-90 h-[520px] bg-white border border-gray-200 rounded-lg shadow-lg z-50 p-4 flex flex-col overflow-hidden">
+
+                <div className="absolute right-0 mt-2 w-90 h-[540px] bg-white border border-gray-200 rounded-lg shadow-lg z-50 p-4 flex flex-col overflow-hidden">
 
                     {/* ==== KHÔNG CUỘN: Phần lọc + tiêu đề thông báo ==== */}
-                    <div className="space-y-2 shrink-0"> {/* shrink-0 giữ chiều cao cố định, không bị co khi cuộn */}
-                        <h3 className="font-semibold text-gray-800">Lọc thông báo</h3>
+                    <div className=" space-y-2 shrink-0"> {/* shrink-0 giữ chiều cao cố định, không bị co khi cuộn */}
+                        <div className="text-center">
+                            <h3 className="text-xl font-bold text-green-800 mb-1">Thông Báo</h3>
+                            <div className="h-1 w-16 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full mx-auto"></div>
+                        </div>
+
+                        <h4 className="text-sm font-semibold text-green-700 mb-2">Lọc theo ngày</h4>
                         <CustomDatePicker
                             value={selectedDateAsDate}
+                            variant="notification"
                             onChange={handleDateChange}
                             placeholder="Chọn ngày thông báo"
                         />
                         <button
                             onClick={() => setSelectedDate("")}
-                            className="text-xs text-blue-500 underline"
+                            className="text-xs text-emerald-600 hover:text-emerald-800 underline mt-1 font-medium transition-colors"
                         >
-                            Xóa thông báo đã lọc
+                            Xóa bộ lọc
                         </button>
 
+                     
                         {/* ===== Đây là tiêu đề giữ cố định ===== */}
-                        <h3 className="font-semibold text-gray-800 mt-2">Thông báo</h3>
+                        <h3 className="text-center font-semibold text-gray-800 mt-1">Thông báo</h3>
 
                         {/* ===== Ngày hiển thị, cũng giữ cố định ===== */}
                         {displayDate && (
@@ -185,13 +193,18 @@ const Notifications = () => {
                                         {notifications.today.map((item) => (
                                             <div
                                                 key={item._id}
-                                                className="p-2 rounded-tl-3xl rounded-br-3xl bg-[#30d158]/30 hover:bg-[#30d158] cursor-pointer"
+                                                className="bg-gradient-to-r from-green-100/80 to-emerald-100/80 hover:from-green-200 hover:to-emerald-200 
+                                         rounded-2xl py-1 px-2 border-l-4 border-green-500 cursor-pointer transform hover:scale-[1.02] 
+                                         transition-all duration-200 shadow-sm hover:shadow-md"
                                             >
-                                                <p className="text-sm font-medium text-gray-800">Cập nhật</p>
-                                                <p className="text-sm text-gray-600 mt-2 line-clamp-2">{item.description}</p>
-                                                <div className="flex items-center justify-between mt-2 text-xs text-gray-500">
-                                                    <span>{item.date}</span>
-                                                    <span>{item.hour}</span>
+                                                <div className="flex items-center gap-2 mb-2">
+                                                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                                                    <p className="text-sm font-semibold text-green-800">{item.title}</p>
+                                                </div>
+                                                <p className="text-sm text-gray-700 leading-relaxed line-clamp-2 mb-3">{item.description}</p>
+                                                <div className="flex items-center justify-between text-xs">
+                                                    <span className="bg-green-200/60 text-green-700 px-2 py-1 rounded-full font-medium">{item.date}</span>
+                                                    <span className="text-green-600 font-medium">{item.hour}</span>
                                                 </div>
                                             </div>
                                         ))}
@@ -205,13 +218,18 @@ const Notifications = () => {
                                         {notifications.yesterday.map((item) => (
                                             <div
                                                 key={item._id}
-                                                className="p-2 rounded-tl-3xl rounded-br-3xl bg-[#30d158]/30 hover:bg-[#30d158] cursor-pointer"
+                                                className="bg-gradient-to-r from-emerald-50/80 to-green-50/80 hover:from-emerald-100 hover:to-green-100 
+                                         rounded-2xl py-1 px-2 border-l-4 border-emerald-400 cursor-pointer transform hover:scale-[1.02] 
+                                         transition-all duration-200 shadow-sm hover:shadow-md"
                                             >
-                                                <p className="text-sm font-medium text-gray-800">Cập nhật</p>
-                                                <p className="text-sm text-gray-600 mt-2 line-clamp-2">{item.description}</p>
-                                                <div className="flex items-center justify-between mt-2 text-xs text-gray-500">
-                                                    <span>{item.date}</span>
-                                                    <span>{item.hour}</span>
+                                                <div className="flex items-center gap-2 mb-2">
+                                                    <div className="w-2 h-2 bg-emerald-400 rounded-full"></div>
+                                                    <p className="text-sm font-semibold text-emerald-800">{item.title}</p>
+                                                </div>
+                                                <p className="text-sm text-gray-700 leading-relaxed line-clamp-2 mb-3">{item.description}</p>
+                                                <div className="flex items-center justify-between text-xs">
+                                                    <span className="bg-emerald-200/60 text-emerald-700 px-2 py-1 rounded-full font-medium">{item.date}</span>
+                                                    <span className="text-emerald-600 font-medium">{item.hour}</span>
                                                 </div>
                                             </div>
                                         ))}
@@ -221,8 +239,11 @@ const Notifications = () => {
                                 {/* ==== Không có thông báo ==== */}
                                 {notifications.today.length === 0 &&
                                     notifications.yesterday.length === 0 && (
-                                        <div className="flex items-center justify-center h-full">
-                                            <p className="text-sm text-gray-500">Không có thông báo.</p>
+                                        <div className="flex flex-col items-center justify-center h-full py-8">
+                                            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                                                <div className="text-2xl">🌾</div>
+                                            </div>
+                                            <p className="text-sm text-gray-600 font-medium">Chưa có thông báo mới</p>
                                         </div>
                                     )}
                             </>

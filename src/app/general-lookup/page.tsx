@@ -9,6 +9,8 @@ import React, { useState } from 'react'
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import RiceScopeBanner from '@/components/layout/rice-scope-banner/RiceScopeBanner';
+import Breadcrumb from '@/components/layout/Breadcrumb/Breadcrumb';
+
 
 const GeneralLookup = () => {
     const [exportData, setExportData] = useState<PriceRow[]>([]);
@@ -52,6 +54,11 @@ const GeneralLookup = () => {
                     Dữ liệu minh bạch &ndash; Nông sản thông minh thể hiện sự kết hợp giữa công nghệ và nông nghiệp hiện đại. Nhờ blockchain và AI, mọi thông tin về sản xuất, phân phối và giá cả được công khai rõ ràng, giúp nâng cao giá trị và niềm tin vào nông sản.
                 </p>
             </Header>
+
+            {/* ví dụ có thể đây  */}
+            <div className="pt-8 px-6 md:px-12 lg:px-24">
+            <Breadcrumb/>
+            </div>
 
             <section className="relative w-full h-auto text-white pt-16 pb-24 md:pb-32 px-6 md:px-12 lg:px-24 overflow-hidden">
                 {/* Vector đặt lớn và xa top */}

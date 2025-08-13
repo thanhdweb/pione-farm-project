@@ -6,6 +6,7 @@ import RiceScopeBanner from '@/components/layout/rice-scope-banner/RiceScopeBann
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import React from 'react'
+import Breadcrumb from '@/components/layout/Breadcrumb/Breadcrumb'
 
 interface Props {
     params: { type: string };
@@ -34,6 +35,10 @@ const MarketPage = async ({ params }: Props) => {
                     </p>
                 </div>
             </Header>
+
+            <div className="pt-8 px-6 md:px-12">
+                <Breadcrumb />
+            </div>
 
             <section className="relative w-full py-16 pb-24 md:pb-32 px-4 md:px-12 overflow-hidden">
                 {/* Hình nền 1 lớn */}
