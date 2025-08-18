@@ -1,23 +1,33 @@
+"use client";
+
 import Footer from '@/components/footer/Footer'
 import Header from '@/components/header/Header'
-import MarketArticleList from '@/app/market/components/market-article-list/MarketArticleList'
 import MarketPriceBoard from '@/app/market/components/market-price-board/MarketPriceBoard'
 import RiceScopeBanner from '@/components/layout/rice-scope-banner/RiceScopeBanner'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
-import React from 'react'
+import React, { useState } from 'react'
 import Breadcrumb from '@/components/layout/breadcrumb/Breadcrumb'
+import MarketNewsDetails from '@/app/market/components/market-news-details/MarketNewsDetails'
+import RelatedNews from '@/app/market/components/related-news/RelatedNews'
+// import { fetchNewsDetails } from '@/lib/api/news'
 
 interface Props {
-    params: { type: string };
+    params: { type: string, id: string };
 }
 
-const MarketPage =  ({ params }: Props) => {
-    const { type } =  params;
+const MarketPageDetails = ({ params }: Props) => {
+    const { type, id } = params;
+
+    const [title, setTitle] = useState("");
 
     if (type !== "trongnuoc" && type !== "ngoainuoc") {
         notFound();
     }
+
+    // // Lấy chi tiết tin tức để lấy title
+    // const newsData = await fetchNewsDetails(id);
+    // const title = newsData?.title || "";
 
     return (
         <div>
@@ -37,7 +47,7 @@ const MarketPage =  ({ params }: Props) => {
             </Header>
 
             <div className="pt-8 px-6 md:px-12">
-                <Breadcrumb />
+                <Breadcrumb customLastItem={title} />
             </div>
 
             <section className="relative w-full py-16 pb-24 md:pb-32 px-4 md:px-12 overflow-hidden">
@@ -65,7 +75,12 @@ const MarketPage =  ({ params }: Props) => {
 
                 {/* List các tin tức thị trường */}
                 <aside className="relative z-10">
-                    <MarketArticleList type={type} />
+                    <MarketNewsDetails id={id} onTitleLoaded={setTitle} />
+                </aside>
+
+                {/* carousel tin tức liên quan */}
+                <aside className="relative z-10">
+                    <RelatedNews type={type} excludeId={id} />
                 </aside>
 
                 {/* tạo component và gọi 2 table price đó */}
@@ -85,4 +100,4 @@ const MarketPage =  ({ params }: Props) => {
     )
 }
 
-export default MarketPage
+export default MarketPageDetails

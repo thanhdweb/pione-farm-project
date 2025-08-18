@@ -4,6 +4,8 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import { fetchNews } from "@/lib/api/news"; // Dùng lại logic fetch
+import { DotLoader } from "@/components/ui/spinner";
+import Link from "next/link";
 
 
 interface MarketItem {
@@ -26,6 +28,7 @@ interface MarketArticleListProps {
 const MarketArticleList = ({ type }: MarketArticleListProps) => {
     const [data, setData] = useState<MarketItem[]>([]);
     const [currentPage, setCurrentPage] = useState(0);
+    const [loading, setLoading] = useState<boolean>(true);
 
     const offset = currentPage * ITEMS_PER_PAGE;
     const currentItems = data.slice(offset, offset + ITEMS_PER_PAGE);
@@ -37,8 +40,16 @@ const MarketArticleList = ({ type }: MarketArticleListProps) => {
             const accessToken = localStorage.getItem("accessToken") || "";
             if (!accessToken) return;
 
-            const result = await fetchNews(type);
-            setData(result);
+            setLoading(true); // Bắt đầu load
+
+            try {
+                const result = await fetchNews(type);
+                setData(result);
+            } catch (error) {
+                console.error("Lỗi khi fetch dữ liệu:", error);
+            } finally {
+                setLoading(false); // Luôn chạy, kể cả khi lỗi
+            }
         };
 
         fetchData();
@@ -51,31 +62,41 @@ const MarketArticleList = ({ type }: MarketArticleListProps) => {
     return (
         <div className="w-full">
             <div className="grid md:grid-cols-2 gap-x-36 gap-y-12">
-                {currentItems.map((item) => (
-                    <div key={item._id} className="flex flex-col xl:flex-row gap-8">
-                        <div className="relative w-[290px] h-[194px] flex-shrink-0">
-                            <Image
-                                src={`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/upload/${item.images?.[0] || "default.png"}`}
-                                alt={item.title}
-                                fill
-                                className="object-cover w-[290px] h-[194px] rounded-2xl"
-                            />
-                        </div>
-                        <div className="flex flex-col gap-4">
-                            <h3 className="font-bold text-xl md:text-lg mb-2">{item.title}</h3>
-                            <p className="text-[13px] font-medium">{item.summary}</p>
-                            <div className="flex justify-between items-center text-sm text-gray-500">
-                                <span className="text-sm font-semibold text-[#00B032]">{item.type || "Không có loại"}</span>
-                                <p className="text-sm text-gray-500">
-                                    {`${new Date(item.createdAt).toLocaleDateString("vi-VN")} ${new Date(item.createdAt).toLocaleTimeString("vi-VN", {
-                                        hour: "2-digit",
-                                        minute: "2-digit"
-                                    })}`}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                ))}
+                {
+                    loading ? <DotLoader /> : (
+                        <>
+                            {currentItems.map((item) => (
+                                <div key={item._id} className="flex flex-col xl:flex-row gap-8">
+                                    <div className="relative w-[290px] h-[194px] flex-shrink-0">
+                                        <Image
+                                            src={`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/upload/${item.images?.[0] || "default.png"}`}
+                                            alt={item.title}
+                                            fill
+                                            className="object-cover w-[290px] h-[194px] rounded-2xl"
+                                        />
+                                    </div>
+                                    <div className="flex flex-col gap-4">
+                                        <Link href={`/market/${type}/${item._id}`}>
+                                            <h3 className="font-bold text-xl md:text-lg mb-2">{item.title}</h3>
+                                        </Link>
+
+                                        <p className="text-[13px] font-medium">{item.summary}</p>
+                                        <div className="flex justify-between items-center text-sm text-gray-500">
+                                            <span className="text-sm font-semibold text-[#00B032]">{item.type || "Không có loại"}</span>
+                                            <p className="text-sm text-gray-500">
+                                                {`${new Date(item.createdAt).toLocaleDateString("vi-VN")} ${new Date(item.createdAt).toLocaleTimeString("vi-VN", {
+                                                    hour: "2-digit",
+                                                    minute: "2-digit"
+                                                })}`}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </>
+                    )
+                }
+
             </div>
 
             <div className="flex justify-center mt-16">

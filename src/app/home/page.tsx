@@ -8,7 +8,7 @@ import PriceTable from "@/app/home/components/price-table/PriceTable";
 import AuthButtons from "@/app/home/components/auth-buttons/AuthButtons";
 import Footer from "@/components/footer/Footer";
 import RiceScopeBanner from "@/components/layout/rice-scope-banner/RiceScopeBanner";
-import Breadcrumb from "@/components/layout/Breadcrumb/Breadcrumb";
+import Breadcrumb from "@/components/layout/breadcrumb/Breadcrumb";
 
 const HomePage = () => {
   return (

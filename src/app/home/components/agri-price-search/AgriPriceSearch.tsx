@@ -42,7 +42,7 @@ const recommendedProvinces = [
 ];
 
 export default function PriceFilterForm() {
-  // 👇 Có thể lưu state nếu bạn muốn lọc dữ liệu sau này
+  //  Có thể lưu state nếu bạn muốn lọc dữ liệu sau này
   const [selectedPrice, setSelectedPrice] = useState("");
   const [selectedProvince, setSelectedProvince] = useState("");
   const [selectedQuantity, setSelectedQuantity] = useState("");

@@ -9,7 +9,7 @@ import React, { useState } from 'react'
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import RiceScopeBanner from '@/components/layout/rice-scope-banner/RiceScopeBanner';
-import Breadcrumb from '@/components/layout/Breadcrumb/Breadcrumb';
+import Breadcrumb from '@/components/layout/breadcrumb/Breadcrumb';
 
 
 const GeneralLookup = () => {

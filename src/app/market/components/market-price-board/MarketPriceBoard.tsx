@@ -45,7 +45,7 @@ const MarketPriceBoard = () => {
     return (
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-24">
             <div>
-                {loading ? <DotLoader/> : (
+                {loading ? <DotLoader /> : (
                     <>
                         <FruitPriceTable
                             title="Bảng giá trái cây"
@@ -65,19 +65,26 @@ const MarketPriceBoard = () => {
             </div>
 
             <div>
-                <FruitPriceTable
-                    title="Bảng giá trái cây"
-                    highlight="Xuất khẩu"
-                    data={importPrices}
-                />
-                <div className="relative flex mt-12 z-20">
-                    <button
-                        onClick={() => exportFruitPricesToExcel([], "BangGia_XuatKhau.xlsx")}
-                        className="w-[302px] h-[54px] text-white font-semibold py-3 px-8 rounded-full shadow-md btn-hover-effect"
-                    >
-                        Xuất Excel
-                    </button>
-                </div>
+                {
+                    loading ? <DotLoader /> : (
+                        <>
+                            <FruitPriceTable
+                                title="Bảng giá trái cây"
+                                highlight="Xuất khẩu"
+                                data={importPrices}
+                            />
+                            <div className="relative flex mt-12 z-20">
+                                <button
+                                    onClick={() => exportFruitPricesToExcel([], "BangGia_XuatKhau.xlsx")}
+                                    className="w-[302px] h-[54px] text-white font-semibold py-3 px-8 rounded-full shadow-md btn-hover-effect"
+                                >
+                                    Xuất Excel
+                                </button>
+                            </div>
+                        </>
+                    )
+                }
+
             </div>
         </div>
     );

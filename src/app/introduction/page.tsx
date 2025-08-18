@@ -10,7 +10,7 @@ import { IntroductionItem } from "@/app/introduction/components/introduction/Int
 import { getIntroductionList } from "@/lib/api/introduction";
 import RiceScopeBanner from "@/components/layout/rice-scope-banner/RiceScopeBanner";
 import Footer from "@/components/footer/Footer";
-import Breadcrumb from "@/components/layout/Breadcrumb/Breadcrumb";
+import Breadcrumb from "@/components/layout/breadcrumb/Breadcrumb";
 
 const IntroductionPage = () => {
     const [introductionData, setIntroductionData] = useState<IntroductionItem[]>([]);
