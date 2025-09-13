@@ -22,7 +22,7 @@ interface FormValues {
     emailOrPhone?: string;
     yearOfBirth?: number;
     address?: string;
-    gender?: 'male' | 'female' | 'other';
+    gender?: 'male' | 'female' | 'other'; 
     nationality?: string;
     avatar?: FileList;
 }
@@ -212,7 +212,7 @@ const FormInformationUser = () => {
             <div>
                 <div className="max-w-xl p-4 grid grid-col-1">
                     <div className='bg-gray-300 rounded-tl-2xl rounded-tr-2xl py-6'>
-                    <h2 className="text-center text-lg font-semibold text-gray-800">Cập nhật thông tin người dùng</h2>
+                        <h2 className="text-center text-lg font-semibold text-gray-800">Cập nhật thông tin người dùng</h2>
                     </div>
                     <Card className="w-full p-6 space-y-4 shadow-lg bg-white/50 rounded-none rounded-br-2xl rounded-bl-2xl">
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 text-gray-800 bg-gay/70">
